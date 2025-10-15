@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import type { Lang } from '../../i18n/config';
+import { SUPPORTED } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return SUPPORTED.map((lang) => ({ params: { lang } }));
+}
+const lang = (Astro.params.lang as Lang) ?? 'es';
+---
+<Base title="Auris International — Inicio">
+  <section class="mx-auto max-w-container px-4 py-10">
+    <h1 class="text-3xl font-extrabold">Auris International</h1>
+    <p class="mt-2 text-sm opacity-80">Idioma detectado: {lang}</p>
+    <p class="mt-6 text-base opacity-80">Aquí irá el hero y el resto del contenido.</p>
+  </section>
+</Base>

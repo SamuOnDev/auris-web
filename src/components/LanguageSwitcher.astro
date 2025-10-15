@@ -1,0 +1,21 @@
+---
+import { SUPPORTED, DEFAULT_LANG } from '../i18n/config';
+const current = Astro.params.lang || DEFAULT_LANG;
+const options = SUPPORTED;
+---
+<label class="sr-only" for="lang">Idioma</label>
+<select id="lang" class="rounded-md bg-white/5 border border-white/10 px-2 py-2 text-sm"
+  on:change={(e) => {
+    const sel = (e.currentTarget as HTMLSelectElement).value;
+    // cookie 1 año
+    document.cookie = `lang=${sel}; Max-Age=${60*60*24*365}; Path=/; SameSite=Lax`;
+    // reconstruir ruta reemplazando el 1er segmento
+    const parts = location.pathname.split('/').filter(Boolean); // [lang, ...rest]
+    if (parts.length === 0) { location.href = `/${sel}/`; return; }
+    parts[0] = sel;
+    location.href = '/' + parts.join('/') + location.search + location.hash;
+  }}>
+  {options.map((l) => (
+    <option value={l} selected={l===current}>{l.toUpperCase()}</option>
+  ))}
+</select>
