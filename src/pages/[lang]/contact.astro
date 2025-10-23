@@ -1,16 +1,72 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { SUPPORTED } from '../../i18n/config';
+import type { Lang } from '../../i18n';
+import { SUPPORTED, t } from '../../i18n';
 
 export function getStaticPaths() {
   return SUPPORTED.map((lang) => ({ params: { lang } }));
 }
-const { lang } = Astro.params;
+const lang = (Astro.params.lang as Lang) ?? 'es';
 ---
 <Base title="Auris — Contacto">
-  <section class="mx-auto max-w-[1200px] px-4 py-10">
-    <h1 class="text-2xl font-bold">Contacto</h1>
-    <p class="mt-3 text-white/80">Formulario se añade en el paso de backend.</p>
-    <p class="mt-3 text-white/60 text-sm">Ruta: /{lang}/contact</p>
+  <section class="mx-auto max-w-container px-4 py-10 md:py-16">
+    <h1 class="text-2xl md:text-3xl font-extrabold">
+      {lang === 'es' ? 'Contacto' : 'Contact'}
+    </h1>
+
+    <form id="contactForm" class="mt-6 max-w-xl space-y-4" novalidate>
+      <div>
+        <label class="block text-sm mb-1">{lang==='es'?'Nombre':'Name'}</label>
+        <input name="name" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Email</label>
+        <input type="email" name="email" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">{lang==='es'?'Mensaje':'Message'}</label>
+        <textarea name="message" rows="5" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2"></textarea>
+      </div>
+
+      <!-- RGPD: consentimiento -->
+      <div class="flex items-start gap-3">
+        <input id="consent" type="checkbox" required class="mt-1 rounded bg-white/5 border-white/10" />
+        <label for="consent" class="text-sm text-white/80">
+          {lang==='es'
+            ? <>Acepto la <a href={`/${lang}/privacidad`} class="underline">política de privacidad</a>.</>
+            : <>I accept the <a href={`/${lang}/privacy`} class="underline">privacy policy</a>.</>}
+        </label>
+      </div>
+
+      <!-- Honeypot anti-spam -->
+      <input type="text" name="website" style="display:none" autocomplete="off" />
+
+      <button class="w-full sm:w-auto rounded-md bg-brand-accent text-black font-semibold px-5 py-3 hover:opacity-90">
+        {t(lang,'cta_primary')}
+      </button>
+
+      <p id="msg" role="status" class="text-sm text-white/70 mt-2"></p>
+    </form>
   </section>
+
+  <script type="module">
+    const f = document.getElementById('contactForm');
+    const msg = document.getElementById('msg');
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(f));
+      try {
+        const r = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ ...data, lang: "{{lang}}" })
+        });
+        const j = await r.json();
+        msg.textContent = j.ok ? ({{lang}}==='es' ? 'Enviado correctamente' : 'Sent successfully') : (j.error || 'Error');
+        if (j.ok) f.reset();
+      } catch (err) {
+        msg.textContent = {{lang}}==='es' ? 'Error de red' : 'Network error';
+      }
+    });
+  </script>
 </Base>

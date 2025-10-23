@@ -1,9 +1,10 @@
-@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root { color-scheme: dark; }
+
+/* Fondo con degradado + arcos */
 .bg-landing{
     background:
         radial-gradient(1200px 600px at 70% 10%, rgba(99,102,241,.08), transparent 60%),

@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import type { Lang } from '../../i18n/config';
-import { SUPPORTED } from '../../i18n/config';
+import type { Lang } from '../../i18n';
+import { SUPPORTED, t } from '../../i18n';
 
 export function getStaticPaths() {
   return SUPPORTED.map((lang) => ({ params: { lang } }));
@@ -9,9 +9,41 @@ export function getStaticPaths() {
 const lang = (Astro.params.lang as Lang) ?? 'es';
 ---
 <Base title="Auris International — Inicio">
-  <section class="mx-auto max-w-container px-4 py-10">
-    <h1 class="text-3xl font-extrabold">Auris International</h1>
-    <p class="mt-2 text-sm opacity-80">Idioma detectado: {lang}</p>
-    <p class="mt-6 text-base opacity-80">Aquí irá el hero y el resto del contenido.</p>
+  <section class="mx-auto max-w-container px-4 py-10 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
+      <!-- Texto -->
+      <div>
+        <div class="inline-block rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
+          {t(lang, 'badge')}
+        </div>
+
+        <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+          {t(lang, 'h1a')} <span class="text-brand-accent">{t(lang, 'h1b')}</span> {t(lang, 'h1c')}
+        </h1>
+
+        <p class="mt-4 text-white/80 max-w-xl">
+          {t(lang, 'sub')}
+        </p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <a href={`/${lang}/contact`}
+              class="inline-flex justify-center rounded-md bg-brand-accent text-black font-semibold px-5 py-3 hover:opacity-90">
+            {t(lang, 'cta_primary')}
+          </a>
+          <a href={`/${lang}/contact`}
+              class="inline-flex justify-center rounded-md border border-white/20 px-5 py-3 text-white hover:bg-white/5">
+            {t(lang, 'cta_secondary')}
+          </a>
+        </div>
+      </div>
+
+      <!-- Imagen -->
+      <div class="relative mx-auto w-full max-w-sm sm:max-w-md">
+        <div class="rounded-arch overflow-hidden bg-gradient-to-b from-white/10 to-white/5 ring-1 ring-white/10">
+          <img src="/hero.jpg" alt="" class="w-full h-80 object-cover" />
+        </div>
+        <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[85%] h-20 rounded-full bg-white/10 blur-2xl"></div>
+      </div>
+    </div>
   </section>
 </Base>
