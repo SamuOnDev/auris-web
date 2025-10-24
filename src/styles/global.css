@@ -3,23 +3,22 @@
 @tailwind utilities;
 
 :root { color-scheme: dark; }
-
-/* Fondo con degradado + arcos */
 .bg-landing{
     background:
-        radial-gradient(1200px 600px at 70% 10%, rgba(99,102,241,.08), transparent 60%),
-        radial-gradient(800px 400px at 0% 0%, rgba(56,189,248,.10), transparent 70%),
+        radial-gradient(900px 420px at 70% 12%, rgba(124,58,237,.10), transparent 60%),
+        radial-gradient(600px 320px at 0% 0%, rgba(56,189,248,.12), transparent 70%),
         linear-gradient(180deg, #0A1530 0%, #0F2347 100%);
     position: relative;
 }
 .bg-landing::after{
-    content:"";
-    position:absolute; inset:0;
+    content:""; position:absolute; inset:0; pointer-events:none;
     background:
-        radial-gradient(circle at 70% 10%,
-        transparent 0 140px, rgba(255,255,255,.05) 141px 142px,
-        transparent 143px 210px, rgba(255,255,255,.04) 211px 212px,
-        transparent 213px 280px, rgba(255,255,255,.03) 281px 282px,
-        transparent 283px);
-    pointer-events:none;
+        radial-gradient(circle at 72% 10%,
+        transparent 0 120px, rgba(255,255,255,.05) 121px 122px,
+        transparent 123px 190px, rgba(255,255,255,.04) 191px 192px,
+        transparent 193px 260px, rgba(255,255,255,.03) 261px 262px,
+        transparent 263px 330px, rgba(255,255,255,.02) 331px 332px,
+        transparent 333px);
+    mask: radial-gradient(1200px 600px at 70% 10%, #000 40%, transparent 70%);
+    opacity:.9;
 }

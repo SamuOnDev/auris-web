@@ -1,4 +1,7 @@
-import type { PagesFunction } from '@cloudflare/workers-types';
+type ContactContext = {
+    request: Request;
+    env: Env;
+};
 
 type ContactPayload = {
     name: string;
@@ -15,7 +18,7 @@ export interface Env {
     FROM_EMAIL?: string;
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost = async ({ request, env }: ContactContext) => {
     try {
         const payload = await parseBody(request);
 
