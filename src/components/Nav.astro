@@ -21,30 +21,30 @@ const LINKS = [
         </a>
 
         <!-- CENTRO (ESCRITORIO): menú SIEMPRE visible y centrado -->
-        <nav class="hidden md:flex flex-1 justify-center">
-        <ul class="flex items-center gap-8 text-sm">
-            {LINKS.map(l => (
-            <li>
-                <a href={l.href} class="text-white/90 hover:text-white transition-colors">
-                {t(lang, l.key as any)}
-                </a>
-            </li>
-            ))}
-        </ul>
+        <nav class="desktop-nav flex-1 justify-center">
+            <ul class="flex items-center gap-8 text-sm">
+                {LINKS.map(l => (
+                    <li>
+                        <a href={l.href} class="text-white/90 hover:text-white transition-colors">
+                            {t(lang, l.key as any)}
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </nav>
 
         <!-- DERECHA (ESCRITORIO): CTA + idioma -->
-        <div class="hidden md:flex items-center gap-3 ml-3">
-        <a href={`/${lang}/contact`}
-            class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5 transition">
-            {t(lang, 'nav_contact' as any)}
-        </a>
-        <LanguageSwitcher />
+        <div class="desktop-actions items-center gap-3 ml-3">
+            <a href={`/${lang}/contact`}
+                class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5 transition">
+                {t(lang, 'nav_contact' as any)}
+            </a>
+            <LanguageSwitcher />
         </div>
 
         <!-- HAMBURGUESA (SOLO MÓVIL) -->
         <button id="navToggle"
-                class="nav-burger md:hidden ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-white/90"
+                class="nav-burger ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-white/90"
                 aria-controls="navDrawer" aria-expanded="false" aria-label="Abrir menú">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -53,33 +53,51 @@ const LINKS = [
     </div>
 
     <!-- DRAWER MÓVIL -->
-    <div id="navDrawer" class="md:hidden hidden border-t border-white/10 bg-[#0B1734]/95 backdrop-blur">
+    <div id="navDrawer" class="hidden border-t border-white/10 bg-[#0B1734]/95 backdrop-blur">
         <div class="mx-auto max-w-container px-4 py-3 space-y-2">
-        {LINKS.map(l => (
-            <a href={l.href} class="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5">
-            {t(lang, l.key as any)}
-            </a>
-        ))}
-        <div class="mt-2 flex items-center justify-between gap-3">
-            <a href={`/${lang}/contact`} class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5">
-            {t(lang, 'nav_contact' as any)}
-            </a>
-            <LanguageSwitcher />
-        </div>
+            {LINKS.map(l => (
+                <a href={l.href} class="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5">
+                    {t(lang, l.key as any)}
+                </a>
+            ))}
+            <div class="mt-2 flex items-center justify-between gap-3">
+                <a href={`/${lang}/contact`} class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5">
+                    {t(lang, 'nav_contact' as any)}
+                </a>
+                <LanguageSwitcher />
+            </div>
         </div>
     </div>
 
     <!-- Forzar que la hamburguesa desaparezca en ≥768px, por si hay CSS residual -->
     <style is:global>
-        @media (min-width:768px){ .nav-burger{ display:none !important; } }
+        .desktop-nav,
+        .desktop-actions {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .desktop-nav,
+            .desktop-actions {
+                display: flex;
+            }
+
+            .nav-burger {
+                display: none !important;
+            }
+
+            #navDrawer {
+                display: none !important;
+            }
+        }
     </style>
 
     <script is:inline>
         const btn = document.getElementById('navToggle');
         const drawer = document.getElementById('navDrawer');
         btn?.addEventListener('click', () => {
-        const open = drawer?.classList.toggle('hidden') === false;
-        btn.setAttribute('aria-expanded', String(open));
+            const open = drawer?.classList.toggle('hidden') === false;
+            btn.setAttribute('aria-expanded', String(open));
         });
     </script>
 </header>
