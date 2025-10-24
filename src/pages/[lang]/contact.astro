@@ -61,23 +61,56 @@ const statusMessageTranslations = {
       error: {JSON.stringify(statusMessageTranslations.error)},
       network: {JSON.stringify(statusMessageTranslations.network)},
     };
-    const f = document.getElementById('contactForm');
-    const msg = document.getElementById('msg');
-    f.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(f));
-      try {
-        const r = await fetch('/api/contact', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ ...data, lang: currentLang })
-        });
-        const j = await r.json();
-        msg.textContent = j.ok ? statusMessages.success : (j.error || statusMessages.error);
-        if (j.ok) f.reset();
-      } catch (err) {
-        msg.textContent = statusMessages.network;
-      }
-    });
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('msg');
+
+    if (!(form instanceof HTMLFormElement) || !(statusEl instanceof HTMLElement)) {
+      console.warn('Contact form markup missing, aborting behaviour.');
+    } else {
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const entries = Object.fromEntries(formData.entries());
+        const serialised = Object.fromEntries(
+          Object.entries(entries).map(([key, value]) => [key, typeof value === 'string' ? value : ''])
+        );
+        const body = { ...serialised, lang: currentLang };
+
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = true;
+          submitButton.dataset.loading = 'true';
+        }
+
+        statusEl.textContent = '';
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.ok) {
+            statusEl.textContent = statusMessages.success;
+            form.reset();
+          } else {
+            statusEl.textContent = result.error || statusMessages.error;
+          }
+        } catch (err) {
+          console.error('Error enviando formulario de contacto', err);
+          statusEl.textContent = statusMessages.network;
+        } finally {
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = false;
+            delete submitButton.dataset.loading;
+          }
+        }
+      });
+    }
   </script>
 </Base>

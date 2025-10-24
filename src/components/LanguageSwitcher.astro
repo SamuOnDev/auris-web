@@ -1,23 +1,38 @@
 ---
-import { SUPPORTED, DEFAULT_LANG } from '../i18n/config';
+import { SUPPORTED, DEFAULT_LANG } from '../i18n';
+
 const current = Astro.params.lang || DEFAULT_LANG;
 const options = SUPPORTED;
+const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
+const oneYearInSeconds = 60 * 60 * 24 * 365;
 ---
-<label class="sr-only" for="lang">Idioma</label>
-<select id="lang" class="rounded-md bg-white/5 border border-white/10 px-2 py-2 text-sm"
-  on:change={(e) => {
-    if (typeof window === 'undefined') return;
-    const sel = (e.currentTarget as HTMLSelectElement).value;
-    const { document, location } = window;
-    // cookie 1 año
-    document.cookie = `lang=${sel}; Max-Age=${60*60*24*365}; Path=/; SameSite=Lax`;
-    // reconstruir ruta reemplazando el 1er segmento
-    const parts = location.pathname.split('/').filter(Boolean); // [lang, ...rest]
-    if (parts.length === 0) { location.href = `/${sel}/`; return; }
-    parts[0] = sel;
-    location.href = '/' + parts.join('/') + location.search + location.hash;
-  }}>
+<label class="sr-only" for={selectId}>Idioma</label>
+<select
+  id={selectId}
+  class="rounded-md bg-white/5 border border-white/10 px-2 py-2 text-sm"
+  value={current}
+>
   {options.map((l) => (
-    <option value={l} selected={l===current}>{l.toUpperCase()}</option>
+    <option value={l}>{l.toUpperCase()}</option>
   ))}
 </select>
+<script is:inline>
+  const select = document.getElementById({JSON.stringify(selectId)});
+  if (select instanceof HTMLSelectElement) {
+    select.addEventListener('change', () => {
+      const selected = select.value;
+      document.cookie = `lang=${selected}; Max-Age=${oneYearInSeconds}; Path=/; SameSite=Lax`;
+
+      const { location } = window;
+      const segments = location.pathname.split('/').filter(Boolean);
+
+      if (segments.length === 0) {
+        location.href = `/${selected}/`;
+        return;
+      }
+
+      segments[0] = selected;
+      location.href = '/' + segments.join('/') + location.search + location.hash;
+    });
+  }
+</script>
