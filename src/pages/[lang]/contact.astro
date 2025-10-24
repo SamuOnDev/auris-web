@@ -7,6 +7,11 @@ export function getStaticPaths() {
   return SUPPORTED.map((lang) => ({ params: { lang } }));
 }
 const lang = (Astro.params.lang as Lang) ?? 'es';
+const statusMessageTranslations = {
+  success: t(lang, 'contact_success'),
+  error: t(lang, 'contact_error'),
+  network: t(lang, 'contact_network_error'),
+};
 ---
 <Base title="Auris — Contacto">
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
@@ -50,6 +55,12 @@ const lang = (Astro.params.lang as Lang) ?? 'es';
   </section>
 
   <script type="module">
+    const currentLang = {JSON.stringify(lang)};
+    const statusMessages = {
+      success: {JSON.stringify(statusMessageTranslations.success)},
+      error: {JSON.stringify(statusMessageTranslations.error)},
+      network: {JSON.stringify(statusMessageTranslations.network)},
+    };
     const f = document.getElementById('contactForm');
     const msg = document.getElementById('msg');
     f.addEventListener('submit', async (e) => {
@@ -59,13 +70,13 @@ const lang = (Astro.params.lang as Lang) ?? 'es';
         const r = await fetch('/api/contact', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ ...data, lang: "{{lang}}" })
+          body: JSON.stringify({ ...data, lang: currentLang })
         });
         const j = await r.json();
-        msg.textContent = j.ok ? ({{lang}}==='es' ? 'Enviado correctamente' : 'Sent successfully') : (j.error || 'Error');
+        msg.textContent = j.ok ? statusMessages.success : (j.error || statusMessages.error);
         if (j.ok) f.reset();
       } catch (err) {
-        msg.textContent = {{lang}}==='es' ? 'Error de red' : 'Network error';
+        msg.textContent = statusMessages.network;
       }
     });
   </script>

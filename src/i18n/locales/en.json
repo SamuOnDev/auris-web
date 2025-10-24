@@ -5,5 +5,8 @@
     "h1c": "back on track",
     "sub": "Expert support for anxiety, depression and grief.",
     "cta_primary": "Get Free Session",
-    "cta_secondary": "Gift Therapy"
+    "cta_secondary": "Gift Therapy",
+    "contact_success": "Sent successfully",
+    "contact_error": "Error",
+    "contact_network_error": "Network error"
 }

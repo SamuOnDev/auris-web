@@ -6,7 +6,9 @@ const options = SUPPORTED;
 <label class="sr-only" for="lang">Idioma</label>
 <select id="lang" class="rounded-md bg-white/5 border border-white/10 px-2 py-2 text-sm"
   on:change={(e) => {
+    if (typeof window === 'undefined') return;
     const sel = (e.currentTarget as HTMLSelectElement).value;
+    const { document, location } = window;
     // cookie 1 año
     document.cookie = `lang=${sel}; Max-Age=${60*60*24*365}; Path=/; SameSite=Lax`;
     // reconstruir ruta reemplazando el 1er segmento

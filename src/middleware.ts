@@ -9,6 +9,12 @@ export const onRequest: MiddlewareHandler = async ({
     url
 }, next) => {
     const path = url.pathname; // e.g. "/", "/contact"
+    const excludedPrefixes = ['/_astro', '/api', '/favicon', '/robots', '/sitemap'];
+
+    const isExcluded = excludedPrefixes.some(prefix => path.startsWith(prefix)) || path.includes('.');
+    if (isExcluded) {
+        return next();
+    }
     const [, first] = path.split('/'); // posible lang
 
     // Si ya viene /{lang}/..., continúa

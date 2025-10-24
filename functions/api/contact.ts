@@ -1,3 +1,5 @@
+import type { PagesFunction } from '@cloudflare/workers-types';
+
 export interface Env {
   N8N_WEBHOOK_URL: string;    // p.ej. https://tu-n8n/webhook/auris?token=SECRETO
   RESEND_API_KEY: string;     // opcional: si quieres email de aviso

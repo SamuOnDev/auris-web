@@ -5,5 +5,8 @@
     "h1c": "y volver al equilibrio",
     "sub": "Acompañamiento experto en ansiedad, depresión y duelo.",
     "cta_primary": "Primera sesión gratis",
-    "cta_secondary": "Regalar terapia"
+    "cta_secondary": "Regalar terapia",
+    "contact_success": "Enviado correctamente",
+    "contact_error": "Error",
+    "contact_network_error": "Error de red"
 }
