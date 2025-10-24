@@ -8,5 +8,11 @@
     "cta_secondary": "Regalar terapia",
     "contact_success": "Enviado correctamente",
     "contact_error": "Error",
-    "contact_network_error": "Error de red"
+    "contact_network_error": "Error de red",
+    "nav_home": "Home",
+    "nav_about": "Quiénes somos",
+    "nav_selfcare": "Autocuidado",
+    "nav_podcasts": "Podcasts",
+    "nav_blogs": "Blog",
+    "nav_contact": "Contacto"
 }

@@ -1,36 +1,11 @@
 ---
 import '../styles/global.css';
-import LanguageSwitcher from '../components/LanguageSwitcher.astro';
-import { DEFAULT_LANG, type Lang } from '../i18n';
+import Nav from '../components/Nav.astro';
 
-interface Props {
-  title?: string;
-  description?: string;
-  lang?: Lang;
-}
-
-const {
-  title = 'Auris International',
-  description = 'Psicología y bienestar — auris.es',
-  lang: langProp,
-} = Astro.props as Props;
-
-const lang = langProp ?? (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
-const navItems =
-  lang === 'es'
-    ? [
-        { href: `/${lang}/`, label: 'Inicio' },
-        { href: `/${lang}/about`, label: 'Sobre nosotros' },
-        { href: `/${lang}/#locations`, label: 'Dónde encontrarnos' },
-      ]
-    : [
-        { href: `/${lang}/`, label: 'Home' },
-        { href: `/${lang}/about`, label: 'About' },
-        { href: `/${lang}/#locations`, label: 'Where to find us' },
-      ];
-const contactLabel = lang === 'es' ? 'Contacto' : 'Contact';
+const { title = 'Auris International', description = 'Psicología y bienestar — auris.es' } = Astro.props;
+const lang = (Astro.params.lang ?? 'es') as 'es' | 'en';
 ---
-<html lang={lang}>
+<html lang={lang} class="h-full">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,87 +16,14 @@ const contactLabel = lang === 'es' ? 'Contacto' : 'Contact';
     <title>{title}</title>
   </head>
   <body class="min-h-screen bg-landing text-white font-sans antialiased">
-    ---
-    import '../styles/global.css';
-    import Nav from '../components/Nav.astro';
-    const lang = (Astro.params.lang as 'es'|'en') || 'es';
-    ---
-    <body class="min-h-screen bg-landing text-white font-sans antialiased">
-      <Nav />
-      <main class="relative">
-        <slot />
-      </main>
-      <footer class="mt-24 border-t border-white/10">
-        <div class="mx-auto max-w-container px-4 py-10 text-xs text-white/60">
-          © {new Date().getFullYear()} Auris International — auris.es
-        </div>
-      </footer>
-    </body>
-
+    <Nav />
     <main class="relative">
       <slot />
     </main>
-
-    <footer class="mt-16 border-t border-white/10">
-      <div class="mx-auto max-w-container px-4 py-8 text-xs text-white/60">
+    <footer class="mt-24 border-t border-white/10">
+      <div class="mx-auto max-w-container px-4 py-10 text-xs text-white/60">
         © {new Date().getFullYear()} Auris International — auris.es
       </div>
     </footer>
-    <script type="module" is:inline>
-      const menuButton = document.querySelector('[data-mobile-menu-button]');
-      const nav = document.getElementById('primary-navigation');
-
-      const openMenu = () => {
-        nav?.classList.remove('hidden');
-        nav?.classList.add('flex');
-        menuButton?.setAttribute('aria-expanded', 'true');
-        document.body.classList.add('overflow-hidden');
-      };
-
-      const closeMenu = () => {
-        nav?.classList.add('hidden');
-        nav?.classList.remove('flex');
-        menuButton?.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('overflow-hidden');
-      };
-
-      menuButton?.addEventListener('click', () => {
-        if (!nav) return;
-        const isOpen = !nav.classList.contains('hidden');
-        if (isOpen) {
-          closeMenu();
-        } else {
-          openMenu();
-        }
-      });
-
-      nav?.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          if (window.innerWidth < 768) {
-            closeMenu();
-          }
-        });
-      });
-
-      window.addEventListener('resize', () => {
-        if (!nav) return;
-        if (window.innerWidth >= 768) {
-          nav.classList.remove('hidden');
-          nav.classList.remove('flex');
-          menuButton?.setAttribute('aria-expanded', 'false');
-          document.body.classList.remove('overflow-hidden');
-        } else if (!menuButton || menuButton.getAttribute('aria-expanded') !== 'true') {
-          nav.classList.add('hidden');
-          nav.classList.remove('flex');
-        }
-      });
-
-      if (window.innerWidth >= 768) {
-        nav?.classList.remove('hidden');
-        nav?.classList.remove('flex');
-        menuButton?.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('overflow-hidden');
-      }
-    </script>
   </body>
 </html>

@@ -1,72 +1,77 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
-const lang = (Astro.params.lang as 'es'|'en') || 'es';
+import { t, DEFAULT_LANG } from '../i18n';
+
+const lang = (Astro.params.lang ?? DEFAULT_LANG) as 'es' | 'en';
 
 const LINKS = [
-    { key: 'home',     es: 'Home',          en: 'Home',        href: `/${lang}/` },
-    { key: 'about',    es: 'Quiénes somos', en: 'About Us',    href: `/${lang}/about` },
-    { key: 'selfcare', es: 'Autocuidado',   en: 'Selfcare',    href: `/${lang}/selfcare` },
-    { key: 'pod',      es: 'Podcasts',      en: 'Podcasts',    href: `/${lang}/podcasts` },
-    { key: 'blog',     es: 'Blog',          en: 'Blogs',       href: `/${lang}/blogs` },
+  { key: 'nav_home',     href: `/${lang}/` },
+  { key: 'nav_about',    href: `/${lang}/about` },
+  { key: 'nav_selfcare', href: `/${lang}/selfcare` },
+  { key: 'nav_podcasts', href: `/${lang}/podcasts` },
+  { key: 'nav_blogs',    href: `/${lang}/blogs` },
 ];
-const t = (es:string, en:string) => (lang==='es'? es: en);
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-white/5">
-    <div class="mx-auto max-w-container h-16 px-4 flex items-center gap-3">
-        <!-- IZQ: logo + marca -->
-        <a href={`/${lang}/`} class="flex items-center gap-2 shrink-0">
-        <!-- Sustituye /logo.png por tu PNG final -->
-        <img src="/logo.png" alt="Auris" class="h-6 w-6 rounded-sm object-contain" />
-        <span class="text-sm sm:text-base font-extrabold tracking-tight text-white">Auris International</span>
+  <div class="mx-auto max-w-container h-16 px-4 flex items-center">
+    <!-- IZQ: logo + marca -->
+    <a href={`/${lang}/`} class="flex items-center gap-2 shrink-0 mr-3">
+      <img src="/logo.jpg" alt="Auris" class="h-6 w-6 rounded-sm object-contain" />
+      <span class="text-base font-extrabold tracking-tight text-white">Auris International</span>
+    </a>
+
+    <!-- CENTRO (DESKTOP): SIEMPRE visible en ≥ md -->
+    <nav class="hidden md:flex flex-1 justify-center">
+      <ul class="flex items-center gap-8 text-sm text-white/80">
+        {LINKS.map(l => (
+          <li><a href={l.href} class="hover:text-white transition-colors">{t(lang, l.key as any)}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- DERECHA (DESKTOP): CTA + idioma -->
+    <div class="hidden md:flex items-center gap-3 ml-3">
+      <a href={`/${lang}/contact`}
+         class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5 transition">
+        {t(lang, 'nav_contact' as any)}
+      </a>
+      <LanguageSwitcher />
+    </div>
+
+    <!-- BOTÓN HAMBURGUESA (SOLO MÓVIL) -->
+    <button id="navToggle"
+            class="md:hidden ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-white/90"
+            aria-controls="navDrawer" aria-expanded="false" aria-label="Abrir menú">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- DRAWER MÓVIL -->
+  <div id="navDrawer" class="md:hidden hidden border-t border-white/10 bg-[#0B1734]/95 backdrop-blur">
+    <div class="mx-auto max-w-container px-4 py-3 space-y-2">
+      {LINKS.map(l => (
+        <a href={l.href} class="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5">
+          {t(lang, l.key as any)}
         </a>
-
-        <!-- CENTRO: navegación (oculto en móvil) -->
-        <nav class="hidden md:flex flex-1 justify-center">
-        <ul class="flex items-center gap-8 text-sm text-white/80">
-            {LINKS.map(l => (
-            <li><a href={l.href} class="hover:text-white transition-colors">{t(l.es, l.en)}</a></li>
-            ))}
-        </ul>
-        </nav>
-
-        <!-- DERECHA: CTA + idioma -->
-        <div class="ml-auto hidden md:flex items-center gap-3">
-        <a href={`/${lang}/contact`}
-            class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5 transition">
-            {t('Contacto','Contact')}
+      ))}
+      <div class="mt-2 flex items-center justify-between gap-3">
+        <a href={`/${lang}/contact`} class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5">
+          {t(lang, 'nav_contact' as any)}
         </a>
         <LanguageSwitcher />
-        </div>
-
-        <!-- BOTÓN HAMBURGUESA (solo móvil) -->
-        <button id="navToggle"
-                class="ml-auto md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-white/90">
-        <span class="sr-only">Menu</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="pointer-events-none">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        </button>
+      </div>
     </div>
+  </div>
 
-    <!-- DRAWER móvil -->
-    <div id="navDrawer" class="md:hidden hidden border-t border-white/10 bg-[#0B1734]/95 backdrop-blur">
-        <div class="mx-auto max-w-container px-4 py-3 space-y-2">
-        {LINKS.map(l => (
-            <a href={l.href} class="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5">{t(l.es, l.en)}</a>
-        ))}
-        <div class="mt-2 flex items-center justify-between gap-3">
-            <a href={`/${lang}/contact`} class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5">
-            {t('Contacto','Contact')}
-            </a>
-            <LanguageSwitcher />
-        </div>
-        </div>
-    </div>
-
-    <script is:inline>
-        const btn = document.getElementById('navToggle');
-        const drawer = document.getElementById('navDrawer');
-        btn?.addEventListener('click', () => drawer?.classList.toggle('hidden'));
-    </script>
+  <script is:inline>
+    const btn = document.getElementById('navToggle');
+    const drawer = document.getElementById('navDrawer');
+    btn?.addEventListener('click', () => {
+      const open = drawer?.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  </script>
 </header>
