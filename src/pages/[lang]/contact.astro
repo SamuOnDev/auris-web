@@ -19,7 +19,15 @@ const statusMessageTranslations = {
       {lang === 'es' ? 'Contacto' : 'Contact'}
     </h1>
 
-    <form id="contactForm" class="mt-6 max-w-xl space-y-4" novalidate>
+    <form
+      id="contactForm"
+      class="mt-6 max-w-xl space-y-4"
+      novalidate
+      data-lang={lang}
+      data-status-success={statusMessageTranslations.success}
+      data-status-error={statusMessageTranslations.error}
+      data-status-network={statusMessageTranslations.network}
+    >
       <div>
         <label class="block text-sm mb-1">{lang==='es'?'Nombre':'Name'}</label>
         <input name="name" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2" />
@@ -55,18 +63,18 @@ const statusMessageTranslations = {
   </section>
 
   <script type="module">
-    const currentLang = {JSON.stringify(lang)};
-    const statusMessages = {
-      success: {JSON.stringify(statusMessageTranslations.success)},
-      error: {JSON.stringify(statusMessageTranslations.error)},
-      network: {JSON.stringify(statusMessageTranslations.network)},
-    };
     const form = document.getElementById('contactForm');
     const statusEl = document.getElementById('msg');
 
     if (!(form instanceof HTMLFormElement) || !(statusEl instanceof HTMLElement)) {
       console.warn('Contact form markup missing, aborting behaviour.');
     } else {
+      const currentLang = form.dataset.lang ?? 'es';
+      const statusMessages = {
+        success: form.dataset.statusSuccess ?? '',
+        error: form.dataset.statusError ?? '',
+        network: form.dataset.statusNetwork ?? '',
+      };
       const submitButton = form.querySelector('button[type="submit"]');
 
       form.addEventListener('submit', async (event) => {

@@ -4,11 +4,11 @@ import { SUPPORTED, DEFAULT_LANG } from '../i18n';
 const current = Astro.params.lang || DEFAULT_LANG;
 const options = SUPPORTED;
 const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
-const oneYearInSeconds = 60 * 60 * 24 * 365;
 ---
 <label class="sr-only" for={selectId}>Idioma</label>
 <select
   id={selectId}
+  data-lang-switcher
   class="rounded-md bg-white/5 border border-white/10 px-2 py-2 text-sm"
   value={current}
 >
@@ -17,11 +17,12 @@ const oneYearInSeconds = 60 * 60 * 24 * 365;
   ))}
 </select>
 <script is:inline>
-  const select = document.getElementById({JSON.stringify(selectId)});
+  const select = document.querySelector('[data-lang-switcher]');
+  const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
   if (select instanceof HTMLSelectElement) {
     select.addEventListener('change', () => {
       const selected = select.value;
-      document.cookie = `lang=${selected}; Max-Age=${oneYearInSeconds}; Path=/; SameSite=Lax`;
+      document.cookie = `lang=${selected}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; SameSite=Lax`;
 
       const { location } = window;
       const segments = location.pathname.split('/').filter(Boolean);
