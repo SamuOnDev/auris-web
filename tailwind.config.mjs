@@ -11,7 +11,7 @@ export default {
                 accent:'#C3F35C', ink:'#EAF2FF', mute:'rgba(255,255,255,.72)'
                 }
             },
-            fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','sans-serif'] },
+            fontFamily: { sans: ['TikTok Sans','system-ui','-apple-system','BlinkMacSystemFont','Segoe UI','sans-serif'] },
             maxWidth: { container: '1200px' },
             borderRadius: { arch: '36px' },
             boxShadow: { soft: '0 10px 30px rgba(0,0,0,.25)' }

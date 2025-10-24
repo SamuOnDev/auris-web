@@ -16,8 +16,17 @@ const LINKS = [
     <div class="mx-auto max-w-container h-16 px-4 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
         <a href={`/${lang}/`} class="flex items-center gap-2 shrink-0 mr-3">
-        <img src="/logo.jpg" alt="Auris" class="h-6 w-6 object-contain" />
-        <span class="text-base font-extrabold tracking-tight text-white">Auris International</span>
+            <img
+                src="/logo.png"
+                alt="Auris"
+                width="128" height="128"
+                class="object-contain aspect-square
+                        h-8  w-8          /* móvil ~32px */
+                        sm:h-12 sm:w-12   /* ≥640px ~48px */
+                        md:h-20 md:w-20   /* ≥768px ~80px */
+                        lg:h-24 lg:w-24   /* ≥1024px ~96px */
+                        max-h-[128px] max-w-[128px]" />
+            <span class="text-base font-extrabold tracking-tight text-white">Auris International</span>
         </a>
 
         <!-- CENTRO (ESCRITORIO): menú SIEMPRE visible y centrado -->
