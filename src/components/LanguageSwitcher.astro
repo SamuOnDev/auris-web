@@ -1,7 +1,12 @@
 ---
-import { SUPPORTED, DEFAULT_LANG } from '../i18n';
+import { SUPPORTED, DEFAULT_LANG, type Lang } from '../i18n';
 
-const current = Astro.params.lang || DEFAULT_LANG;
+interface Props {
+  currentLang?: Lang;
+}
+
+const { currentLang } = Astro.props as Props;
+const current = currentLang ?? (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
 const options = SUPPORTED;
 const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
 ---
@@ -17,7 +22,7 @@ const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
   ))}
 </select>
 <script is:inline>
-  const select = document.querySelector('[data-lang-switcher]');
+  const select = document.getElementById('${selectId}');
   const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
   if (select instanceof HTMLSelectElement) {
     select.addEventListener('change', () => {
