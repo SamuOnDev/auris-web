@@ -10,6 +10,12 @@ body {
     font-family: 'TikTok Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+@media (min-width: 1280px) {
+    .max-w-container {
+        max-width: 60vw;
+    }
+}
+
 a {
     color: inherit;
     text-decoration: none;
