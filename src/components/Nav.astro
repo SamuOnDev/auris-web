@@ -6,8 +6,11 @@ const lang = (Astro.params.lang ?? DEFAULT_LANG) as 'es' | 'en';
 const LINKS = [
     { key: 'nav_home',      href: `/${lang}/` },
     { key: 'nav_about',     href: `/${lang}/about` },
-    { key: 'nav_where',     href: `/${lang}/where` }
+    { key: 'nav_where',     href: `/${lang}/where` },
+    { key: 'nav_contact',   href: `/${lang}/contact`, variant: 'cta' as const }
 ];
+const CTA_LINK = LINKS.find((l) => l.variant === 'cta');
+const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-white/5">
@@ -32,7 +35,12 @@ const LINKS = [
             <ul class="menu m-0 p-0">
                 {LINKS.map((l) => (
                 <li class="m-0 p-0">
-                    <a href={l.href} class="link">
+                    <a
+                        href={l.href}
+                        class:list={{
+                            link: true,
+                            'link-cta': l.variant === 'cta'
+                        }}>
                     {t(lang, l.key as any)}
                     </a>
                 </li>
@@ -42,61 +50,95 @@ const LINKS = [
 
         <style is:global>
             /* Oculto en móvil */
-            .desktop-nav { display: none; }
+            .desktop-nav {
+                display: none;
+                min-width: 0;
+            }
             /* Visible y centrado en ≥ md (768px) — fuerza contra cualquier hidden previo */
             @media (min-width: 768px) {
                 .desktop-nav { display: flex !important; justify-content: center; }
             }
 
             /* Estilos limpios del listado */
-            .desktop-nav .menu { 
-                display: flex; 
-                list-style: none; 
-                gap: 0.5rem; 
+            .desktop-nav .menu {
+                display: flex;
+                list-style: none;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: nowrap;
+                gap: 0.75rem;
             }
             .desktop-nav .menu .link {
                 display: inline-block;
                 padding: .5rem .75rem;
                 color: rgba(255,255,255,.9);
+                white-space: nowrap;
                 text-decoration: none;
                 transition: color .15s ease;
             }
             .desktop-nav .menu .link:hover { color: #fff; }
+            .desktop-nav .menu .link-cta {
+                border: 1px solid rgba(255, 255, 255, .2);
+                border-radius: .375rem;
+                color: #fff;
+                padding-inline: 1rem;
+                background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+                box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+                font-size: .875rem;
+                margin-left: 0.5rem;
+            }
+            .desktop-nav .menu .link-cta:hover {
+                background: rgba(255,255,255,.12);
+            }
+
+            .mobile-cta {
+                background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+                box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+            }
         </style>
 
-        <!-- DERECHA (ESCRITORIO): CTA + idioma -->
+        <!-- DERECHA (ESCRITORIO): selector de idioma -->
         <div class="desktop-actions items-center gap-3 ml-3">
-            <a href={`/${lang}/contact`}
-                class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5 transition">
-                {t(lang, 'nav_contact' as any)}
-            </a>
             <LanguageSwitcher />
         </div>
 
         <!-- HAMBURGUESA (SOLO MÓVIL) -->
-        <button id="navToggle"
-                class="nav-burger ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-white/90"
-                aria-controls="navDrawer" aria-expanded="false" aria-label="Abrir menú">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        </button>
+        
+        <!-- ACCIONES MÓVILES: CTA arriba y fila con idioma + hamburguesa -->
+        <div class="mobile-actions ml-auto flex flex-col items-end gap-2 md:hidden">
+            {CTA_LINK && (
+            <a
+                href={CTA_LINK.href}
+                class="mobile-cta inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-white/10">
+                {t(lang, CTA_LINK.key as any)}
+            </a>
+            )}
+            <div class="flex items-center gap-3">
+                <LanguageSwitcher />
+                <!-- HAMBURGUESA (SOLO MÓVIL) -->
+                <button id="navToggle"
+                        class="nav-burger inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-white/90"
+                        aria-controls="navDrawer" aria-expanded="false" aria-label="Abrir menú">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- DRAWER MÓVIL -->
     <div id="navDrawer" class="hidden border-t border-white/10 bg-[#0B1734]/95 backdrop-blur">
         <div class="mx-auto max-w-container px-4 py-3 space-y-2">
-            {LINKS.map(l => (
-                <a href={l.href} class="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5">
+            {MENU_LINKS.map(l => (
+                <a
+                    href={l.href}
+                    class:list={{
+                        'block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5': l.variant !== 'cta',
+                    }}>
                     {t(lang, l.key as any)}
                 </a>
             ))}
-            <div class="mt-2 flex items-center justify-between gap-3">
-                <a href={`/${lang}/contact`} class="rounded-md border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/5">
-                    {t(lang, 'nav_contact' as any)}
-                </a>
-                <LanguageSwitcher />
-            </div>
         </div>
     </div>
 
@@ -118,6 +160,10 @@ const LINKS = [
             }
 
             #navDrawer {
+                display: none !important;
+            }
+
+            .mobile-actions {
                 display: none !important;
             }
         }
