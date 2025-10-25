@@ -7,11 +7,21 @@
     "sub_alt": "T’acollim amb un pla personalitzat, sessions confidencials i un entorn càlid on puguis tornar a respirar en pau.",
     "cta_primary": "Primera sessió gratuïta",
     "cta_secondary": "Regalar teràpia",
+    "contact_title": "Contacte",
+    "contact_name_label": "Nom",
+    "contact_email_label": "Correu electrònic",
+    "contact_message_label": "Missatge",
+    "contact_privacy_prefix": "Accepto la",
+    "contact_privacy_link": "política de privacitat",
+    "contact_privacy_suffix": ".",
     "contact_success": "Enviat correctament",
     "contact_error": "Error",
     "contact_network_error": "Error de xarxa",
     "nav_home": "Inici",
     "nav_about": "Qui som",
     "nav_where": "On som",
-    "nav_contact": "Contacte"
+    "nav_contact": "Contacte",
+    "about_title": "Qui som",
+    "about_intro": "Contingut provisional.",
+    "footer_rights": "Tots els drets reservats."
 }

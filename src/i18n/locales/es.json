@@ -7,11 +7,21 @@
     "sub_alt": "Te recibimos con un plan personalizado, sesiones confidenciales y un entorno cálido donde puedas volver a respirar en paz.",
     "cta_primary": "Primera sesión gratis",
     "cta_secondary": "Regalar terapia",
+    "contact_title": "Contacto",
+    "contact_name_label": "Nombre",
+    "contact_email_label": "Correo electrónico",
+    "contact_message_label": "Mensaje",
+    "contact_privacy_prefix": "Acepto la",
+    "contact_privacy_link": "política de privacidad",
+    "contact_privacy_suffix": ".",
     "contact_success": "Enviado correctamente",
     "contact_error": "Error",
     "contact_network_error": "Error de red",
     "nav_home": "Inicio",
     "nav_about": "Quiénes somos",
     "nav_where": "Dónde estamos",
-    "nav_contact": "Contacto"
-  }
+    "nav_contact": "Contacto",
+    "about_title": "Quiénes somos",
+    "about_intro": "Contenido provisional.",
+    "footer_rights": "Todos los derechos reservados."
+}

@@ -7,11 +7,21 @@
     "sub_alt": "Nous vous accueillons avec un plan personnalisé, des séances confidentielles et un environnement chaleureux où vous pouvez respirer en paix.",
     "cta_primary": "Première séance gratuite",
     "cta_secondary": "Offrir une thérapie",
+    "contact_title": "Contact",
+    "contact_name_label": "Nom",
+    "contact_email_label": "E-mail",
+    "contact_message_label": "Message",
+    "contact_privacy_prefix": "J'accepte la",
+    "contact_privacy_link": "politique de confidentialité",
+    "contact_privacy_suffix": ".",
     "contact_success": "Envoyé avec succès",
     "contact_error": "Erreur",
     "contact_network_error": "Erreur réseau",
     "nav_home": "Accueil",
     "nav_about": "Qui sommes-nous",
     "nav_where": "Où nous trouver",
-    "nav_contact": "Contact"
+    "nav_contact": "Contact",
+    "about_title": "Qui sommes-nous",
+    "about_intro": "Contenu provisoire.",
+    "footer_rights": "Tous droits réservés."
 }

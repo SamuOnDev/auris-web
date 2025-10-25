@@ -1,23 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
-import type { Lang } from '../../i18n';
-import { SUPPORTED, t } from '../../i18n';
+import { SUPPORTED, t, DEFAULT_LANG, type Lang } from '../../i18n';
 
 export function getStaticPaths() {
   return SUPPORTED.map((lang) => ({ params: { lang } }));
 }
-const lang = (Astro.params.lang as Lang) ?? 'es';
+const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
 const statusMessageTranslations = {
   success: t(lang, 'contact_success'),
   error: t(lang, 'contact_error'),
   network: t(lang, 'contact_network_error'),
 };
+const privacySlug = lang === 'en' ? 'privacy' : 'privacidad';
+const privacyPrefix = t(lang, 'contact_privacy_prefix');
+const privacyLinkText = t(lang, 'contact_privacy_link');
+const privacySuffix = t(lang, 'contact_privacy_suffix');
+const needsSpaceBeforeLink = /\S$/.test(privacyPrefix) && !/[’']$/.test(privacyPrefix);
+const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(privacySuffix);
 ---
-<Base title="Auris — Contacto" lang={lang}>
+<Base title={`Auris — ${t(lang, 'nav_contact')}`} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
-    <h1 class="text-2xl md:text-3xl font-extrabold">
-      {lang === 'es' ? 'Contacto' : 'Contact'}
-    </h1>
+    <h1 class="text-2xl md:text-3xl font-extrabold">{t(lang, 'contact_title')}</h1>
 
     <form
       id="contactForm"
@@ -29,15 +32,15 @@ const statusMessageTranslations = {
       data-status-network={statusMessageTranslations.network}
     >
       <div>
-        <label class="block text-sm mb-1">{lang==='es'?'Nombre':'Name'}</label>
+        <label class="block text-sm mb-1">{t(lang, 'contact_name_label')}</label>
         <input name="name" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2" />
       </div>
       <div>
-        <label class="block text-sm mb-1">Email</label>
+        <label class="block text-sm mb-1">{t(lang, 'contact_email_label')}</label>
         <input type="email" name="email" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2" />
       </div>
       <div>
-        <label class="block text-sm mb-1">{lang==='es'?'Mensaje':'Message'}</label>
+        <label class="block text-sm mb-1">{t(lang, 'contact_message_label')}</label>
         <textarea name="message" rows="5" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2"></textarea>
       </div>
 
@@ -45,9 +48,13 @@ const statusMessageTranslations = {
       <div class="flex items-start gap-3">
         <input id="consent" type="checkbox" required class="mt-1 rounded bg-white/5 border-white/10" />
         <label for="consent" class="text-sm text-white/80">
-          {lang==='es'
-            ? <>Acepto la <a href={`/${lang}/privacidad`}>política de privacidad</a>.</>
-            : <>I accept the <a href={`/${lang}/privacy`}>privacy policy</a>.</>}
+          {privacyPrefix}
+          {needsSpaceBeforeLink ? ' ' : ''}
+          <a href={`/${lang}/${privacySlug}`} class="underline">
+            {privacyLinkText}
+          </a>
+          {needsSpaceBeforeSuffix ? ' ' : ''}
+          {privacySuffix}
         </label>
       </div>
 

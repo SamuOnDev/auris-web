@@ -1,13 +1,16 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
-import { t, DEFAULT_LANG } from '../i18n';
-const lang = (Astro.params.lang ?? DEFAULT_LANG) as 'es' | 'en';
+import { t, DEFAULT_LANG, type Lang } from '../i18n';
 
-const LINKS = [
+type TranslationKey = Parameters<typeof t>[1];
+
+const lang = ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
+
+const LINKS: Array<{ key: TranslationKey; href: string; variant?: 'cta' }> = [
     { key: 'nav_home',      href: `/${lang}/` },
     { key: 'nav_about',     href: `/${lang}/about` },
     { key: 'nav_where',     href: `/${lang}/where` },
-    { key: 'nav_contact',   href: `/${lang}/contact`, variant: 'cta' as const }
+    { key: 'nav_contact',   href: `/${lang}/contact`, variant: 'cta' }
 ];
 const CTA_LINK = LINKS.find((l) => l.variant === 'cta');
 const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
@@ -16,28 +19,24 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 <header class="sticky top-0 z-50 border-b border-white/10 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-white/5">
     <div class="mx-auto max-w-container h-16 px-4 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
-        <a href={`/${lang}/`} class="group flex items-center gap-3 sm:gap-4 shrink-0">
+        <a href={`/${lang}/`} class="flex items-center gap-4 shrink-0 mr-3 brand">
             <!-- Logo: tamaño contenido y escalable -->
             <img
                 src="/logo.png"
                 alt="Auris"
                 width="96" height="96"
-                class="object-contain aspect-square
-                    h-10 w-10           /* móvil ~40px */
-                    sm:h-12 sm:w-12     /* ≥640px ~48px */
-                    md:h-14 md:w-14     /* ≥768px ~56px */
-                    lg:h-16 lg:w-16     /* ≥1024px ~64px */
-                    max-h-24 max-w-24   /* tope duro */
-                    drop-shadow-md"
-            />
-
-            <!-- Bloque de texto alineado y compacto -->
-            <span class="min-w-0 leading-tight text-left">
-                <span class="block text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white">
-                Auris International
+                class="object-contain aspect-square brand__logo
+                        h-11  w-11        /* móvil ~44px */
+                        sm:h-16 sm:w-16   /* ≥640px ~64px */
+                        md:h-24 md:w-24   /* ≥768px ~96px */
+                        lg:h-[118px] lg:w-[118px]   /* ≥1024px ~118px */
+                        max-h-[128px] max-w-[128px]" />
+            <span class="brand__stack">
+                <span class="brand__name">
+                    Auris Internacional
                 </span>
-                <span class="mt-0.5 block text-[13px] sm:text-sm md:text-base text-white/70">
-                {t(lang, 'badge')}
+                <span class="brand__tagline">
+                    {t(lang, 'badge')}
                 </span>
             </span>
         </a>
@@ -53,7 +52,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                             link: true,
                             'link-cta': l.variant === 'cta'
                         }}>
-                    {t(lang, l.key as any)}
+                    {t(lang, l.key)}
                     </a>
                 </li>
                 ))}
@@ -117,9 +116,66 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             }
         </style>
 
+        <style>
+            .brand {
+                text-decoration: none;
+            }
+
+            .brand__stack {
+                display: flex;
+                flex-direction: column;
+                text-align: left;
+                line-height: 1;
+            }
+
+            .brand__name {
+                color: #fff;
+                font-size: clamp(2.25rem, 4vw, 3.125rem);
+                font-weight: 800;
+                letter-spacing: -0.015em;
+                line-height: 0.95;
+            }
+
+            @supports (font-variation-settings: normal) {
+                .brand__name {
+                    font-variation-settings: 'wght' 840;
+                }
+            }
+
+            @media (min-width: 640px) {
+                .brand__name {
+                    font-size: clamp(2.75rem, 3vw + 1rem, 3.5rem);
+                }
+            }
+
+            .brand__tagline {
+                margin-top: 0.25rem;
+                color: rgba(234, 242, 255, 0.7);
+                font-size: clamp(0.875rem, 2vw, 1.1rem);
+                font-weight: 500;
+                letter-spacing: 0.01em;
+            }
+
+            @media (min-width: 1024px) {
+                .brand__tagline {
+                    font-size: 1.15rem;
+                }
+            }
+
+            .brand__logo {
+                transition: transform 0.3s ease;
+            }
+
+            @media (min-width: 1024px) {
+                .brand__logo {
+                    transform: translateY(-2px);
+                }
+            }
+        </style>
+
         <!-- DERECHA (ESCRITORIO): selector de idioma -->
         <div class="desktop-actions items-center gap-3 ml-3">
-            <LanguageSwitcher />
+            <LanguageSwitcher currentLang={lang} />
         </div>
 
         <!-- ACCIONES MÓVILES: CTA arriba y fila con idioma + hamburguesa -->
@@ -129,11 +185,11 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             <a
                 href={CTA_LINK.href}
                 class="mobile-cta inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-white/10">
-                {t(lang, CTA_LINK.key as any)}
+                {t(lang, CTA_LINK.key)}
             </a>
             )}
             <div class="mobile-actions-row flex items-center">
-                <LanguageSwitcher />
+                <LanguageSwitcher currentLang={lang} />
                 <!-- HAMBURGUESA (SOLO MÓVIL) -->
                 <button id="navToggle"
                         class="nav-burger inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-white/90"
@@ -155,7 +211,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                     class:list={{
                         'block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5': l.variant !== 'cta',
                     }}>
-                    {t(lang, l.key as any)}
+                    {t(lang, l.key)}
                 </a>
             ))}
         </div>

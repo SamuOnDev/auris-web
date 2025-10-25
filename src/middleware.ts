@@ -1,6 +1,6 @@
 import type {MiddlewareHandler}
 from 'astro';
-import {SUPPORTED, DEFAULT_LANG, normalizeLang, fromAcceptLanguage} from './i18n/config';
+import { SUPPORTED, DEFAULT_LANG, normalizeLang, fromAcceptLanguage, type Lang } from './i18n';
 
 export const onRequest: MiddlewareHandler = async ({
     request,
@@ -18,8 +18,8 @@ export const onRequest: MiddlewareHandler = async ({
     const [, first] = path.split('/'); // posible lang
 
     // Si ya viene /{lang}/..., continúa
-    if (SUPPORTED.includes(first as any)) {
-        locals.lang = first as any;
+    if (SUPPORTED.includes(first as Lang)) {
+        locals.lang = first as Lang;
         return next();
     }
 

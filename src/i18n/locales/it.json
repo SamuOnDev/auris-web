@@ -7,11 +7,21 @@
     "sub_alt": "Ti accogliamo con un piano personalizzato, sessioni riservate e un ambiente accogliente dove poter tornare a respirare in pace.",
     "cta_primary": "Prima seduta gratuita",
     "cta_secondary": "Regala una terapia",
+    "contact_title": "Contatto",
+    "contact_name_label": "Nome",
+    "contact_email_label": "Email",
+    "contact_message_label": "Messaggio",
+    "contact_privacy_prefix": "Accetto l’",
+    "contact_privacy_link": "informativa sulla privacy",
+    "contact_privacy_suffix": ".",
     "contact_success": "Inviato correttamente",
     "contact_error": "Errore",
     "contact_network_error": "Errore di rete",
     "nav_home": "Home",
     "nav_about": "Chi siamo",
     "nav_where": "Dove siamo",
-    "nav_contact": "Contatto"
+    "nav_contact": "Contatto",
+    "about_title": "Chi siamo",
+    "about_intro": "Contenuto provvisorio.",
+    "footer_rights": "Tutti i diritti riservati."
 }

@@ -7,11 +7,21 @@
     "sub_alt": "Wir empfangen dich mit einem individuellen Plan, vertraulichen Sitzungen und einer warmen Umgebung, in der du wieder frei atmen kannst.",
     "cta_primary": "Erste Sitzung gratis",
     "cta_secondary": "Therapie verschenken",
+    "contact_title": "Kontakt",
+    "contact_name_label": "Name",
+    "contact_email_label": "E-Mail",
+    "contact_message_label": "Nachricht",
+    "contact_privacy_prefix": "Ich akzeptiere die",
+    "contact_privacy_link": "Datenschutzerklärung",
+    "contact_privacy_suffix": ".",
     "contact_success": "Erfolgreich gesendet",
     "contact_error": "Fehler",
     "contact_network_error": "Netzwerkfehler",
     "nav_home": "Startseite",
     "nav_about": "Über uns",
     "nav_where": "Wo wir sind",
-    "nav_contact": "Kontakt"
+    "nav_contact": "Kontakt",
+    "about_title": "Über uns",
+    "about_intro": "Vorläufiger Inhalt.",
+    "footer_rights": "Alle Rechte vorbehalten."
 }

@@ -1,5 +1,5 @@
 ---
-import { SUPPORTED, DEFAULT_LANG, type Lang } from '../i18n';
+import { LANGUAGE_OPTIONS, DEFAULT_LANG, type Lang } from '../i18n';
 
 interface Props {
   currentLang?: Lang;
@@ -7,7 +7,7 @@ interface Props {
 
 const { currentLang } = Astro.props as Props;
 const current = currentLang ?? (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
-const options = SUPPORTED;
+const options = LANGUAGE_OPTIONS;
 const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
 ---
 <label class="sr-only" for={selectId}>Idioma</label>
@@ -17,8 +17,8 @@ const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
   class="rounded-md bg-white/5 border border-white/10 px-2 py-2 text-sm"
   value={current}
 >
-  {options.map((l) => (
-    <option value={l}>{l.toUpperCase()}</option>
+  {options.map(({ code, label }) => (
+    <option value={code}>{label}</option>
   ))}
 </select>
 <script is:inline>
