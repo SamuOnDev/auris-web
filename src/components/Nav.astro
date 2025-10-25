@@ -4,11 +4,9 @@ import { t, DEFAULT_LANG } from '../i18n';
 const lang = (Astro.params.lang ?? DEFAULT_LANG) as 'es' | 'en';
 
 const LINKS = [
-    { key: 'nav_home',     href: `/${lang}/` },
-    { key: 'nav_about',    href: `/${lang}/about` },
-    { key: 'nav_selfcare', href: `/${lang}/selfcare` },
-    { key: 'nav_podcasts', href: `/${lang}/podcasts` },
-    { key: 'nav_blogs',    href: `/${lang}/blogs` },
+    { key: 'nav_home',      href: `/${lang}/` },
+    { key: 'nav_about',     href: `/${lang}/about` },
+    { key: 'nav_where',     href: `/${lang}/where` }
 ];
 ---
 
