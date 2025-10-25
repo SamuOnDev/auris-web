@@ -2,6 +2,6 @@
 /// <reference types="astro/client" />
 declare namespace App {
     interface Locals {
-        lang: 'es'|'en';
+        lang: import('./i18n').Lang;
     }
 }

@@ -9,7 +9,7 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
 ---
 <Base title={`Auris Internacional — ${t(lang, 'nav_home')}`} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
-  <!-- Mobile-first: 1 columna; en md → 2 columnas -->
+  <!-- Mobile-first: 1 columna; en md → 2 columnas equilibradas -->
     <div class="grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
       <!-- IZQUIERDA: texto -->
       <div class="space-y-6 text-left">
