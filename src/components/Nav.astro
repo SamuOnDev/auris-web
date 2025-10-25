@@ -95,6 +95,14 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                 background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
                 box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
             }
+
+            .mobile-actions {
+                gap: var(--mobile-actions-vertical-gap, 0.5rem);
+            }
+
+            .mobile-actions-row {
+                gap: var(--mobile-actions-horizontal-gap, 0.75rem);
+            }
         </style>
 
         <!-- DERECHA (ESCRITORIO): selector de idioma -->
@@ -102,10 +110,9 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             <LanguageSwitcher />
         </div>
 
-        <!-- HAMBURGUESA (SOLO MÓVIL) -->
-        
         <!-- ACCIONES MÓVILES: CTA arriba y fila con idioma + hamburguesa -->
-        <div class="mobile-actions ml-auto flex flex-col items-end gap-2 md:hidden">
+        <!-- Ajusta el espaciado móvil editando las variables CSS --mobile-actions-vertical-gap y --mobile-actions-horizontal-gap -->
+        <div class="mobile-actions ml-auto flex flex-col items-end md:hidden">
             {CTA_LINK && (
             <a
                 href={CTA_LINK.href}
@@ -113,7 +120,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                 {t(lang, CTA_LINK.key as any)}
             </a>
             )}
-            <div class="flex items-center gap-3">
+            <div class="mobile-actions-row flex items-center">
                 <LanguageSwitcher />
                 <!-- HAMBURGUESA (SOLO MÓVIL) -->
                 <button id="navToggle"
