@@ -16,18 +16,21 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 <header class="sticky top-0 z-50 border-b border-white/10 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-white/5">
     <div class="mx-auto max-w-container h-16 px-4 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
-        <a href={`/${lang}/`} class="flex items-center gap-2 shrink-0 mr-3">
+        <a href={`/${lang}/`} class="flex items-center gap-3 shrink-0 mr-3">
             <img
                 src="/logo.png"
                 alt="Auris"
                 width="128" height="128"
                 class="object-contain aspect-square
-                        h-8  w-8          /* móvil ~32px */
-                        sm:h-12 sm:w-12   /* ≥640px ~48px */
-                        md:h-20 md:w-20   /* ≥768px ~80px */
-                        lg:h-24 lg:w-24   /* ≥1024px ~96px */
+                        h-9  w-9          /* móvil ~36px */
+                        sm:h-14 sm:w-14   /* ≥640px ~56px */
+                        md:h-24 md:w-24   /* ≥768px ~96px */
+                        lg:h-28 lg:w-28   /* ≥1024px ~112px */
                         max-h-[128px] max-w-[128px]" />
-            <span class="text-base font-extrabold tracking-tight text-white">Auris International</span>
+            <span class="flex flex-col leading-tight">
+                <span class="text-lg sm:text-xl lg:text-2xl font-extrabold leading-tight text-white">Auris International</span>
+                <span class="text-xs sm:text-sm font-semibold text-white/60">{t(lang, 'badge')}</span>
+            </span>
         </a>
 
         <!-- CENTRO (ESCRITORIO): menú SIEMPRE visible y centrado -->
