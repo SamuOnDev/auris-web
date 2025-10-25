@@ -1,10 +1,11 @@
 import es from './locales/es.json';
+import cat from './locales/cat.json';
 import en from './locales/en.json';
-export const SUPPORTED = ['es', 'en'] as const;
+export const SUPPORTED = ['es', 'cat', 'en'] as const;
 export type Lang = typeof SUPPORTED[number];
 export const DEFAULT_LANG: Lang = 'es';
 
-const DICTS = { es, en } as const;
+const DICTS = { es, cat, en } as const;
 
 export function getDict(lang: Lang) {
     return (DICTS[lang] ?? DICTS[DEFAULT_LANG]) as typeof es;

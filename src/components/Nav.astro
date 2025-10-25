@@ -16,23 +16,28 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 <header class="sticky top-0 z-50 border-b border-white/10 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-white/5">
     <div class="mx-auto max-w-container h-16 px-4 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
-        <a href={`/${lang}/`} class="flex items-center gap-4 shrink-0 mr-3">
+        <a href={`/${lang}/`} class="group flex items-center gap-3 sm:gap-4 shrink-0">
+            <!-- Logo: tamaño contenido y escalable -->
             <img
                 src="/logo.png"
                 alt="Auris"
-                width="128" height="128"
+                width="96" height="96"
                 class="object-contain aspect-square
-                        h-10  w-10        /* móvil ~40px */
-                        sm:h-16 sm:w-16   /* ≥640px ~64px */
-                        md:h-24 md:w-24   /* ≥768px ~96px */
-                        lg:h-28 lg:w-28   /* ≥1024px ~112px */
-                        max-h-[128px] max-w-[128px]" />
-            <span class="flex flex-col leading-none text-left">
-                <span class="text-2xl sm:text-3xl lg:text-[40px] font-black tracking-tight text-white">
-                    Auris International
+                    h-10 w-10           /* móvil ~40px */
+                    sm:h-12 sm:w-12     /* ≥640px ~48px */
+                    md:h-14 md:w-14     /* ≥768px ~56px */
+                    lg:h-16 lg:w-16     /* ≥1024px ~64px */
+                    max-h-24 max-w-24   /* tope duro */
+                    drop-shadow-md"
+            />
+
+            <!-- Bloque de texto alineado y compacto -->
+            <span class="min-w-0 leading-tight text-left">
+                <span class="block text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+                Auris International
                 </span>
-                <span class="mt-1 text-sm sm:text-base font-medium text-brand-mute">
-                    {t(lang, 'badge')}
+                <span class="mt-0.5 block text-[13px] sm:text-sm md:text-base text-white/70">
+                {t(lang, 'badge')}
                 </span>
             </span>
         </a>

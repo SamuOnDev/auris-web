@@ -11,51 +11,41 @@ const lang = (Astro.params.lang as Lang) ?? 'es';
 <Base title="Auris International — Inicio" lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
   <!-- Mobile-first: 1 columna; en md → 2 columnas -->
-  <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-10">
+    <div class="grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
+      <!-- IZQUIERDA: texto -->
+      <div class="space-y-6 text-left">
+        <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-[11px] text-white/80 ring-1 ring-white/10">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
+          {t(lang, 'badge')}
+        </div>
 
-    <!-- IZQUIERDA: texto -->
-    <div>
-      <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-[11px] text-white/80 ring-1 ring-white/10">
-        <span class="inline-block h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
-        {t(lang, 'badge')}
+        <h1 class="text-[32px] font-extrabold leading-tight tracking-tight text-white sm:text-[40px] md:text-[52px]">
+          {t(lang, 'h1a')} <span class="text-brand-accent">{t(lang, 'h1b')}</span> {t(lang, 'h1c')}
+        </h1>
+
+        <p class="max-w-xl text-lg text-white/85">
+          {t(lang, 'sub')}
+        </p>
+
+    <p class="max-w-xl text-sm text-white/60 sm:text-base">
+          {t(lang, 'sub_alt')}
+        </p>
       </div>
-
-      <h1 class="mt-4 text-[32px] sm:text-[40px] md:text-[52px] font-extrabold leading-tight tracking-tight text-white">
-        {t(lang, 'h1a')} <span class="text-brand-accent">{t(lang, 'h1b')}</span> {t(lang, 'h1c')}
-      </h1>
-
-      <p class="mt-4 text-white/80 max-w-xl">
-        {t(lang, 'sub')}
-      </p>
-
-      <div class="mt-6 flex flex-col sm:flex-row gap-3">
-        <a href={`/${lang}/contact`}
-            class="inline-flex justify-center rounded-md bg-brand-accent text-black font-semibold px-5 py-3 hover:opacity-90">
-          {t(lang, 'cta_primary')}
-        </a>
-        <a href={`/${lang}/contact`}
-            class="inline-flex justify-center rounded-md border border-white/20 px-5 py-3 text-white hover:bg-white/5">
-          {t(lang, 'cta_secondary')}
-        </a>
-      </div>
+      <!-- DERECHA: imagen redondeada vertical -->
+      <figure class="justify-self-center md:justify-self-end">
+        <div class="mx-auto w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px]">
+          <div class="overflow-hidden rounded-[220px] bg-white/5 ring-1 ring-white/10 shadow-[0_18px_40px_rgba(8,12,32,.45)]">
+            <img
+              src="/hero.jpg"
+              alt=""
+              class="block h-[420px] w-full object-cover object-top sm:h-[460px] md:h-[520px]"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+          <div class="mx-auto mt-5 h-5 w-2/3 rounded-full bg-white/10 blur-xl"></div>
+        </div>
+      </figure>
     </div>
-
-    <!-- DERECHA: imagen redondeada tamaño normal -->
-    <figure class="justify-self-center md:justify-self-end w-full max-w-[420px]">
-      <div class="rounded-arch overflow-hidden ring-1 ring-white/10 bg-white/5 shadow-[0_10px_30px_rgba(0,0,0,.25)]">
-        <!-- alto fijo y recorte centrado para que no sea gigante -->
-        <img
-          src="/hero.jpg"
-          alt=""
-          class="block w-full h-[320px] sm:h-[360px] md:h-[420px] object-cover object-center"
-          loading="eager"
-          decoding="async"
-        />
-      </div>
-      <!-- halo suave opcional -->
-      <div class="mt-4 h-4 w-3/4 mx-auto rounded-full bg-white/10 blur-xl"></div>
-    </figure>
-
-  </div>
-</section>
+  </section>
 </Base>

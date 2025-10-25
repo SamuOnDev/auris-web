@@ -1,16 +1,17 @@
 {
-    "badge": "Consultoría psicológica de referencia",
-    "h1a": "Te ayudamos a recuperar tu",
-    "h1b": "Salud Mental",
-    "h1c": "y volver al equilibrio",
-    "sub": "Acompañamiento experto en ansiedad, depresión y duelo.",
+    "badge": "Instituto Médico Psicológico",
+    "h1a": "Creamos un refugio para tu",
+    "h1b": "bienestar emocional",
+    "h1c": "con ciencia y humanidad",
+    "sub": "Nuestro equipo combina terapia basada en evidencia, escucha profunda y estrategias hechas a medida para acompañarte en cada etapa.",
+    "sub_alt": "Te recibimos con un plan personalizado, sesiones confidenciales y un entorno cálido donde puedas volver a respirar en paz.",
     "cta_primary": "Primera sesión gratis",
     "cta_secondary": "Regalar terapia",
     "contact_success": "Enviado correctamente",
     "contact_error": "Error",
     "contact_network_error": "Error de red",
-    "nav_home": "Home",
+    "nav_home": "Inicio",
     "nav_about": "Quiénes somos",
-    "nav_where": "Donde estamos",
+    "nav_where": "Dónde estamos",
     "nav_contact": "Contacto"
-}
+  }
