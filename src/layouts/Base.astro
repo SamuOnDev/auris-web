@@ -25,8 +25,8 @@ const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT
     <title>{title}</title>
   </head>
   <body class="min-h-screen bg-landing text-white font-sans antialiased">
-  <Nav />
-  <main class="relative"><slot /></main>
+    <Nav lang={lang} />
+    <main class="relative"><slot /></main>
     <footer class="mt-24 border-t border-white/10">
       <div class="mx-auto max-w-container px-4 py-10 text-xs text-white/60">
         © {new Date().getFullYear()} Auris International — auris.es. {t(lang, 'footer_rights')}

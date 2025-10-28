@@ -9,8 +9,10 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
 ---
 <Base title={`Auris Internacional — ${t(lang, 'nav_home')}`} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
-  <!-- Mobile-first: 1 columna; en md → 2 columnas equilibradas -->
-    <div class="grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
+    <!-- Mobile-first: 1 columna; en md → 2 columnas equilibradas -->
+    <div
+      class="grid md:grid-cols-2 md:gap-14 grid-cols-1 items-center gap-12  xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
+    >
       <!-- IZQUIERDA: texto -->
       <div class="space-y-6 text-left">
         <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-[11px] text-white/80 ring-1 ring-white/10">
@@ -32,8 +34,8 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
       </div>
       <!-- DERECHA: imagen redondeada vertical -->
       <figure class="justify-self-center md:justify-self-end">
-        <div class="mx-auto w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px]">
-          <div class="overflow-hidden rounded-[220px] bg-white/5 ring-1 ring-white/10 shadow-[0_18px_40px_rgba(8,12,32,.45)]">
+        <div class="mx-auto w-[260px] sm:w-[280px] md:w-[320px] lg:w-[360px]">
+          <div class="overflow-hidden rounded-[220px] bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.45)]">
             <img
               src="/hero.jpg"
               alt=""

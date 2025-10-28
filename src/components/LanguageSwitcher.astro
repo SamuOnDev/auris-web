@@ -22,23 +22,28 @@ const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
   ))}
 </select>
 <script is:inline>
-  const select = document.getElementById('${selectId}');
+  const select = document.getElementById(${JSON.stringify(selectId)});
+  const COOKIE_NAME = 'lang';
   const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
+  const setLangCookie = (value) => {
+    document.cookie = `${COOKIE_NAME}=${value}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; SameSite=Lax`;
+  };
   if (select instanceof HTMLSelectElement) {
+    setLangCookie(select.value);
     select.addEventListener('change', () => {
       const selected = select.value;
-      document.cookie = `lang=${selected}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; SameSite=Lax`;
+      setLangCookie(selected);
 
       const { location } = window;
       const segments = location.pathname.split('/').filter(Boolean);
 
       if (segments.length === 0) {
-        location.href = `/${selected}/`;
+        location.assign(`/${selected}/`);
         return;
       }
 
       segments[0] = selected;
-      location.href = '/' + segments.join('/') + location.search + location.hash;
+      location.assign('/' + segments.join('/') + location.search + location.hash);
     });
   }
 </script>

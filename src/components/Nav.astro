@@ -2,9 +2,14 @@
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { t, DEFAULT_LANG, type Lang } from '../i18n';
 
+interface Props {
+    lang?: Lang;
+}
+
 type TranslationKey = Parameters<typeof t>[1];
 
-const lang = ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
+const { lang: explicitLang } = Astro.props as Props;
+const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
 
 const LINKS: Array<{ key: TranslationKey; href: string; variant?: 'cta' }> = [
     { key: 'nav_home',      href: `/${lang}/` },
