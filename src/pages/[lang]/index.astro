@@ -50,23 +50,23 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
     <div
       class="grid grid-cols-1 items-center gap-12 md:min-w-0 md:grid-cols-2 md:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
     >
-    <!-- DERECHA: imagen redondeada vertical -->
-    <figure class="justify-self-center md:justify-self-end">
-      <div class="mx-auto w-[260px] sm:w-[280px] md:w-[320px] lg:w-[320px]">
-        <div class="overflow-hidden rounded-[220px] bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.45)]">
-          <img
-            src="/hero.jpg"
-            alt=""
-            class="block h-[420px] w-full object-cover object-top sm:h-[460px] md:h-[520px]"
-            loading="eager"
-            decoding="async"
-          />
+    <!-- Imagen: en móviles se muestra después del texto -->
+      <figure class="order-2 justify-self-center md:order-1 md:justify-self-end">
+        <div class="mx-auto w-[280px] sm:w-[320px] md:w-[360px] lg:w-[600px]">
+          <div class="aspect-auto overflow-hidden rounded-[16px] bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.45)]">
+            <img
+              src="/hero_second.jpg"
+              alt=""
+              class="block h-[420px] w-full object-cover object-top sm:h-[460px] md:h-[520px]"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+          <div class="mx-auto mt-5 h-5 w-2/3 rounded-full bg-white/10 blur-xl"></div>
         </div>
-        <div class="mx-auto mt-5 h-5 w-2/3 rounded-full bg-white/10 blur-xl"></div>
-      </div>
-    </figure>
-      <!-- IZQUIERDA: texto -->
-      <div class="space-y-6 text-left">
+      </figure>
+      <!-- Texto: priorizado en móviles -->
+      <div class="order-1 space-y-6 text-left md:order-2">
         
         <h1 class="text-[32px] font-extrabold leading-tight tracking-tight text-white sm:text-[40px] md:text-[52px]">
           {t(lang, 'h1a')} <span class="text-brand-accent">{t(lang, 'h1b')}</span> {t(lang, 'h1c')}

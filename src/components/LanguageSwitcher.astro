@@ -8,79 +8,284 @@ interface Props {
 const { currentLang } = Astro.props as Props;
 const current = currentLang ?? (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
 const options = LANGUAGE_OPTIONS;
-const emojiFontStack = `'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Twemoji Mozilla', 'EmojiOne Color', 'Android Emoji', sans-serif`;
 const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
+const TWEMOJI_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/15.1.0/svg';
+const toTwemojiUrl = (emoji: string) => {
+  const codepoints = Array.from(emoji)
+    .map((char) => char.codePointAt(0)?.toString(16))
+    .filter(Boolean)
+    .join('-');
+  return codepoints ? `${TWEMOJI_CDN}/${codepoints}.svg` : undefined;
+};
+const optionsWithIcons = options.map((option) => ({
+  ...option,
+  flag: toTwemojiUrl(option.label),
+  textLabel: option.code.toUpperCase(),
+}));
+const currentOption =
+  optionsWithIcons.find((option) => option.code === current) ?? optionsWithIcons[0];
 ---
-<label class="sr-only" for={selectId}>Idioma</label>
-<div class="relative">
-  <select
-    id={selectId}
-    data-lang-switcher
-    class="appearance-none rounded-md bg-white/5 border border-white/10 px-2 pr-10 py-2 text-sm font-emoji"
-    value={current}
-  >
+<div class="relative" data-lang-root>
+  <label class="sr-only" for={selectId}>Idioma</label>
+  <select id={selectId} data-lang-select class="sr-only" value={current}>
     {options.map(({ code, label }) => (
-      <option value={code} selected={code === current} style={`font-family: ${emojiFontStack};`}>
+      <option value={code} selected={code === current}>
         {label}
       </option>
     ))}
   </select>
-  <span
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-white/60"
+  <button
+    type="button"
+    class="flex w-full min-w-[3.5rem] items-center justify-between gap-2 rounded-md border border-white/10 bg-white/5 px-2 py-2 text-white/90 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/60"
+    data-lang-trigger
+    aria-haspopup="listbox"
+    aria-expanded="false"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      class="h-4 w-4"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
-        clip-rule="evenodd"
-      />
-    </svg>
-  </span>
+    <span class="flex items-center">
+      {currentOption?.flag && (
+        <img
+          src={currentOption.flag}
+          width="18"
+          height="18"
+          alt=""
+          class="h-4 w-4"
+          data-flag-img
+          loading="lazy"
+        />
+      )}
+      <span data-flag-label class="sr-only">
+        {currentOption?.textLabel ?? current.toUpperCase()}
+      </span>
+    </span>
+    <span aria-hidden="true" class="flex items-center text-white/60">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="h-4 w-4"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </span>
+  </button>
+  <ul
+    class="absolute right-0 z-10 mt-1 w-24 rounded-md border border-white/10 bg-black/80 py-1 text-white/90 shadow-lg backdrop-blur"
+    role="listbox"
+    data-lang-list
+    hidden
+  >
+    {optionsWithIcons.map((option) => (
+      <li role="none">
+        <button
+          type="button"
+          class="flex w-full items-center justify-center gap-2 px-3 py-2 hover:bg-white/10 focus:bg-white/10 focus:outline-none"
+          data-lang-option
+          data-value={option.code}
+          data-flag-src={option.flag ?? ''}
+          data-flag-label={option.textLabel}
+          role="option"
+        >
+          {option.flag && (
+            <img
+              src={option.flag}
+              width="18"
+              height="18"
+              alt=""
+              class="h-4 w-4"
+              loading="lazy"
+              aria-hidden="true"
+            />
+          )}
+          <span class="sr-only">{option.textLabel}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
 </div>
 <script is:inline>
-  const select = document.querySelector('[data-lang-switcher]');
-  const COOKIE_NAME = 'lang';
-  const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
-  const setLangCookie = (value) => {
-    document.cookie = `${COOKIE_NAME}=${value}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; SameSite=Lax`;
-  };
-  if (select instanceof HTMLSelectElement) {
-    const supportedLangs = Array.from(select.options).map((option) => option.value);
-    const isSupportedLang = (value) => supportedLangs.includes(value);
-    const htmlLang = document.documentElement.lang;
-    if (isSupportedLang(htmlLang)) {
-      select.value = htmlLang;
-    }
-    setLangCookie(select.value);
+  (() => {
+    const script = document.currentScript;
+    const possibleRoot = script?.previousElementSibling;
+    const roots =
+      possibleRoot instanceof HTMLElement && possibleRoot.matches('[data-lang-root]')
+        ? [possibleRoot]
+        : Array.from(document.querySelectorAll('[data-lang-root]'));
 
-    select.addEventListener('change', () => {
-      const selected = select.value;
-      setLangCookie(selected);
+    roots.forEach((root) => {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.dataset.langInitialized === 'true') return;
+      root.dataset.langInitialized = 'true';
 
-      const { location } = window;
-      const { pathname, search, hash } = location;
-      const segments = pathname.split('/').filter(Boolean);
-      const hasTrailingSlash = pathname.endsWith('/');
+      const select = root.querySelector('[data-lang-select]');
+      if (!(select instanceof HTMLSelectElement)) return;
+      const trigger = root.querySelector('[data-lang-trigger]');
+      if (!(trigger instanceof HTMLButtonElement)) return;
+      const triggerImg = trigger.querySelector('[data-flag-img]');
+      const triggerLabel = trigger.querySelector('[data-flag-label]');
+      const list = root.querySelector('[data-lang-list]');
+      if (!(list instanceof HTMLElement)) return;
+      const optionButtons = Array.from(list.querySelectorAll('[data-lang-option]'));
 
-      let nextSegments;
-      if (segments.length === 0) {
-        nextSegments = [selected];
-      } else if (isSupportedLang(segments[0])) {
-        nextSegments = [selected, ...segments.slice(1)];
-      } else {
-        nextSegments = [selected, ...segments];
+      const COOKIE_NAME = 'lang';
+      const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
+      const supportedLangs = Array.from(select.options).map((option) => option.value);
+      const isSupportedLang = (value) => supportedLangs.includes(value);
+
+      const setLangCookie = (value) => {
+        document.cookie = `${COOKIE_NAME}=${value}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; SameSite=Lax`;
+      };
+
+      const updateTrigger = (value) => {
+        const match = optionButtons.find((button) => button.dataset.value === value);
+        if (!match) return;
+        const flagSrc = match.dataset.flagSrc;
+        if (triggerImg instanceof HTMLImageElement) {
+          if (flagSrc) {
+            triggerImg.src = flagSrc;
+            triggerImg.hidden = false;
+          } else {
+            triggerImg.hidden = true;
+          }
+        }
+        if (triggerLabel instanceof HTMLElement) {
+          triggerLabel.textContent = match.dataset.flagLabel || value.toUpperCase();
+        }
+        optionButtons.forEach((button) => {
+          if (button.dataset.value === value) {
+            button.setAttribute('aria-selected', 'true');
+          } else {
+            button.removeAttribute('aria-selected');
+          }
+        });
+      };
+
+      const closeList = () => {
+        if (!list.hasAttribute('hidden')) {
+          list.setAttribute('hidden', '');
+          list.removeAttribute('data-open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      };
+
+      const openList = () => {
+        list.removeAttribute('hidden');
+        list.setAttribute('data-open', 'true');
+        trigger.setAttribute('aria-expanded', 'true');
+      };
+
+      const toggleList = () => {
+        if (list.hasAttribute('hidden')) {
+          openList();
+        } else {
+          closeList();
+        }
+      };
+
+      const htmlLang = document.documentElement.lang;
+      if (isSupportedLang(htmlLang)) {
+        select.value = htmlLang;
       }
+      setLangCookie(select.value);
+      updateTrigger(select.value);
 
-      const suffix = hasTrailingSlash ? '/' : '';
-      const nextPath = `/${nextSegments.join('/')}${suffix}`;
+      select.addEventListener('change', () => {
+        const selected = select.value;
+        setLangCookie(selected);
+        updateTrigger(selected);
 
-      location.assign(`${nextPath}${search}${hash}`);
+        const { location } = window;
+        const { pathname, search, hash } = location;
+        const segments = pathname.split('/').filter(Boolean);
+        const hasTrailingSlash = pathname.endsWith('/');
+
+        let nextSegments;
+        if (segments.length === 0) {
+          nextSegments = [selected];
+        } else if (isSupportedLang(segments[0])) {
+          nextSegments = [selected, ...segments.slice(1)];
+        } else {
+          nextSegments = [selected, ...segments];
+        }
+
+        const suffix = hasTrailingSlash ? '/' : '';
+        const nextPath = `/${nextSegments.join('/')}${suffix}`;
+
+        location.assign(`${nextPath}${search}${hash}`);
+      });
+
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        toggleList();
+      });
+
+      trigger.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          openList();
+          const first = optionButtons[0];
+          if (first instanceof HTMLButtonElement) {
+            first.focus();
+          }
+        }
+      });
+
+      optionButtons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          const value = button.dataset.value;
+          if (!value) return;
+          select.value = value;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          closeList();
+          trigger.focus();
+        });
+
+        button.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            closeList();
+            trigger.focus();
+            return;
+          }
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            const currentIndex = optionButtons.indexOf(button);
+            const delta = event.key === 'ArrowDown' ? 1 : -1;
+            const nextIndex = (currentIndex + delta + optionButtons.length) % optionButtons.length;
+            const nextButton = optionButtons[nextIndex];
+            if (nextButton instanceof HTMLButtonElement) {
+              nextButton.focus();
+            }
+            return;
+          }
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            button.click();
+          }
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        if (!root.contains(target)) {
+          closeList();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeList();
+        }
+      });
     });
-  }
+  })();
 </script>
