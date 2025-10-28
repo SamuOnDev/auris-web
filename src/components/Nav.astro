@@ -21,7 +21,7 @@ const CTA_LINK = LINKS.find((l) => l.variant === 'cta');
 const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/10 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-white/5">
+<header data-site-header class="site-header sticky top-0 z-50 border-b border-white/10 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-white/5">
     <div class="mx-auto max-w-container min-h-[92px] sm:min-h-[108px] lg:min-h-[128px] px-4 py-2 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
         <a href={`/${lang}/`} class="flex items-center gap-4 shrink-0 mr-3 brand">
@@ -245,6 +245,25 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             .mobile-actions {
                 display: none !important;
             }
+
+            .site-header {
+                transition: background-color 200ms ease, border-color 200ms ease, backdrop-filter 200ms ease;
+            }
+
+            .site-header.is-solid {
+                background-color: rgba(11, 23, 52, 0.92);
+                border-color: rgba(255, 255, 255, 0.18);
+            }
+
+            @supports (backdrop-filter: blur(0)) {
+                .site-header {
+                    backdrop-filter: blur(1000px);
+                }
+
+                .site-header.is-solid {
+                    backdrop-filter: blur(28px);
+                }
+            }
         }
     </style>
 
@@ -255,5 +274,15 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             const open = drawer?.classList.toggle('hidden') === false;
             btn.setAttribute('aria-expanded', String(open));
         });
+
+        const header = document.querySelector<HTMLElement>('[data-site-header]');
+        const updateHeaderOpacity = () => {
+            if (!header) return;
+            const shouldBeSolid = window.scrollY > 10;
+            header.classList.toggle('is-solid', shouldBeSolid);
+        };
+
+        updateHeaderOpacity();
+        window.addEventListener('scroll', updateHeaderOpacity, { passive: true });
     </script>
 </header>
