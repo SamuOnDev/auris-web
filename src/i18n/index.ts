@@ -13,12 +13,12 @@ export const DEFAULT_LANG: Lang = 'es';
 const DICTS = { es, en, ca, fr, de, it } as const;
 
 export const LANGUAGE_LABELS: Record<Lang, string> = {
-    es: 'Español',
-    en: 'English',
-    ca: 'Català',
-    fr: 'Français',
-    de: 'Deutsch',
-    it: 'Italiano'
+    es: '🇪🇸',
+    en: '🇬🇧',
+    ca: '🇦🇩',
+    fr: '🇫🇷',
+    de: '🇩🇪',
+    it: '🇮🇹'
 };
 
 export const LANGUAGE_OPTIONS: ReadonlyArray<{ code: Lang; label: string }> = SUPPORTED.map((code) => ({
