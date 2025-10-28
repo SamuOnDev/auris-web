@@ -15,7 +15,8 @@ export default {
             maxWidth: { container: '1200px' },
             borderRadius: { arch: '36px' },
             boxShadow: { soft: '0 10px 30px rgba(0,0,0,.25)' }
-        }
+        },
+        screens: { sm:'640px', md:'768px', lg:'1024px', xl:'1280px', '2xl':'1536px' }
     },
     plugins: [forms],
 };

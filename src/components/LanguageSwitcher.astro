@@ -22,28 +22,39 @@ const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
   ))}
 </select>
 <script is:inline>
-  const select = document.getElementById(${JSON.stringify(selectId)});
+  const select = document.querySelector('[data-lang-switcher]');
   const COOKIE_NAME = 'lang';
   const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
   const setLangCookie = (value) => {
     document.cookie = `${COOKIE_NAME}=${value}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; SameSite=Lax`;
   };
   if (select instanceof HTMLSelectElement) {
+    const supportedLangs = Array.from(select.options).map((option) => option.value);
+    const isSupportedLang = (value) => supportedLangs.includes(value);
     setLangCookie(select.value);
+
     select.addEventListener('change', () => {
       const selected = select.value;
       setLangCookie(selected);
 
       const { location } = window;
-      const segments = location.pathname.split('/').filter(Boolean);
+      const { pathname, search, hash } = location;
+      const segments = pathname.split('/').filter(Boolean);
+      const hasTrailingSlash = pathname.endsWith('/');
 
+      let nextSegments;
       if (segments.length === 0) {
-        location.assign(`/${selected}/`);
-        return;
+        nextSegments = [selected];
+      } else if (isSupportedLang(segments[0])) {
+        nextSegments = [selected, ...segments.slice(1)];
+      } else {
+        nextSegments = [selected, ...segments];
       }
 
-      segments[0] = selected;
-      location.assign('/' + segments.join('/') + location.search + location.hash);
+      const suffix = hasTrailingSlash ? '/' : '';
+      const nextPath = `/${nextSegments.join('/')}${suffix}`;
+
+      location.assign(`${nextPath}${search}${hash}`);
     });
   }
 </script>

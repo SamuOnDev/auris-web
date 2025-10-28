@@ -11,7 +11,7 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
     <!-- Mobile-first: 1 columna; en md → 2 columnas equilibradas -->
     <div
-      class="grid md:grid-cols-2 md:gap-14 grid-cols-1 items-center gap-12  xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
+      class="grid grid-cols-1 items-center gap-12 md:min-w-0 md:grid-cols-2 md:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
     >
       <!-- IZQUIERDA: texto -->
       <div class="space-y-6 text-left">
