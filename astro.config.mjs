@@ -1,11 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-import tailwindcss from '@tailwindcss/vite';
-
 // https://astro.build/config
 export default defineConfig({
-  vite: {
-    plugins: [tailwindcss()]
-  }
+  // Tailwind CSS se procesa a través de PostCSS (ver postcss.config.cjs),
+  // no es necesario añadir plugins adicionales aquí.
 });

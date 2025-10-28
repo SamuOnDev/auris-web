@@ -122,13 +122,19 @@ function toOptionalString(value: unknown): string | undefined {
     return trimmed ? trimmed : undefined;
 }
 
-function normalizeLang(value?: string): 'es' | 'en' {
+const SUPPORTED_LANGS = ['es', 'en', 'ca', 'fr', 'de', 'it'] as const;
+type SupportedLang = typeof SUPPORTED_LANGS[number];
+const DEFAULT_LANG: SupportedLang = 'es';
+
+function normalizeLang(value?: string): SupportedLang {
     if (!value) {
-        return 'es';
+        return DEFAULT_LANG;
     }
 
     const base = value.toLowerCase().split('-')[0];
-    return base === 'en' ? 'en' : 'es';
+    return (SUPPORTED_LANGS as readonly string[]).includes(base)
+        ? (base as SupportedLang)
+        : DEFAULT_LANG;
 }
 
 function buildEmailHtml(name: string, email: string, message: string) {
