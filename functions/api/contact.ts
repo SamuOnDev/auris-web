@@ -45,7 +45,7 @@ export const onRequestPost = async ({ request, env }: ContactContext) => {
                 email: trimmed.email,
                 message: trimmed.message,
                 lang: trimmed.lang,
-                source: 'auris.es',
+                source: 'auris.cat',
             }, {
                 'Content-Type': 'application/json',
                 'X-AURIS-TOKEN': 'required',
@@ -57,7 +57,7 @@ export const onRequestPost = async ({ request, env }: ContactContext) => {
             await postJson('https://api.resend.com/emails', {
                 from: env.FROM_EMAIL,
                 to: [env.TO_EMAIL],
-                subject: `Nuevo contacto — auris.es (${trimmed.lang})`,
+                subject: `Nuevo contacto — auris.cat (${trimmed.lang})`,
                 html: buildEmailHtml(trimmed.name, trimmed.email, trimmed.message),
             }, {
                 Authorization: `Bearer ${env.RESEND_API_KEY}`,

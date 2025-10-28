@@ -10,6 +10,9 @@ const current = currentLang ?? (Astro.params.lang as Lang | undefined) ?? DEFAUL
 const options = LANGUAGE_OPTIONS;
 const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
 const TWEMOJI_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/15.1.0/svg';
+const CUSTOM_FLAG_OVERRIDES: Partial<Record<Lang, string>> = {
+  ca: '/flags/ca.svg',
+};
 const toTwemojiUrl = (emoji: string) => {
   const codepoints = Array.from(emoji)
     .map((char) => char.codePointAt(0)?.toString(16))
@@ -19,7 +22,7 @@ const toTwemojiUrl = (emoji: string) => {
 };
 const optionsWithIcons = options.map((option) => ({
   ...option,
-  flag: toTwemojiUrl(option.label),
+  flag: CUSTOM_FLAG_OVERRIDES[option.code] ?? toTwemojiUrl(option.label),
   textLabel: option.code.toUpperCase(),
 }));
 const currentOption =

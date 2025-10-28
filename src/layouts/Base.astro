@@ -10,7 +10,7 @@ interface Props {
   lang?: Lang;
 }
 
-const { title = 'Auris International', description = 'Psicología y bienestar — auris.es', lang: explicitLang } =
+const { title = 'Auris International', description = 'Psicología y bienestar — auris.cat', lang: explicitLang } =
   Astro.props as Props;
 
 const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
@@ -30,7 +30,7 @@ const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT
     <main class="relative"><slot /></main>
     <footer class="mt-24 border-t border-white/10">
       <div class="mx-auto max-w-container px-4 py-10 text-xs text-white/60">
-        © {new Date().getFullYear()} Auris Internacional — auris.es {t(lang, 'footer_rights')}
+        © {new Date().getFullYear()} Auris Internacional — auris.cat {t(lang, 'footer_rights')}
       </div>
     </footer>
   </body>

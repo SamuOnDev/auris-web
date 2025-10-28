@@ -31,8 +31,15 @@ a:focus {
 .bg-landing{
     background:
         radial-gradient(900px 420px at 70% 12%, rgba(124,58,237,.10), transparent 60%),
-        radial-gradient(600px 320px at 0% 0%, rgba(56,189,248,.12), transparent 70%),
-        linear-gradient(180deg, #0A1530 0%, #0F2347 100%);
+        radial-gradient(720px 380px at -10% 5%, rgba(56,189,248,.10), transparent 75%),
+        linear-gradient(180deg,
+            #0A1530 0%,
+            #0B1734 22%,
+            #0C1C3D 47%,
+            #0D2044 74%,
+            #0F2347 100%);
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: auto, auto, 100% 600%;
     position: relative;
 }
 .bg-landing::after{
@@ -44,6 +51,9 @@ a:focus {
         transparent 193px 260px, rgba(255,255,255,.03) 261px 262px,
         transparent 263px 330px, rgba(255,255,255,.02) 331px 332px,
         transparent 333px);
-    mask: radial-gradient(1200px 600px at 70% 10%, #000 40%, transparent 70%);
+    background-repeat: no-repeat;
+    mask: radial-gradient(1400px 720px at 70% 8%, #000 35%, transparent 72%);
+    mask-repeat: no-repeat;
+    mask-size: 120% 140%;
     opacity:.9;
 }

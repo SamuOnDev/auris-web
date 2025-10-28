@@ -15,7 +15,7 @@ const DICTS = { es, en, ca, fr, de, it } as const;
 export const LANGUAGE_LABELS: Record<Lang, string> = {
     es: '🇪🇸',
     en: '🇬🇧',
-    ca: '🇦🇩',
+    ca: 'Català',
     fr: '🇫🇷',
     de: '🇩🇪',
     it: '🇮🇹'
