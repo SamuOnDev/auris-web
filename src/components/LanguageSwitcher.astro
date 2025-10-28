@@ -18,7 +18,9 @@ const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
   value={current}
 >
   {options.map(({ code, label }) => (
-    <option value={code}>{label}</option>
+    <option value={code} selected={code === current}>
+      {label}
+    </option>
   ))}
 </select>
 <script is:inline>
@@ -31,6 +33,10 @@ const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
   if (select instanceof HTMLSelectElement) {
     const supportedLangs = Array.from(select.options).map((option) => option.value);
     const isSupportedLang = (value) => supportedLangs.includes(value);
+    const htmlLang = document.documentElement.lang;
+    if (isSupportedLang(htmlLang)) {
+      select.value = htmlLang;
+    }
     setLangCookie(select.value);
 
     select.addEventListener('change', () => {
