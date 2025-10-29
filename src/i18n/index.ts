@@ -4,13 +4,15 @@ import ca from './locales/ca.json';
 import fr from './locales/fr.json';
 import de from './locales/de.json';
 import it from './locales/it.json';
+import type { TranslationKey } from './translation-keys';
+export type { TranslationKey } from './translation-keys';
+export { TRANSLATION_KEYS } from './translation-keys';
 
 export const SUPPORTED = ['es', 'en', 'ca', 'fr', 'de', 'it'] as const;
 export type Lang = typeof SUPPORTED[number];
-export type TranslationKey = keyof typeof es;
 export const DEFAULT_LANG: Lang = 'es';
 
-const DICTS = { es, en, ca, fr, de, it } as const;
+const DICTS = { es, en, ca, fr, de, it } satisfies Record<Lang, Record<TranslationKey, string>>;
 
 export const LANGUAGE_LABELS: Record<Lang, string> = {
     es: '🇪🇸',
@@ -26,14 +28,14 @@ export const LANGUAGE_OPTIONS: ReadonlyArray<{ code: Lang; label: string }> = SU
     label: LANGUAGE_LABELS[code]
 }));
 
-export function getDict(lang: Lang) {
-    return (DICTS[lang] ?? DICTS[DEFAULT_LANG]) as typeof es;
+export function getDict(lang: Lang): Record<TranslationKey, string> {
+    return DICTS[lang] ?? DICTS[DEFAULT_LANG];
 }
 
 /** Helper: si falta una clave, cae a ES para evitar roturas en build */
 export function t(lang: Lang, key: TranslationKey): string {
-    const d = getDict(lang) as Record<string, string>;
-    return d[key] ?? (es as Record<string, string>)[key] ?? '';
+    const d = getDict(lang);
+    return d[key] ?? (DICTS[DEFAULT_LANG] as Record<string, string>)[key] ?? '';
 }
 
 export function normalizeLang(input?: string | null): Lang {

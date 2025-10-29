@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import { DEFAULT_LANG, getDict, type Lang } from '../../i18n';
+
+interface Props {
+    lang?: Lang;
+}
+
+const { lang = DEFAULT_LANG } = Astro.props as Props;
+const dict = getDict(lang);
+const privacy = dict.privacy;
+
+if (!privacy) {
+    throw new Error('Missing privacy translations');
+}
+
+const sections = privacy.sections.map((section) => ({
+    ...section,
+    body: section.body.map((paragraph) => paragraph),
+    list: section.list?.map((item) => item) ?? undefined
+}));
+
+const lastUpdated = new Date().toLocaleDateString(lang);
+---
+<Base title={`${privacy.metaTitle} — Auris Internacional`} lang={lang}>
+    <section class="mx-auto max-w-3xl space-y-8 px-4 py-16 text-white/90">
+        <header class="space-y-4">
+        <h1 class="text-3xl font-semibold text-white sm:text-4xl">{privacy.heading}</h1>
+        <p class="text-base" set:html={privacy.intro}></p>
+        </header>
+
+        {sections.map((section) => (
+        <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-white">{section.title}</h2>
+            {section.body.map((paragraph) => (
+            <p class="text-base" set:html={paragraph}></p>
+            ))}
+            {section.list && (
+            <ul class="list-disc space-y-2 pl-6 text-base">
+                {section.list.map((item) => (
+                <li set:html={item}></li>
+                ))}
+            </ul>
+            )}
+        </section>
+        ))}
+
+        <p class="text-sm text-white/70">{privacy.lastUpdatedLabel}: {lastUpdated}</p>
+    </section>
+</Base>

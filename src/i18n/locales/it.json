@@ -35,5 +35,157 @@
     "about_member_javier_details": "Psichiatra iscritto all'albo • Specializzazione all'Hospital Clínic • Master in psicofarmacologia",
     "about_member_javier_bio": "Integra la prospettiva medica e psicoterapeutica per affrontare disturbi dell'umore, ADHD in età adulta e situazioni di crisi. Progetta piani farmacologici su misura e collabora strettamente con il team psicoterapeutico per favorire cambiamenti duraturi.",
     "about_member_javier_image_alt": "Ritratto dello psichiatra Javier Ríos Álvarez",
-    "footer_rights": "Tutti i diritti riservati."
+    "footer_rights": "Tutti i diritti riservati.",
+    "where_intro": "Riceviamo nel nostro studio dell'Eixample, a pochi minuti dalla stazione di Provença.",
+    "where_address_label": "Indirizzo",
+    "where_phone_label": "Telefono",
+    "where_map_title": "Posizione sulla mappa",
+    "footer_cookies": "Informativa sui cookie",
+    "cookie_banner_title": "La tua privacy è importante",
+    "cookie_banner_body": "Utilizziamo cookie propri e di terze parti per garantire il funzionamento del sito, analizzare il traffico e personalizzare la tua esperienza. Puoi accettarli tutti oppure rifiutare quelli non essenziali.",
+    "cookie_banner_accept": "Accetta tutti",
+    "cookie_banner_reject": "Rifiuta opzionali",
+    "cookie_banner_more_info": "Leggi l'informativa sui cookie",
+    "cookie_policy_heading": "Informativa sui cookie",
+    "cookie_policy_intro": "Presso Auris Internacional (\"Auris\") utilizziamo cookie e tecnologie simili per offrirti un servizio sicuro, affidabile e su misura. In questa pagina spieghiamo cosa sono i cookie, quali tipi utilizziamo e come puoi gestirli.",
+    "cookie_policy_what_are_title": "Cosa sono i cookie?",
+    "cookie_policy_what_are_body": "I cookie sono piccoli file di testo che vengono memorizzati sul tuo dispositivo quando visiti un sito web. Consentono di ricordare informazioni sulla tua navigazione, come le preferenze di lingua o l'accettazione di un avviso legale, e contribuiscono a migliorare le prestazioni complessive del servizio.",
+    "cookie_policy_types_title": "Tipologie di cookie utilizzate",
+    "cookie_policy_types_necessary": "Cookie tecnici o necessari: indispensabili per il corretto funzionamento del sito e per erogare i servizi richiesti (ad esempio mantenere attiva la sessione o ricordare le preferenze di base).",
+    "cookie_policy_types_functional": "Cookie di personalizzazione: ci permettono di ricordare alcune impostazioni e offrirti un'esperienza più adatta ai tuoi interessi.",
+    "cookie_policy_types_analytics": "Cookie analitici: ci aiutano a comprendere come viene utilizzato il sito, misurare il pubblico e migliorare contenuti e funzionalità. Si attivano solo se li accetti esplicitamente.",
+    "cookie_policy_management_title": "Come gestire i cookie",
+    "cookie_policy_management_body": "Puoi accettare o rifiutare i cookie analitici attraverso l'avviso che compare quando accedi al sito. Inoltre, puoi modificare in qualsiasi momento la tua scelta eliminando i cookie salvati nel browser o regolando le preferenze sulla privacy. Consulta la sezione di aiuto del browser per istruzioni specifiche.",
+    "cookie_policy_changes_title": "Aggiornamenti dell'informativa",
+    "cookie_policy_changes_body": "Aggiorneremo la presente informativa ogni volta che introdurremo nuovi cookie o apporteremo miglioramenti al servizio. Eventuali modifiche rilevanti saranno comunicate direttamente sul sito.",
+    "cookie_policy_contact_title": "Contatti",
+    "cookie_policy_contact_body": "Per qualsiasi domanda sull'uso dei cookie, scrivici a",
+    "cookie_policy_contact_email": "info@auris.cat",
+    "cookie_policy_last_updated": "Ultimo aggiornamento: marzo 2024",
+    "footer_privacy": "Informativa sulla privacy",
+    "footer_terms": "Termini e condizioni",
+    "privacy": {
+        "metaTitle": "Informativa sulla privacy",
+        "heading": "Informativa sulla privacy",
+        "intro": "La presente informativa spiega come Auris Internacional tratta i dati personali che riceviamo tramite il nostro sito web e, in particolare, attraverso i moduli di contatto e di richiesta appuntamento disponibili su auris.cat. Il nostro impegno è garantire che i dati che ci affidi siano utilizzati con trasparenza, riservatezza e sicurezza.",
+        "sections": [
+            {
+                "title": "1. Titolare del trattamento",
+                "body": [
+                    "Auris Internacional (auris.cat) è la responsabile del trattamento dei dati personali raccolti tramite questo sito. Puoi contattarci all'indirizzo <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Dati che raccogliamo",
+                "body": [
+                    "Raccogliamo esclusivamente le informazioni necessarie per gestire le tue richieste:",
+                    "Non richiediamo dati particolarmente sensibili tramite il modulo; se scegli di indicarli, li tratteremo con stretta riservatezza professionale."
+                ],
+                "list": [
+                    "<strong class=\"text-white\">Nome e cognome</strong>, per poterti contattare in modo personalizzato.",
+                    "<strong class=\"text-white\">Indirizzo e-mail</strong>, per rispondere alle tue richieste e coordinare gli appuntamenti.",
+                    "<strong class=\"text-white\">Contenuto del messaggio</strong>, che può includere informazioni sulle tue esigenze terapeutiche, disponibilità, preferenze linguistiche o altri dettagli che decidi di condividere."
+                ]
+            },
+            {
+                "title": "3. Finalità e base giuridica",
+                "body": [
+                    "Utilizziamo i tuoi dati esclusivamente per rispondere alle richieste di informazioni, gestire l'agenda delle prime sessioni gratuite, inviarti promemoria o materiali legati alla terapia e coordinare l'erogazione dei nostri servizi psicologici. La base giuridica del trattamento è il tuo consenso, che ci fornisci inviando il modulo, nonché la preparazione o esecuzione del rapporto terapeutico quando richiedi un appuntamento."
+                ]
+            },
+            {
+                "title": "4. Conservazione dei dati",
+                "body": [
+                    "Conserveremo le tue informazioni solo per il tempo necessario a soddisfare la richiesta e, se del caso, a formalizzare il rapporto terapeutico. Se la comunicazione non porta all'avvio di un percorso assistenziale, elimineremo i tuoi dati entro un massimo di dodici mesi."
+                ]
+            },
+            {
+                "title": "5. Comunicazioni e responsabili esterni",
+                "body": [
+                    "Non cediamo i tuoi dati a terzi salvo obblighi di legge. Possiamo avvalerci di fornitori tecnologici (hosting web, posta elettronica o strumenti di gestione interna) che agiscono in qualità di responsabili del trattamento e offrono adeguate garanzie di sicurezza e riservatezza in conformità al Regolamento generale sulla protezione dei dati (GDPR)."
+                ]
+            },
+            {
+                "title": "6. Sicurezza",
+                "body": [
+                    "Applichiamo misure tecniche e organizzative per proteggere le tue informazioni da accessi non autorizzati, perdita o divulgazione. Solo il personale autorizzato di Auris Internacional può accedere ai dati ricevuti tramite il modulo."
+                ]
+            },
+            {
+                "title": "7. Diritti degli interessati",
+                "body": [
+                    "Puoi esercitare i diritti di accesso, rettifica, cancellazione, opposizione, limitazione e portabilità scrivendo a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>. Hai inoltre il diritto di revocare il consenso in qualsiasi momento e di presentare reclamo all'autorità di controllo se ritieni che il trattamento non sia conforme alla normativa."
+                ]
+            },
+            {
+                "title": "8. Cookie e analisi",
+                "body": [
+                    "Attualmente utilizziamo solo cookie strettamente necessari al funzionamento di base del sito. Qualora introducessimo strumenti di analisi o pubblicità, te ne informeremo e, quando richiesto, chiederemo il tuo consenso preventivo."
+                ]
+            },
+            {
+                "title": "9. Aggiornamenti",
+                "body": [
+                    "Potremo aggiornare la presente informativa per recepire modifiche normative o miglioramenti dei nostri processi. Pubblicheremo la versione vigente su questa pagina indicando la data dell'ultima revisione."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Ultimo aggiornamento"
+    },
+    "terms": {
+        "metaTitle": "Termini e condizioni",
+        "heading": "Termini e condizioni d'uso",
+        "intro": "L'accesso e l'utilizzo del sito auris.cat comportano l'accettazione delle presenti condizioni. Il nostro obiettivo è fornire informazioni chiare sui servizi di psicologia e benessere di Auris Internacional e facilitare la richiesta di una prima sessione gratuita tramite un modulo di contatto.",
+        "sections": [
+            {
+                "title": "1. Identità del titolare",
+                "body": [
+                    "Il sito web è di proprietà di Auris Internacional. Per qualsiasi domanda puoi scriverci a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Servizi offerti",
+                "body": [
+                    "Attraverso auris.cat presentiamo il nostro approccio terapeutico, il team clinico e le strutture, oltre a un modulo per richiedere una prima sessione gratuita o inviare domande generali. L'erogazione effettiva dei servizi psicologici viene formalizzata individualmente dopo la valutazione professionale."
+                ]
+            },
+            {
+                "title": "3. Uso del modulo",
+                "body": [
+                    "Compilando il modulo ti impegni a fornire dati veritieri e aggiornati, in particolare il tuo nome, l'indirizzo e-mail e qualsiasi informazione necessaria a organizzare l'appuntamento. È vietato inviare messaggi a fini pubblicitari, spam o che possano arrecare danno al sito o al team di Auris Internacional."
+                ]
+            },
+            {
+                "title": "4. Proprietà intellettuale",
+                "body": [
+                    "I contenuti, i testi, le immagini e i design presenti sul sito sono di proprietà di Auris Internacional o utilizzati con le relative licenze. Non è consentita la riproduzione, distribuzione o modifica senza previa autorizzazione espressa."
+                ]
+            },
+            {
+                "title": "5. Responsabilità",
+                "body": [
+                    "Auris Internacional mantiene il sito aggiornato per garantire informazioni accurate, pur non potendo assicurare l'assenza totale di errori. Ci riserviamo il diritto di modificare contenuti, servizi o prezzi in qualsiasi momento. Le informazioni pubblicate non sostituiscono la valutazione individuale di un professionista sanitario."
+                ]
+            },
+            {
+                "title": "6. Link esterni",
+                "body": [
+                    "Il sito può includere collegamenti a pagine di terzi. Auris Internacional non è responsabile dei contenuti né delle politiche di privacy di tali siti esterni."
+                ]
+            },
+            {
+                "title": "7. Protezione dei dati",
+                "body": [
+                    "Il trattamento delle informazioni personali è disciplinato dalla nostra <a class=\"text-brand-accent underline\" href=\"{{privacyLink}}\">informativa sulla privacy</a>, che illustra le finalità, la base giuridica e i diritti a tua disposizione."
+                ]
+            },
+            {
+                "title": "8. Modifiche alle condizioni",
+                "body": [
+                    "Potremo aggiornare queste condizioni per riflettere cambiamenti normativi o operativi. Le modifiche avranno effetto dalla loro pubblicazione su questa pagina."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Ultimo aggiornamento"
+    }
 }

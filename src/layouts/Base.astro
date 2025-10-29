@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '../styles/tailwind.css';
 import Nav from '../components/Nav.astro';
 import { DEFAULT_LANG, t, type Lang } from '../i18n';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title?: string;
@@ -14,6 +15,10 @@ const { title = 'Auris International', description = 'Psicología y bienestar �
   Astro.props as Props;
 
 const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
+const policyHref = `/${lang}/cookies`;
+
+const privacyPath = lang === DEFAULT_LANG ? '/privacy' : `/${lang}/privacy`;
+const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
 ---
 <html lang={lang} class="h-full">
   <head>
@@ -29,8 +34,18 @@ const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT
     <Nav lang={lang} />
     <main class="relative"><slot /></main>
     <footer class="mt-24 border-t border-white/10">
-      <div class="mx-auto max-w-container px-4 py-10 text-xs text-white/60">
-        © {new Date().getFullYear()} Auris Internacional — auris.cat {t(lang, 'footer_rights')}
+      <div
+        class="mx-auto flex max-w-container flex-col gap-3 px-4 py-10 text-xs text-white/60 md:flex-row md:items-center md:justify-between"
+      >
+        <div class="mx-auto flex max-w-container flex-col gap-3 px-4 py-10 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
+        <span>© {new Date().getFullYear()} Auris Internacional — auris.cat {t(lang, 'footer_rights')}</span>
+        <a class="text-white/70 underline decoration-white/40 underline-offset-4 transition hover:text-white" href={policyHref}>
+          {t(lang, 'footer_cookies')}
+        </a>
+          <a class="transition hover:text-white" href={termsPath}>
+            {t(lang, 'footer_terms')}
+          </a>
+        </nav>
       </div>
     </footer>
   </body>

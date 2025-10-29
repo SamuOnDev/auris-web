@@ -35,5 +35,157 @@
     "about_member_javier_details": "Board-certified psychiatrist • Residency at Hospital Clínic • Master's in psychopharmacology",
     "about_member_javier_bio": "Brings together medical and psychotherapeutic perspectives to address mood disorders, adult ADHD, and crisis situations. Designs bespoke pharmacological plans and works closely with the psychotherapy team to enable sustainable change.",
     "about_member_javier_image_alt": "Portrait of psychiatrist Javier Ríos Álvarez",
-    "footer_rights": "All rights reserved."
+    "footer_rights": "All rights reserved.",
+    "where_intro": "We welcome you at our Eixample practice, just a short walk from Provença station.",
+    "where_address_label": "Address",
+    "where_phone_label": "Phone",
+    "where_map_title": "Location on the map",
+    "footer_cookies": "Cookie policy",
+    "cookie_banner_title": "Your privacy matters",
+    "cookie_banner_body": "We use first-party and third-party cookies to keep the site running, analyse traffic and tailor your experience. You can accept all cookies or reject the non-essential ones.",
+    "cookie_banner_accept": "Accept all",
+    "cookie_banner_reject": "Reject optional",
+    "cookie_banner_more_info": "Read the cookie policy",
+    "cookie_policy_heading": "Cookie policy",
+    "cookie_policy_intro": "At Auris Internacional (\"Auris\"), we use cookies and similar technologies to offer you a secure, reliable and tailored service. This page explains what cookies are, which types we use and how you can manage them.",
+    "cookie_policy_what_are_title": "What are cookies?",
+    "cookie_policy_what_are_body": "Cookies are small text files stored on your device when you visit a website. They allow the site to remember information about your browsing, such as language preferences or whether you have accepted a legal notice, and they help improve the overall performance of the service.",
+    "cookie_policy_types_title": "Types of cookies we use",
+    "cookie_policy_types_necessary": "Technical or necessary cookies: essential for the website to work and to provide the services you request (for example, keeping your session active or remembering your basic preferences).",
+    "cookie_policy_types_functional": "Preference cookies: enable us to remember certain settings and offer you a more personalised experience.",
+    "cookie_policy_types_analytics": "Analytics cookies: help us understand how the site is used, measure audience and improve content and features. They are only activated if you explicitly accept them.",
+    "cookie_policy_management_title": "How to manage cookies",
+    "cookie_policy_management_body": "You can accept or reject analytics cookies through the notice displayed when you access the website. You may also change your settings at any time by deleting the cookies stored on your browser or adjusting its privacy preferences. Check your browser's help section for specific instructions.",
+    "cookie_policy_changes_title": "Updates to this policy",
+    "cookie_policy_changes_body": "We will review this policy whenever we add new cookies or improve the service. We will notify you of relevant changes through the website itself.",
+    "cookie_policy_contact_title": "Contact",
+    "cookie_policy_contact_body": "If you have any questions about our use of cookies, please email us at",
+    "cookie_policy_contact_email": "info@auris.cat",
+    "cookie_policy_last_updated": "Last updated: March 2024",
+    "footer_privacy": "Privacy policy",
+    "footer_terms": "Terms and conditions",
+    "privacy": {
+        "metaTitle": "Privacy policy",
+        "heading": "Privacy policy",
+        "intro": "This policy explains how Auris Internacional handles the personal information we receive through our website and, in particular, via the contact and appointment request forms available on auris.cat. Our commitment is to ensure that the data you entrust to us is used with transparency, confidentiality, and security.",
+        "sections": [
+            {
+                "title": "1. Data controller",
+                "body": [
+                    "Auris Internacional (auris.cat) is the entity responsible for processing the personal data collected through this website. You can contact us at <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Data we collect",
+                "body": [
+                    "We collect only the information that is necessary to address your requests:",
+                    "We do not ask for particularly sensitive data through the form; if you choose to include it, we will handle it under strict professional confidentiality."
+                ],
+                "list": [
+                    "<strong class=\"text-white\">Full name</strong>, so we can address you personally.",
+                    "<strong class=\"text-white\">Email address</strong>, to reply to your queries and coordinate appointments.",
+                    "<strong class=\"text-white\">Message content</strong>, which may include details about your therapeutic needs, availability, language preferences, or any other information you decide to share."
+                ]
+            },
+            {
+                "title": "3. Purpose and lawful basis",
+                "body": [
+                    "We use your data exclusively to respond to information requests, manage the schedule for free first sessions, send you reminders or therapy-related materials, and coordinate the delivery of our psychological services. The lawful basis for processing is your consent, which you give when submitting the form, as well as the preparation or performance of the therapeutic relationship when you request an appointment."
+                ]
+            },
+            {
+                "title": "4. Data retention",
+                "body": [
+                    "We will retain your information only for as long as needed to address your request and, if applicable, to formalize the therapeutic relationship. If the communication does not lead to a care process, we will delete your data within a maximum of twelve months."
+                ]
+            },
+            {
+                "title": "5. Sharing and processors",
+                "body": [
+                    "We do not share your data with third parties unless legally required. We may rely on technology providers (web hosting, email, or internal management tools) that act as data processors and offer appropriate security and confidentiality safeguards in accordance with the General Data Protection Regulation (GDPR)."
+                ]
+            },
+            {
+                "title": "6. Security",
+                "body": [
+                    "We apply technical and organizational measures to protect your information against unauthorized access, loss, or disclosure. Only authorized Auris Internacional personnel can access the data received through the form."
+                ]
+            },
+            {
+                "title": "7. Your rights",
+                "body": [
+                    "You may exercise your rights of access, rectification, erasure, objection, restriction, and portability by writing to <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>. You also have the right to withdraw your consent at any time and to lodge a complaint with the supervisory authority if you believe the processing does not comply with the law."
+                ]
+            },
+            {
+                "title": "8. Cookies and analytics",
+                "body": [
+                    "At present we use strictly necessary cookies for the basic functioning of the website. If we introduce analytics or advertising tools, we will inform you and, when required, request your prior consent."
+                ]
+            },
+            {
+                "title": "9. Updates",
+                "body": [
+                    "We may update this policy to reflect legal changes or improvements to our processes. We will publish the current version on this page, indicating the date of the latest review."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Last updated"
+    },
+    "terms": {
+        "metaTitle": "Terms and conditions",
+        "heading": "Terms and conditions of use",
+        "intro": "Accessing and using the auris.cat website implies acceptance of these terms. Our goal is to provide clear information about Auris Internacional's psychology and wellbeing services and to make it easy to request a free first session through a contact form.",
+        "sections": [
+            {
+                "title": "1. Owner identification",
+                "body": [
+                    "The website is owned by Auris Internacional. For any question you can write to <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Services provided",
+                "body": [
+                    "Through auris.cat we share information about our therapeutic approach, clinical team, and facilities, as well as a form to request a free first session or ask general questions. The actual provision of psychological services is formalized individually after professional assessment."
+                ]
+            },
+            {
+                "title": "3. Use of the form",
+                "body": [
+                    "By filling out the form you agree to provide accurate and up-to-date information, especially your name, email address, and any details needed to coordinate the appointment. Sending messages for advertising purposes, spam, or that could damage the website or the Auris Internacional team is prohibited."
+                ]
+            },
+            {
+                "title": "4. Intellectual property",
+                "body": [
+                    "The content, texts, images, and designs available on the site are owned by Auris Internacional or used under the appropriate licenses. Reproduction, distribution, or modification is not permitted without prior written authorization."
+                ]
+            },
+            {
+                "title": "5. Liability",
+                "body": [
+                    "Auris Internacional keeps the site up to date to provide accurate information, although we cannot guarantee the complete absence of errors. We reserve the right to modify content, services, or prices at any time. The information published does not replace an individual evaluation by a healthcare professional."
+                ]
+            },
+            {
+                "title": "6. External links",
+                "body": [
+                    "The site may include links to third-party pages. Auris Internacional is not responsible for the content or privacy policies of those external sites."
+                ]
+            },
+            {
+                "title": "7. Data protection",
+                "body": [
+                    "The processing of personal information is governed by our <a class=\"text-brand-accent underline\" href=\"{{privacyLink}}\">privacy policy</a>, which explains the purposes, lawful basis, and the rights available to you."
+                ]
+            },
+            {
+                "title": "8. Changes to the terms",
+                "body": [
+                    "We may update these terms to reflect regulatory or operational changes. Modifications will take effect once published on this page."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Last updated"
+    }
 }

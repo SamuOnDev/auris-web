@@ -1,0 +1,78 @@
+---
+import { DEFAULT_LANG, t, type Lang } from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang: explicitLang } = Astro.props as Props;
+const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
+const policyHref = `/${lang}/cookies`;
+---
+<div data-cookie-banner class="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-6 sm:pb-8">
+    <div
+        data-cookie-panel
+        class="pointer-events-auto hidden w-full max-w-3xl rounded-2xl border border-white/10 bg-slate-950/90 p-5 shadow-[0_20px_70px_rgba(8,12,32,0.65)] backdrop-blur"
+    >
+        <div class="space-y-4 md:flex md:items-start md:gap-6 md:space-y-0">
+        <div class="space-y-2 text-sm text-white/80 md:flex-1">
+            <p class="text-base font-semibold text-white">{t(lang, 'cookie_banner_title')}</p>
+            <p>
+            {t(lang, 'cookie_banner_body')}
+            <a class="text-brand-accent underline decoration-2 underline-offset-4" href={policyHref}>
+                {t(lang, 'cookie_banner_more_info')}
+            </a>
+            .
+            </p>
+        </div>
+        <div class="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
+            <button
+            type="button"
+            data-cookie-reject
+            class="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10"
+            >
+            {t(lang, 'cookie_banner_reject')}
+            </button>
+            <button
+            type="button"
+            data-cookie-accept
+            class="inline-flex items-center justify-center rounded-full bg-brand-accent px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-brand-accent/90"
+            >
+            {t(lang, 'cookie_banner_accept')}
+            </button>
+        </div>
+        </div>
+    </div>
+</div>
+<script is:inline>
+    (() => {
+        const STORAGE_KEY = 'auris-cookie-consent';
+        if (typeof window === 'undefined') return;
+        const root = document.querySelector('[data-cookie-banner]');
+        if (!root) return;
+        const panel = root.querySelector('[data-cookie-panel]');
+        if (!(panel instanceof HTMLElement)) return;
+        try {
+        const saved = window.localStorage.getItem(STORAGE_KEY);
+        if (saved === 'accepted' || saved === 'rejected') {
+            root.remove();
+            return;
+        }
+        } catch (err) {
+        // If localStorage is unavailable we still show the banner
+        }
+        panel.classList.remove('hidden');
+        const acceptBtn = root.querySelector('[data-cookie-accept]');
+        const rejectBtn = root.querySelector('[data-cookie-reject]');
+        const handleSelection = (value) => {
+        try {
+            window.localStorage.setItem(STORAGE_KEY, value);
+        } catch (err) {
+            // Ignore persistence errors
+        }
+        root.remove();
+        };
+        acceptBtn?.addEventListener('click', () => handleSelection('accepted'));
+        rejectBtn?.addEventListener('click', () => handleSelection('rejected'));
+    })();
+</script>

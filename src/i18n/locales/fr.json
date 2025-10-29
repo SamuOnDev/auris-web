@@ -35,5 +35,157 @@
     "about_member_javier_details": "Psychiatre diplômé • Résidence à l'Hospital Clínic • Master en psychopharmacologie",
     "about_member_javier_bio": "Articule regard médical et psychothérapeutique pour traiter troubles de l'humeur, TDAH adulte et situations de crise. Conçoit des plans pharmacologiques sur mesure et collabore étroitement avec l'équipe de psychothérapie pour favoriser un changement durable.",
     "about_member_javier_image_alt": "Portrait du psychiatre Javier Ríos Álvarez",
-    "footer_rights": "Tous droits réservés."
+    "footer_rights": "Tous droits réservés.",
+    "where_intro": "Nous vous recevons dans notre cabinet de l'Eixample, à quelques minutes de la station Provença.",
+    "where_address_label": "Adresse",
+    "where_phone_label": "Téléphone",
+    "where_map_title": "Localisation sur la carte",
+    "footer_cookies": "Politique de cookies",
+    "cookie_banner_title": "Votre confidentialité compte",
+    "cookie_banner_body": "Nous utilisons des cookies internes et tiers pour garantir le fonctionnement du site, analyser la fréquentation et personnaliser votre expérience. Vous pouvez accepter tous les cookies ou refuser ceux qui ne sont pas essentiels.",
+    "cookie_banner_accept": "Tout accepter",
+    "cookie_banner_reject": "Refuser les optionnels",
+    "cookie_banner_more_info": "Lire la politique de cookies",
+    "cookie_policy_heading": "Politique de cookies",
+    "cookie_policy_intro": "Chez Auris Internacional (\"Auris\"), nous utilisons des cookies et des technologies similaires afin de vous offrir un service sécurisé, fiable et adapté à vos besoins. Cette page explique ce que sont les cookies, ceux que nous utilisons et la manière de les gérer.",
+    "cookie_policy_what_are_title": "Qu'est-ce qu'un cookie ?",
+    "cookie_policy_what_are_body": "Les cookies sont de petits fichiers texte enregistrés sur votre appareil lorsque vous consultez un site web. Ils permettent de mémoriser des informations sur votre navigation, comme vos préférences linguistiques ou l'acceptation d'un avis légal, et contribuent à améliorer le fonctionnement global du service.",
+    "cookie_policy_types_title": "Types de cookies utilisés",
+    "cookie_policy_types_necessary": "Cookies techniques ou nécessaires : indispensables au bon fonctionnement du site et à la fourniture des services demandés (par exemple maintenir votre session ouverte ou mémoriser vos préférences de base).",
+    "cookie_policy_types_functional": "Cookies de personnalisation : nous aident à retenir certains réglages et à vous proposer une expérience plus adaptée.",
+    "cookie_policy_types_analytics": "Cookies d'analyse : nous permettent de comprendre l'utilisation du site, de mesurer l'audience et d'améliorer les contenus et fonctionnalités. Ils ne sont activés que si vous les acceptez explicitement.",
+    "cookie_policy_management_title": "Comment gérer les cookies",
+    "cookie_policy_management_body": "Vous pouvez accepter ou refuser les cookies d'analyse via l'avis affiché lors de votre première visite. Vous pouvez également modifier votre choix à tout moment en supprimant les cookies enregistrés sur votre navigateur ou en ajustant ses préférences de confidentialité. Consultez l'aide de votre navigateur pour obtenir des instructions détaillées.",
+    "cookie_policy_changes_title": "Mises à jour de cette politique",
+    "cookie_policy_changes_body": "Nous réviserons cette politique chaque fois que nous ajouterons de nouveaux cookies ou que nous améliorerons le service. Toute modification importante sera communiquée sur ce site.",
+    "cookie_policy_contact_title": "Contact",
+    "cookie_policy_contact_body": "Pour toute question relative à l'utilisation des cookies, écrivez-nous à",
+    "cookie_policy_contact_email": "info@auris.cat",
+    "cookie_policy_last_updated": "Dernière mise à jour : mars 2024",
+    "footer_privacy": "Politique de confidentialité",
+    "footer_terms": "Conditions générales",
+    "privacy": {
+        "metaTitle": "Politique de confidentialité",
+        "heading": "Politique de confidentialité",
+        "intro": "Cette politique explique comment Auris Internacional traite les informations personnelles que nous recevons via notre site web et, en particulier, au moyen des formulaires de contact et de demande de rendez-vous disponibles sur auris.cat. Notre engagement est de garantir que les données que vous nous confiez soient utilisées avec transparence, confidentialité et sécurité.",
+        "sections": [
+            {
+                "title": "1. Responsable du traitement",
+                "body": [
+                    "Auris Internacional (auris.cat) est responsable du traitement des données personnelles collectées par l'intermédiaire de ce site. Vous pouvez nous contacter à <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Données que nous collectons",
+                "body": [
+                    "Nous collectons uniquement les informations nécessaires pour répondre à vos demandes :",
+                    "Nous ne demandons pas de données particulièrement sensibles via le formulaire ; si vous choisissez d'en inclure, nous les traiterons avec une stricte confidentialité professionnelle."
+                ],
+                "list": [
+                    "<strong class=\"text-white\">Nom et prénom</strong>, pour nous adresser à vous de manière personnalisée.",
+                    "<strong class=\"text-white\">Adresse e-mail</strong>, pour répondre à vos demandes et coordonner les rendez-vous.",
+                    "<strong class=\"text-white\">Contenu du message</strong>, qui peut inclure des informations sur vos besoins thérapeutiques, vos disponibilités, vos préférences linguistiques ou tout autre détail que vous choisissez de partager."
+                ]
+            },
+            {
+                "title": "3. Finalité et base légale",
+                "body": [
+                    "Nous utilisons vos données uniquement pour répondre aux demandes d'information, gérer le calendrier des premières séances gratuites, vous envoyer des rappels ou des supports liés à la thérapie et coordonner la prestation de nos services psychologiques. La base juridique du traitement est votre consentement, que vous donnez en nous envoyant le formulaire, ainsi que la préparation ou l'exécution de la relation thérapeutique lorsque vous demandez un rendez-vous."
+                ]
+            },
+            {
+                "title": "4. Conservation des données",
+                "body": [
+                    "Nous conserverons vos informations uniquement le temps nécessaire pour répondre à votre demande et, le cas échéant, pour formaliser la relation thérapeutique. Si la communication n'aboutit pas à une prise en charge, nous supprimerons vos données dans un délai maximum de douze mois."
+                ]
+            },
+            {
+                "title": "5. Communication et sous-traitants",
+                "body": [
+                    "Nous ne communiquons pas vos données à des tiers, sauf obligation légale. Nous pouvons faire appel à des prestataires technologiques (hébergement web, messagerie électronique ou outils de gestion interne) agissant comme sous-traitants et offrant des garanties adéquates de sécurité et de confidentialité conformément au Règlement général sur la protection des données (RGPD)."
+                ]
+            },
+            {
+                "title": "6. Sécurité",
+                "body": [
+                    "Nous appliquons des mesures techniques et organisationnelles pour protéger vos informations contre tout accès non autorisé, perte ou divulgation. Seul le personnel autorisé d'Auris Internacional accède aux données reçues via le formulaire."
+                ]
+            },
+            {
+                "title": "7. Droits des personnes",
+                "body": [
+                    "Vous pouvez exercer vos droits d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité en écrivant à <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>. Vous avez également le droit de retirer votre consentement à tout moment et d'introduire une réclamation auprès de l'autorité de contrôle si vous estimez que le traitement n'est pas conforme à la réglementation."
+                ]
+            },
+            {
+                "title": "8. Cookies et analytique",
+                "body": [
+                    "Nous utilisons actuellement des cookies strictement nécessaires au fonctionnement de base du site. Si nous mettons en place des outils d'analytique ou de publicité, nous vous en informerons et demanderons, le cas échéant, votre consentement préalable."
+                ]
+            },
+            {
+                "title": "9. Mises à jour",
+                "body": [
+                    "Nous pouvons mettre à jour cette politique afin de refléter des changements législatifs ou des améliorations de nos processus. Nous publierons la version en vigueur sur cette même page en indiquant la date de la dernière révision."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Dernière mise à jour"
+    },
+    "terms": {
+        "metaTitle": "Conditions générales",
+        "heading": "Conditions générales d'utilisation",
+        "intro": "L'accès et l'utilisation du site auris.cat impliquent l'acceptation des présentes conditions. Notre objectif est de fournir des informations claires sur les services de psychologie et de bien-être d'Auris Internacional et de faciliter la demande d'une première séance gratuite via un formulaire de contact.",
+        "sections": [
+            {
+                "title": "1. Identification du titulaire",
+                "body": [
+                    "Le site web appartient à Auris Internacional. Pour toute question, vous pouvez nous écrire à <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Services proposés",
+                "body": [
+                    "Sur auris.cat, nous présentons notre approche thérapeutique, l'équipe clinique et les installations, ainsi qu'un formulaire pour demander une première séance gratuite ou poser des questions générales. La prestation effective des services psychologiques se formalise individuellement après l'évaluation professionnelle."
+                ]
+            },
+            {
+                "title": "3. Utilisation du formulaire",
+                "body": [
+                    "En remplissant le formulaire, vous vous engagez à fournir des données exactes et à jour, notamment votre nom, votre adresse e-mail et toute information nécessaire à la coordination du rendez-vous. Il est interdit d'envoyer des messages à des fins publicitaires, de spam ou susceptibles de nuire au site ou à l'équipe d'Auris Internacional."
+                ]
+            },
+            {
+                "title": "4. Propriété intellectuelle",
+                "body": [
+                    "Les contenus, textes, images et designs disponibles sur le site sont la propriété d'Auris Internacional ou utilisés avec les licences correspondantes. Toute reproduction, distribution ou modification est interdite sans autorisation préalable et expresse."
+                ]
+            },
+            {
+                "title": "5. Responsabilité",
+                "body": [
+                    "Auris Internacional maintient le site à jour afin de garantir des informations exactes, bien que nous ne puissions pas assurer l'absence totale d'erreurs. Nous nous réservons le droit de modifier le contenu, les services ou les tarifs à tout moment. Les informations publiées ne remplacent pas l'évaluation individuelle d'un professionnel de santé."
+                ]
+            },
+            {
+                "title": "6. Liens externes",
+                "body": [
+                    "Le site peut contenir des liens vers des pages de tiers. Auris Internacional n'est pas responsable du contenu ni des politiques de confidentialité de ces sites externes."
+                ]
+            },
+            {
+                "title": "7. Protection des données",
+                "body": [
+                    "Le traitement des informations personnelles est régi par notre <a class=\"text-brand-accent underline\" href=\"{{privacyLink}}\">politique de confidentialité</a>, qui détaille les finalités, la base légale et les droits dont vous disposez."
+                ]
+            },
+            {
+                "title": "8. Modifications des conditions",
+                "body": [
+                    "Nous pouvons mettre à jour ces conditions pour refléter des évolutions réglementaires ou opérationnelles. Les modifications prendront effet dès leur publication sur cette page."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Dernière mise à jour"
+    }
 }

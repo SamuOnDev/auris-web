@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SUPPORTED, t, DEFAULT_LANG, type Lang } from '../../i18n';
+
+export function getStaticPaths() {
+    return SUPPORTED.map((lang) => ({ params: { lang } }));
+}
+
+const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+
+const ADDRESS = 'Carrer de Provença, 105, entresuelo, 2ª, Eixample, 08029 Barcelona';
+const PHONE_DISPLAY = '934 54 54 17';
+const PHONE_LINK = '+34934545417';
+const MAP_EMBED_SRC =
+    'https://maps.google.com/maps?q=Carrer%20de%20Proven%C3%A7a%2C%20105%2C%2008029%20Barcelona&output=embed';
+---
+<Base title={`Auris — ${t(lang, 'nav_where')}`} lang={lang}>
+    <section class="mx-auto max-w-container px-4 py-10 md:py-16">
+        <div class="space-y-10 md:space-y-12">
+        <header class="space-y-4">
+            <h1 class="text-3xl font-bold text-white md:text-4xl">{t(lang, 'nav_where')}</h1>
+            <p class="max-w-3xl text-base text-white/80 md:text-lg">{t(lang, 'where_intro')}</p>
+        </header>
+
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] lg:items-start">
+            <div class="space-y-6">
+            <div class="rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-brand-accent/90">
+                {t(lang, 'where_address_label')}
+                </h2>
+                <address class="mt-2 text-lg not-italic leading-relaxed text-white/90">
+                {ADDRESS}
+                </address>
+            </div>
+
+            <div class="rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-brand-accent/90">
+                {t(lang, 'where_phone_label')}
+                </h2>
+                <p class="mt-2 text-lg text-white/90">
+                <a class="hover:underline" href={`tel:${PHONE_LINK}`}>
+                    {PHONE_DISPLAY}
+                </a>
+                </p>
+            </div>
+            </div>
+
+            <div class="overflow-hidden rounded-3xl border border-white/5 bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.35)]">
+            <iframe
+                class="block h-[320px] w-full md:h-[420px] lg:h-[520px]"
+                src={MAP_EMBED_SRC}
+                loading="lazy"
+                allowFullScreen
+                referrerpolicy="no-referrer-when-downgrade"
+                title={t(lang, 'where_map_title')}
+            ></iframe>
+            </div>
+        </div>
+        </div>
+    </section>
+</Base>

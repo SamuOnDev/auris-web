@@ -35,5 +35,157 @@
     "about_member_javier_details": "Psiquiatre col·legiat • MIR Hospital Clínic • Màster en psicofarmacologia",
     "about_member_javier_bio": "Integra la mirada mèdica i psicoterapèutica per abordar trastorns de l'estat d'ànim, TDAH en adults i situacions de crisi. Dissenya plans farmacològics a mida i col·labora estretament amb l'equip psicoterapèutic per afavorir canvis sostenibles.",
     "about_member_javier_image_alt": "Retrat del psiquiatre Javier Ríos Álvarez",
-    "footer_rights": "Tots els drets reservats."
+    "footer_rights": "Tots els drets reservats.",
+    "where_intro": "T'atendrem al nostre despatx de l'Eixample, a pocs minuts de l'estació de Provença.",
+    "where_address_label": "Adreça",
+    "where_phone_label": "Telèfon",
+    "where_map_title": "Ubicació al mapa",
+    "footer_cookies": "Política de galetes",
+    "cookie_banner_title": "La teva privacitat és important",
+    "cookie_banner_body": "Fem servir galetes pròpies i de tercers per garantir el funcionament del lloc, analitzar el trànsit i personalitzar l'experiència. Pots acceptar-les totes o rebutjar les que no siguin essencials.",
+    "cookie_banner_accept": "Acceptar totes",
+    "cookie_banner_reject": "Rebutjar opcionals",
+    "cookie_banner_more_info": "Consulta la política de galetes",
+    "cookie_policy_heading": "Política de galetes",
+    "cookie_policy_intro": "A Auris Internacional (\"Auris\") utilitzem galetes i tecnologies semblants per oferir-te un servei segur, fiable i adaptat a les teves necessitats. En aquesta pàgina t'expliquem què són les galetes, quins tipus utilitzem i com les pots gestionar.",
+    "cookie_policy_what_are_title": "Què són les galetes?",
+    "cookie_policy_what_are_body": "Les galetes són petits fitxers de text que el lloc web desa al teu dispositiu quan hi accedeixes. Permeten recordar informació sobre la teva navegació, com ara les preferències d'idioma o si has acceptat un avís legal, i ajuden a millorar el funcionament general del servei.",
+    "cookie_policy_types_title": "Tipus de galetes que utilitzem",
+    "cookie_policy_types_necessary": "Galetes tècniques o necessàries: imprescindibles perquè la web funcioni i per prestar els serveis que ens demanes (per exemple, mantenir la sessió activa o recordar les preferències bàsiques).",
+    "cookie_policy_types_functional": "Galetes de personalització: ens permeten recordar determinades configuracions i oferir-te una experiència més ajustada als teus interessos.",
+    "cookie_policy_types_analytics": "Galetes analítiques: ens ajuden a comprendre com s'utilitza el lloc, mesurar l'audiència i millorar continguts i funcionalitats. Només s'activen si les acceptes de manera explícita.",
+    "cookie_policy_management_title": "Com pots gestionar les galetes",
+    "cookie_policy_management_body": "Pots acceptar o rebutjar les galetes analítiques des de l'avís que apareix en accedir al web. També pots modificar la configuració en qualsevol moment eliminant les galetes des del teu navegador o ajustant-ne les preferències de privacitat. Consulta la secció d'ajuda del navegador per obtenir instruccions específiques.",
+    "cookie_policy_changes_title": "Actualitzacions d'aquesta política",
+    "cookie_policy_changes_body": "Revisarem aquesta política sempre que incorporem noves galetes o fem millores en el servei. T'avisarem dels canvis rellevants a través del mateix lloc web.",
+    "cookie_policy_contact_title": "Contacte",
+    "cookie_policy_contact_body": "Si tens dubtes sobre l'ús de galetes, escriu-nos a",
+    "cookie_policy_contact_email": "info@auris.cat",
+    "cookie_policy_last_updated": "Darrera actualització: març de 2024",
+    "footer_privacy": "Política de privacitat",
+    "footer_terms": "Termes i condicions",
+    "privacy": {
+        "metaTitle": "Política de privacitat",
+        "heading": "Política de privacitat",
+        "intro": "Aquesta política explica com Auris Internacional tracta la informació personal que rebem a través del nostre lloc web i, en particular, mitjançant els formularis de contacte i sol·licitud de visita disponibles a auris.cat. El nostre compromís és garantir que les dades que ens confies s'utilitzen amb transparència, confidencialitat i seguretat.",
+        "sections": [
+            {
+                "title": "1. Responsable del tractament",
+                "body": [
+                    "Auris Internacional (auris.cat) és la responsable del tractament de les dades personals recollides a través d'aquest lloc web. Pots contactar amb nosaltres a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Dades que recollim",
+                "body": [
+                    "Recollim exclusivament la informació necessària per atendre les teves sol·licituds:",
+                    "No demanem dades especialment sensibles a través del formulari; si decideixes incloure'n, les tractarem amb estricta confidencialitat professional."
+                ],
+                "list": [
+                    "<strong class=\"text-white\">Nom i cognoms</strong>, per dirigir-nos a tu de manera personalitzada.",
+                    "<strong class=\"text-white\">Correu electrònic</strong>, per respondre les teves consultes i coordinar visites.",
+                    "<strong class=\"text-white\">Contingut del missatge</strong>, que pot incloure informació sobre les teves necessitats terapèutiques, disponibilitat, preferències idiomàtiques o altres detalls que decideixis compartir."
+                ]
+            },
+            {
+                "title": "3. Finalitat i base legal",
+                "body": [
+                    "Fem servir les teves dades únicament per respondre les sol·licituds d'informació, gestionar l'agenda de primeres sessions gratuïtes, enviar-te recordatoris o materials vinculats amb la teràpia i coordinar la prestació dels nostres serveis psicològics. La base jurídica del tractament és el teu consentiment, que atorgues en enviar-nos el formulari, i la preparació o execució de la relació terapèutica quan demanes una visita."
+                ]
+            },
+            {
+                "title": "4. Conservació de les dades",
+                "body": [
+                    "Conservarem la teva informació només el temps necessari per atendre la petició i, si escau, per formalitzar la relació terapèutica. Si la comunicació no deriva en un procés assistencial, eliminarem les teves dades en un termini màxim de dotze mesos."
+                ]
+            },
+            {
+                "title": "5. Comunicació i encarregats",
+                "body": [
+                    "No cedim les teves dades a tercers llevat d'obligació legal. Ens podem recolzar en proveïdors tecnològics (allotjament web, correu electrònic o eines de gestió interna) que actuen com a encarregats del tractament i que ofereixen garanties adequades de seguretat i confidencialitat d'acord amb el Reglament General de Protecció de Dades (RGPD)."
+                ]
+            },
+            {
+                "title": "6. Seguretat",
+                "body": [
+                    "Apliquem mesures tècniques i organitzatives per protegir la teva informació davant accessos no autoritzats, pèrdua o divulgació. Només el personal autoritzat d'Auris Internacional accedeix a les dades rebudes a través del formulari."
+                ]
+            },
+            {
+                "title": "7. Drets de les persones usuàries",
+                "body": [
+                    "Pots exercir els drets d'accés, rectificació, supressió, oposició, limitació i portabilitat escrivint a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>. També tens dret a retirar el consentiment en qualsevol moment i a presentar una reclamació davant l'autoritat de control (AEPD) si consideres que el tractament no s'ajusta a la normativa."
+                ]
+            },
+            {
+                "title": "8. Galetes i analítica",
+                "body": [
+                    "Actualment utilitzem galetes estrictament necessàries per al funcionament bàsic del lloc. Si incorporem eines d'analítica o publicitat, t'informarem i, quan calgui, sol·licitarem el teu consentiment previ."
+                ]
+            },
+            {
+                "title": "9. Actualitzacions",
+                "body": [
+                    "Podem actualitzar aquesta política per reflectir canvis legals o millores en els nostres processos. Publicarem la versió vigent en aquesta mateixa pàgina indicant la data de l'última revisió."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Darrera actualització"
+    },
+    "terms": {
+        "metaTitle": "Termes i condicions",
+        "heading": "Termes i condicions d'ús",
+        "intro": "L'accés i ús del lloc web auris.cat impliquen l'acceptació d'aquests termes. El nostre objectiu és oferir informació clara sobre els serveis de psicologia i benestar d'Auris Internacional i facilitar la sol·licitud d'una primera sessió gratuïta mitjançant un formulari de contacte.",
+        "sections": [
+            {
+                "title": "1. Identitat del titular",
+                "body": [
+                    "El lloc web és propietat d'Auris Internacional. Per a qualsevol consulta ens pots escriure a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                ]
+            },
+            {
+                "title": "2. Serveis oferits",
+                "body": [
+                    "A través d'auris.cat proporcionem informació sobre el nostre enfocament terapèutic, l'equip clínic i les instal·lacions, així com un formulari per demanar una primera sessió gratuïta o fer consultes generals. La prestació efectiva dels serveis psicològics es formalitza de manera individualitzada després de la valoració professional."
+                ]
+            },
+            {
+                "title": "3. Condicions d'ús del formulari",
+                "body": [
+                    "En completar el formulari et compromets a facilitar dades veraces i actuals, especialment el teu nom, correu electrònic i qualsevol informació necessària per coordinar la visita. Està prohibit fer enviaments amb finalitats publicitàries, spam o que puguin causar perjudicis al lloc o a l'equip d'Auris Internacional."
+                ]
+            },
+            {
+                "title": "4. Propietat intel·lectual",
+                "body": [
+                    "Els continguts, textos, imatges i dissenys disponibles al lloc són propietat d'Auris Internacional o s'utilitzen amb les llicències corresponents. No se'n permet la reproducció, distribució o modificació sense autorització prèvia i expressa."
+                ]
+            },
+            {
+                "title": "5. Responsabilitat",
+                "body": [
+                    "Auris Internacional manté el lloc actualitzat per garantir informació precisa, tot i que no podem assegurar l'absència total d'errors. Ens reservem el dret de modificar continguts, serveis o preus en qualsevol moment. La informació publicada no substitueix l'avaluació individual d'un professional sanitari."
+                ]
+            },
+            {
+                "title": "6. Enllaços externs",
+                "body": [
+                    "El lloc pot incloure enllaços a pàgines de tercers. Auris Internacional no es fa responsable del contingut ni de les polítiques de privacitat d'aquests llocs externs."
+                ]
+            },
+            {
+                "title": "7. Protecció de dades",
+                "body": [
+                    "El tractament de la informació personal es regeix per la nostra <a class=\"text-brand-accent underline\" href=\"{{privacyLink}}\">política de privacitat</a>, que detalla les finalitats, la base legal i els drets que t'assisteixen."
+                ]
+            },
+            {
+                "title": "8. Modificacions dels termes",
+                "body": [
+                    "Podrem actualitzar aquests termes per reflectir canvis normatius o de funcionament. Les modificacions entraran en vigor des de la seva publicació en aquesta pàgina."
+                ]
+            }
+        ],
+        "lastUpdatedLabel": "Darrera actualització"
+    }
 }
