@@ -16,8 +16,8 @@ if (!privacy) {
 
 const sections = privacy.sections.map((section) => ({
     ...section,
-    body: section.body.map((paragraph) => paragraph),
-    list: section.list?.map((item) => item) ?? undefined
+    body: [...section.body],
+    list: section.list ? [...section.list] : undefined,
 }));
 
 const lastUpdated = new Date().toLocaleDateString(lang);

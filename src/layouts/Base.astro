@@ -11,12 +11,14 @@ interface Props {
   lang?: Lang;
 }
 
-const { title = 'Auris International', description = 'Psicología y bienestar — auris.cat', lang: explicitLang } =
-  Astro.props as Props;
+const {
+  title = 'Auris International',
+  description = 'Psicología y bienestar — auris.cat',
+  lang: explicitLang,
+} = Astro.props as Props;
 
 const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
 const policyHref = `/${lang}/cookies`;
-
 const privacyPath = lang === DEFAULT_LANG ? '/privacy' : `/${lang}/privacy`;
 const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
 ---
@@ -30,23 +32,25 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
     <link href="https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap" rel="stylesheet">
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-landing text-white font-sans antialiased">
+  <body class="min-h-screen bg-landing font-sans antialiased text-white">
     <Nav lang={lang} />
     <main class="relative"><slot /></main>
     <footer class="mt-24 border-t border-white/10">
-      <div
-        class="mx-auto flex max-w-container flex-col gap-3 px-4 py-10 text-xs text-white/60 md:flex-row md:items-center md:justify-between"
-      >
-        <div class="mx-auto flex max-w-container flex-col gap-3 px-4 py-10 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
+      <div class="mx-auto flex max-w-container flex-col gap-3 px-4 py-10 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
         <span>© {new Date().getFullYear()} Auris Internacional — auris.cat {t(lang, 'footer_rights')}</span>
-        <a class="text-white/70 underline decoration-white/40 underline-offset-4 transition hover:text-white" href={policyHref}>
-          {t(lang, 'footer_cookies')}
-        </a>
+        <nav class="flex flex-wrap items-center gap-4 text-xs sm:gap-6">
+          <a class="transition hover:text-white" href={privacyPath}>
+            {t(lang, 'footer_privacy')}
+          </a>
           <a class="transition hover:text-white" href={termsPath}>
             {t(lang, 'footer_terms')}
+          </a>
+          <a class="text-white/70 underline decoration-white/40 underline-offset-4 transition hover:text-white" href={policyHref}>
+            {t(lang, 'footer_cookies')}
           </a>
         </nav>
       </div>
     </footer>
+    <CookieBanner lang={lang} />
   </body>
 </html>

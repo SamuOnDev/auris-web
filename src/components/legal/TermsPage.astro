@@ -20,7 +20,7 @@ const applyPlaceholders = (value: string) =>
 
 const sections = terms.sections.map((section) => ({
     ...section,
-    body: section.body.map((paragraph) => applyPlaceholders(paragraph))
+    body: section.body.map((paragraph) => applyPlaceholders(paragraph)),
 }));
 
 const lastUpdated = new Date().toLocaleDateString(lang);
