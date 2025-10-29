@@ -4,9 +4,9 @@ import ca from './locales/ca.json';
 import fr from './locales/fr.json';
 import de from './locales/de.json';
 import it from './locales/it.json';
-import type { TranslationKey } from './translation-keys';
-export type { TranslationKey } from './translation-keys';
-export { TRANSLATION_KEYS } from './translation-keys';
+import type { TranslationKey } from './translation-keys.ts';
+export type { TranslationKey } from './translation-keys.ts';
+export { TRANSLATION_KEYS } from './translation-keys.ts';
 
 export const SUPPORTED = ['es', 'en', 'ca', 'fr', 'de', 'it'] as const;
 export type Lang = typeof SUPPORTED[number];
