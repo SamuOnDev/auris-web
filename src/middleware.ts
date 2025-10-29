@@ -1,17 +1,20 @@
-import type {MiddlewareHandler}
-from 'astro';
-import { SUPPORTED, DEFAULT_LANG, normalizeLang, fromAcceptLanguage, type Lang } from './i18n';
+import type { MiddlewareHandler } from 'astro';
+import {
+    SUPPORTED,
+    DEFAULT_LANG,
+    normalizeLang,
+    fromAcceptLanguage,
+    type Lang,
+} from './i18n';
 
-export const onRequest: MiddlewareHandler = async ({
-    request,
-    redirect,
-    locals,
-    url
-}, next) => {
+export const onRequest: MiddlewareHandler = async (
+    { request, redirect, locals, url },
+    next,
+    ) => {
     const path = url.pathname; // e.g. "/", "/contact"
     const excludedPrefixes = ['/_astro', '/api', '/favicon', '/robots', '/sitemap'];
 
-    const isExcluded = excludedPrefixes.some(prefix => path.startsWith(prefix)) || path.includes('.');
+    const isExcluded = excludedPrefixes.some((prefix) => path.startsWith(prefix)) || path.includes('.');
     if (isExcluded) {
         return next();
     }
@@ -24,21 +27,13 @@ export const onRequest: MiddlewareHandler = async ({
     }
 
     // 1) Cookie
-    const cookie = request
-        .headers
-        .get('cookie') || '';
-    const m = cookie.match(/(?:^|;\s*)lang=([A-Za-z-]+)/);
-    const cookieLang = normalizeLang(
-        m
-            ?.[1] || ''
-    );
+    const cookie = request.headers.get('cookie') || '';
+    const match = cookie.match(/(?:^|;\s*)lang=([A-Za-z-]+)/);
+    const cookieLang = normalizeLang(match?.[1] || '');
 
     // 2) Accept-Language
     const headerLang = fromAcceptLanguage(request.headers.get('accept-language'));
 
-    const resolved = m
-        ?.[1]
-            ? cookieLang
-            : headerLang || DEFAULT_LANG;
+    const resolved = match?.[1] ? cookieLang : headerLang || DEFAULT_LANG;
     return redirect(`/${resolved}${path}`, 307);
 };
