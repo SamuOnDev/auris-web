@@ -143,6 +143,16 @@
                 ]
             }
         ],
+        "cookieControls": {
+            "heading": "Gestiona les teves preferències de galetes",
+            "description": "Des d'aquí pots acceptar o rebutjar les galetes opcionals que utilitzem per analitzar el trànsit i millorar els nostres serveis. Les galetes necessàries sempre es guarden perquè el web funcioni correctament.",
+            "statusUnknown": "Sense preferències guardades",
+            "statusAccepted": "Has acceptat les galetes opcionals",
+            "statusRejected": "Has rebutjat les galetes opcionals",
+            "accept": "Acceptar opcionals",
+            "reject": "Rebutjar opcionals",
+            "note": "Pots canviar la teva decisió en qualsevol moment. Si les rebutges, eliminarem també les galetes analítiques que s'hagin guardat."
+        },
         "lastUpdatedLabel": "Darrera actualització"
     },
     "terms": {

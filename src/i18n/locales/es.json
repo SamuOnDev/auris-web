@@ -127,6 +127,16 @@
                 ]
             }
         ],
+        "cookieControls": {
+            "heading": "Gestiona tus preferencias de cookies",
+            "description": "Desde aquí puedes aceptar o rechazar las cookies opcionales que usamos para analizar el tráfico y mejorar nuestros servicios. Las cookies necesarias se guardan siempre porque hacen que la web funcione correctamente.",
+            "statusUnknown": "Sin preferencias guardadas",
+            "statusAccepted": "Has aceptado las cookies opcionales",
+            "statusRejected": "Has rechazado las cookies opcionales",
+            "accept": "Aceptar opcionales",
+            "reject": "Rechazar opcionales",
+            "note": "Puedes cambiar tu decisión en cualquier momento. Si las rechazas eliminaremos también las cookies analíticas que se hayan guardado."
+        },
         "lastUpdatedLabel": "Última actualización"
     },
     "terms": {

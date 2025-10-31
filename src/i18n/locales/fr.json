@@ -143,6 +143,16 @@
                 ]
             }
         ],
+        "cookieControls": {
+            "heading": "Gérez vos préférences de cookies",
+            "description": "Depuis cet espace, vous pouvez accepter ou refuser les cookies optionnels que nous utilisons pour analyser la fréquentation et améliorer nos services. Les cookies nécessaires sont toujours enregistrés car ils garantissent le bon fonctionnement du site.",
+            "statusUnknown": "Aucune préférence enregistrée",
+            "statusAccepted": "Vous avez accepté les cookies optionnels",
+            "statusRejected": "Vous avez refusé les cookies optionnels",
+            "accept": "Accepter les optionnels",
+            "reject": "Refuser les optionnels",
+            "note": "Vous pouvez modifier votre choix à tout moment. En cas de refus, nous supprimerons également les cookies d'analyse éventuellement enregistrés."
+        },
         "lastUpdatedLabel": "Dernière mise à jour"
     },
     "terms": {

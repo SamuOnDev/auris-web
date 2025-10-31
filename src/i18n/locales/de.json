@@ -143,6 +143,16 @@
                 ]
             }
         ],
+        "cookieControls": {
+            "heading": "Verwalten Sie Ihre Cookie-Einstellungen",
+            "description": "Hier können Sie die optionalen Cookies akzeptieren oder ablehnen, die wir zur Analyse des Verkehrs und zur Verbesserung unserer Dienste einsetzen. Technisch notwendige Cookies werden immer gespeichert, weil sie den ordnungsgemäßen Betrieb der Website gewährleisten.",
+            "statusUnknown": "Keine Entscheidung gespeichert",
+            "statusAccepted": "Sie haben optionale Cookies akzeptiert",
+            "statusRejected": "Sie haben optionale Cookies abgelehnt",
+            "accept": "Optionale akzeptieren",
+            "reject": "Optionale ablehnen",
+            "note": "Sie können Ihre Auswahl jederzeit ändern. Wenn Sie ablehnen, löschen wir auch eventuell gesetzte Analyse-Cookies."
+        },
         "lastUpdatedLabel": "Letzte Aktualisierung"
     },
     "terms": {

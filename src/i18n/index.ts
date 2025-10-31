@@ -23,12 +23,24 @@ type TermsSection = {
     body: string[];
 };
 
+type CookieControlsContent = {
+    heading: string;
+    description: string;
+    statusUnknown: string;
+    statusAccepted: string;
+    statusRejected: string;
+    accept: string;
+    reject: string;
+    note: string;
+};
+
 type PrivacyContent = {
     metaTitle: string;
     heading: string;
     intro: string;
     sections: PrivacySection[];
     lastUpdatedLabel: string;
+    cookieControls: CookieControlsContent;
 };
 
 type TermsContent = {

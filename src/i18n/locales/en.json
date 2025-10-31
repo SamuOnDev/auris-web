@@ -143,6 +143,16 @@
                 ]
             }
         ],
+        "cookieControls": {
+            "heading": "Manage your cookie preferences",
+            "description": "Use this panel to accept or reject the optional cookies we use to analyse traffic and improve our services. Essential cookies are always stored because they keep the site working correctly.",
+            "statusUnknown": "No preference saved yet",
+            "statusAccepted": "You have accepted optional cookies",
+            "statusRejected": "You have rejected optional cookies",
+            "accept": "Accept optional",
+            "reject": "Reject optional",
+            "note": "You can change your choice at any time. If you reject them, we will also clear any analytics cookies that may have been stored."
+        },
         "lastUpdatedLabel": "Last updated"
     },
     "terms": {

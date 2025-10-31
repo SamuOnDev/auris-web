@@ -143,6 +143,16 @@
                 ]
             }
         ],
+        "cookieControls": {
+            "heading": "Gestisci le tue preferenze sui cookie",
+            "description": "Da qui puoi accettare o rifiutare i cookie facoltativi che utilizziamo per analizzare il traffico e migliorare i nostri servizi. I cookie necessari vengono sempre salvati perché permettono al sito di funzionare correttamente.",
+            "statusUnknown": "Nessuna preferenza salvata",
+            "statusAccepted": "Hai accettato i cookie facoltativi",
+            "statusRejected": "Hai rifiutato i cookie facoltativi",
+            "accept": "Accetta facoltativi",
+            "reject": "Rifiuta facoltativi",
+            "note": "Puoi modificare la tua scelta in qualsiasi momento. Se li rifiuti elimineremo anche eventuali cookie analitici già memorizzati."
+        },
         "lastUpdatedLabel": "Ultimo aggiornamento"
     },
     "terms": {
