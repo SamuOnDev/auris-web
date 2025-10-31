@@ -29,23 +29,37 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
       data-status-success={statusMessageTranslations.success}
       data-status-error={statusMessageTranslations.error}
       data-status-network={statusMessageTranslations.network}
+      data-status-validation={t(lang, 'contact_validation_error')}
       data-recaptcha-key={isRecaptchaEnabled ? recaptchaSiteKey : undefined}
+      data-error-name-required={t(lang, 'contact_name_error_required')}
+      data-error-name-invalid={t(lang, 'contact_name_error_invalid')}
+      data-error-name-forbidden={t(lang, 'contact_name_error_forbidden')}
+      data-error-email-required={t(lang, 'contact_email_error_required')}
+      data-error-email-invalid={t(lang, 'contact_email_error_invalid')}
+      data-error-email-forbidden={t(lang, 'contact_email_error_forbidden')}
+      data-error-message-required={t(lang, 'contact_message_error_required')}
+      data-error-message-length={t(lang, 'contact_message_error_length')}
+      data-error-message-forbidden={t(lang, 'contact_message_error_forbidden')}
+      data-error-consent={t(lang, 'contact_consent_error')}
     >
       <div>
         <label class="block text-sm mb-1">{t(lang, 'contact_name_label')}</label>
-        <input name="name" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2" />
+        <input name="name" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2 transition-colors" />
+        <p data-error-for="name" class="text-xs text-red-400 mt-1 hidden" role="alert" aria-live="polite"></p>
       </div>
       <div>
         <label class="block text-sm mb-1">{t(lang, 'contact_email_label')}</label>
-        <input type="email" name="email" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2" />
+        <input type="email" name="email" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2 transition-colors" />
+        <p data-error-for="email" class="text-xs text-red-400 mt-1 hidden" role="alert" aria-live="polite"></p>
       </div>
       <div>
         <label class="block text-sm mb-1">{t(lang, 'contact_message_label')}</label>
-        <textarea name="message" rows="5" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2"></textarea>
+        <textarea name="message" rows="5" required class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2 transition-colors"></textarea>
+        <p data-error-for="message" class="text-xs text-red-400 mt-1 hidden" role="alert" aria-live="polite"></p>
       </div>
 
       <!-- RGPD: consentimiento -->
-      <div class="flex items-start gap-3">
+      <div class="flex items-start gap-3" data-error-container="consent">
         <input id="consent" type="checkbox" required class="mt-1 rounded bg-white/5 border-white/10" />
         <label for="consent" class="text-sm text-white/80">
           {privacyPrefix}
@@ -57,6 +71,7 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
           {privacySuffix}
         </label>
       </div>
+      <p data-error-for="consent" class="text-xs text-red-400 hidden" role="alert" aria-live="assertive"></p>
 
       <!-- Honeypot anti-spam -->
       <input type="text" name="website" style="display:none" autocomplete="off" />
@@ -64,6 +79,12 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
       <button class="w-full sm:w-auto rounded-md bg-brand-accent text-black font-semibold px-5 py-3 hover:opacity-90">
         {t(lang,'cta_primary')}
       </button>
+
+      {isRecaptchaEnabled && (
+        <p class="text-xs text-white/60" data-recaptcha-notice>
+          {t(lang, 'contact_recaptcha_notice')}
+        </p>
+      )}
 
       <p id="msg" role="status" class="text-sm text-white/70 mt-2"></p>
     </form>
@@ -85,9 +106,217 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
         success: form.dataset.statusSuccess ?? '',
         error: form.dataset.statusError ?? '',
         network: form.dataset.statusNetwork ?? '',
+        validation: form.dataset.statusValidation ?? '',
       };
       const submitButton = form.querySelector('button[type="submit"]');
       const recaptchaSiteKey = form.dataset.recaptchaKey ?? '';
+
+      const errorElements = new Map();
+      form.querySelectorAll('[data-error-for]').forEach((element) => {
+        const key = element.getAttribute('data-error-for');
+        if (key) {
+          errorElements.set(key, element);
+        }
+      });
+
+      const toggleError = (key, message, control) => {
+        const errorElement = errorElements.get(key);
+        if (!(errorElement instanceof HTMLElement)) {
+          return;
+        }
+
+        const hasMessage = typeof message === 'string' && message.length > 0;
+        errorElement.textContent = hasMessage ? message : '';
+        errorElement.classList.toggle('hidden', !hasMessage);
+        errorElement.setAttribute('aria-hidden', hasMessage ? 'false' : 'true');
+
+        if (control instanceof HTMLElement) {
+          const isInput = control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement;
+          if (isInput) {
+            control.setAttribute('aria-invalid', hasMessage ? 'true' : 'false');
+            control.classList.toggle('border-red-500', hasMessage);
+          }
+        }
+      };
+
+      const consentContainer = form.querySelector('[data-error-container="consent"]');
+
+      const getMessage = (key) => form.dataset[key] ?? '';
+
+      const containsForbiddenContent = (value) => {
+        if (!value) {
+          return false;
+        }
+
+        const forbiddenPatterns = [
+          /(https?:\/\/|ftp:\/\/|www\.)/i,
+          /(\.{1,2}[\\/])/, // ./ or ../
+          /(^|[\s])[A-Za-z]:\\/i,
+          /(^|[\s@])[A-Za-z0-9._-]{2,}[\\/][A-Za-z0-9._-]{2,}/,
+        ];
+
+        return forbiddenPatterns.some((pattern) => pattern.test(value));
+      };
+
+      const fields = {
+        name: form.elements.namedItem('name'),
+        email: form.elements.namedItem('email'),
+        message: form.elements.namedItem('message'),
+        consent: form.querySelector('#consent'),
+      };
+
+      const ensureField = (field) => (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement ? field : null);
+      const ensureCheckbox = (field) => (field instanceof HTMLInputElement && field.type === 'checkbox' ? field : null);
+
+      const validators = {
+        name: () => {
+          const input = ensureField(fields.name);
+          if (!input) {
+            return true;
+          }
+
+          const value = input.value.trim();
+          if (!value) {
+            toggleError('name', getMessage('errorNameRequired'), input);
+            return false;
+          }
+
+          if (value.length < 2 || value.length > 200) {
+            toggleError('name', getMessage('errorNameInvalid'), input);
+            return false;
+          }
+
+          if (/\d/.test(value) || !/^[-'\p{L}\p{M}\s]+$/u.test(value)) {
+            toggleError('name', getMessage('errorNameInvalid'), input);
+            return false;
+          }
+
+          if (containsForbiddenContent(value)) {
+            toggleError('name', getMessage('errorNameForbidden'), input);
+            return false;
+          }
+
+          toggleError('name', '', input);
+          return true;
+        },
+        email: () => {
+          const input = ensureField(fields.email);
+          if (!input) {
+            return true;
+          }
+
+          const value = input.value.trim();
+          if (!value) {
+            toggleError('email', getMessage('errorEmailRequired'), input);
+            return false;
+          }
+
+          if (!input.checkValidity()) {
+            toggleError('email', getMessage('errorEmailInvalid'), input);
+            return false;
+          }
+
+          if (containsForbiddenContent(value)) {
+            toggleError('email', getMessage('errorEmailForbidden'), input);
+            return false;
+          }
+
+          toggleError('email', '', input);
+          return true;
+        },
+        message: () => {
+          const input = ensureField(fields.message);
+          if (!input) {
+            return true;
+          }
+
+          const value = input.value.trim();
+          if (!value) {
+            toggleError('message', getMessage('errorMessageRequired'), input);
+            return false;
+          }
+
+          if (value.length < 10 || value.length > 5000) {
+            toggleError('message', getMessage('errorMessageLength'), input);
+            return false;
+          }
+
+          if (containsForbiddenContent(value)) {
+            toggleError('message', getMessage('errorMessageForbidden'), input);
+            return false;
+          }
+
+          toggleError('message', '', input);
+          return true;
+        },
+        consent: () => {
+          const checkbox = ensureCheckbox(fields.consent);
+          if (!checkbox) {
+            return true;
+          }
+
+          if (!checkbox.checked) {
+            toggleError('consent', getMessage('errorConsent'), checkbox);
+            consentContainer?.classList.add('text-red-400');
+            return false;
+          }
+
+          toggleError('consent', '', checkbox);
+          consentContainer?.classList.remove('text-red-400');
+          return true;
+        },
+      };
+
+      const validatorKeys = Object.keys(validators);
+
+      const validateAll = () => {
+        let firstInvalidControl;
+        const results = validatorKeys.map((key) => {
+          const isValid = validators[key]();
+          if (!isValid && !firstInvalidControl) {
+            const field = fields[key];
+            if (field instanceof HTMLElement) {
+              firstInvalidControl = field;
+            }
+          }
+          return isValid;
+        });
+
+        if (firstInvalidControl instanceof HTMLElement) {
+          firstInvalidControl.focus({ preventScroll: false });
+        }
+
+        return results.every(Boolean);
+      };
+
+      const clearAllErrors = () => {
+        validatorKeys.forEach((key) => {
+          const field = fields[key];
+          if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+            toggleError(key, '', field);
+          } else {
+            toggleError(key, '', undefined);
+          }
+        });
+        consentContainer?.classList.remove('text-red-400');
+      };
+
+      Object.entries(fields).forEach(([key, field]) => {
+        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+          field.addEventListener('input', () => {
+            validators[key]?.();
+          });
+          field.addEventListener('blur', () => {
+            validators[key]?.();
+          });
+        }
+      });
+
+      if (fields.consent instanceof HTMLInputElement) {
+        fields.consent.addEventListener('change', () => {
+          validators.consent();
+        });
+      }
 
       const executeRecaptcha = (siteKey) =>
         new Promise((resolve, reject) => {
@@ -133,6 +362,13 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        if (!validateAll()) {
+          statusEl.textContent = statusMessages.validation;
+          statusEl.classList.add('text-red-400');
+          return;
+        }
+
+        statusEl.classList.remove('text-red-400');
         const formData = new FormData(form);
         const entries = Object.fromEntries(formData.entries());
         const serialised = Object.fromEntries(
@@ -177,6 +413,7 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
           if (response.ok && result.ok) {
             statusEl.textContent = statusMessages.success;
             form.reset();
+            clearAllErrors();
           } else {
             statusEl.textContent = result.error || statusMessages.error;
           }

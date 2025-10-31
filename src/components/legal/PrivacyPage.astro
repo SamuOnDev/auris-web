@@ -20,7 +20,14 @@ const sections = privacy.sections.map((section) => ({
     list: section.list ? [...section.list] : undefined,
 }));
 
+const cookieControls = privacy.cookieControls;
+
+if (!cookieControls) {
+    throw new Error('Missing cookie controls translations');
+}
+
 const lastUpdated = new Date().toLocaleDateString(lang);
+const optionalStorageKeys = ['auris-analytics', 'auris-analytics-session'];
 ---
 <Base title={`${privacy.metaTitle} — Auris Internacional`} lang={lang}>
     <section class="mx-auto max-w-3xl space-y-8 px-4 py-16 text-white/90">
@@ -28,6 +35,38 @@ const lastUpdated = new Date().toLocaleDateString(lang);
         <h1 class="text-3xl font-semibold text-white sm:text-4xl">{privacy.heading}</h1>
         <p class="text-base" set:html={privacy.intro}></p>
         </header>
+
+        <section
+            class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_10px_40px_rgba(8,12,32,0.35)]"
+            data-cookie-preferences
+            data-status-unknown={cookieControls.statusUnknown}
+            data-status-accepted={cookieControls.statusAccepted}
+            data-status-rejected={cookieControls.statusRejected}
+            data-optional-storage={optionalStorageKeys.join(',')}
+        >
+            <div class="space-y-4">
+                <h2 class="text-2xl font-semibold text-white">{cookieControls.heading}</h2>
+                <p class="text-base text-white/90" set:html={cookieControls.description}></p>
+                <p class="text-sm font-medium text-brand-accent" data-cookie-status>{cookieControls.statusUnknown}</p>
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <button
+                        type="button"
+                        data-cookie-set="accepted"
+                        class="inline-flex items-center justify-center rounded-full bg-brand-accent px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-brand-accent/90"
+                    >
+                        {cookieControls.accept}
+                    </button>
+                    <button
+                        type="button"
+                        data-cookie-set="rejected"
+                        class="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10"
+                    >
+                        {cookieControls.reject}
+                    </button>
+                </div>
+                <p class="text-xs text-white/60" set:html={cookieControls.note}></p>
+            </div>
+        </section>
 
         {sections.map((section) => (
         <section class="space-y-3">
@@ -48,3 +87,81 @@ const lastUpdated = new Date().toLocaleDateString(lang);
         <p class="text-sm text-white/70">{privacy.lastUpdatedLabel}: {lastUpdated}</p>
     </section>
 </Base>
+<script is:inline>
+    (() => {
+        const STORAGE_KEY = 'auris-cookie-consent';
+        if (typeof window === 'undefined') return;
+        const root = document.querySelector('[data-cookie-preferences]');
+        if (!(root instanceof HTMLElement)) return;
+        const statusEl = root.querySelector('[data-cookie-status]');
+        if (!(statusEl instanceof HTMLElement)) return;
+
+        const { optionalStorage = '', statusAccepted = '', statusRejected = '', statusUnknown = '' } = root.dataset;
+        const optionalKeys = optionalStorage
+            .split(',')
+            .map((value) => value.trim())
+            .filter((value) => value.length > 0);
+
+        const messages = {
+            accepted: statusAccepted || statusUnknown,
+            rejected: statusRejected || statusUnknown,
+            unknown: statusUnknown,
+        };
+
+        const updateStatus = (status) => {
+            const next = messages[status] ?? messages.unknown;
+            statusEl.textContent = next;
+            root.setAttribute('data-active-status', status);
+        };
+
+        const readStatus = () => {
+            try {
+                const saved = window.localStorage.getItem(STORAGE_KEY);
+                if (saved === 'accepted' || saved === 'rejected') {
+                    return saved;
+                }
+            } catch (err) {
+                // Ignore errors when storage is unavailable
+            }
+            return 'unknown';
+        };
+
+        const clearOptionalStorage = () => {
+            optionalKeys.forEach((key) => {
+                try {
+                    window.localStorage.removeItem(key);
+                } catch (err) {
+                    // Ignore cleanup errors for localStorage
+                }
+                try {
+                    window.sessionStorage.removeItem(key);
+                } catch (err) {
+                    // Ignore cleanup errors for sessionStorage
+                }
+            });
+        };
+
+        const applySelection = (value) => {
+            if (value !== 'accepted' && value !== 'rejected') return;
+            try {
+                window.localStorage.setItem(STORAGE_KEY, value);
+            } catch (err) {
+                // Ignore persistence errors
+            }
+            if (value === 'rejected') {
+                clearOptionalStorage();
+            }
+            updateStatus(value);
+            window.dispatchEvent(new CustomEvent('auris-cookie-consent', { detail: value }));
+        };
+
+        root.querySelectorAll('[data-cookie-set]').forEach((element) => {
+            element.addEventListener('click', () => {
+                const { cookieSet } = element.dataset;
+                applySelection(cookieSet);
+            });
+        });
+
+        updateStatus(readStatus());
+    })();
+</script>
