@@ -18,7 +18,6 @@ const {
 } = Astro.props as Props;
 
 const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
-const policyHref = `/${lang}/cookies`;
 const privacyPath = lang === DEFAULT_LANG ? '/privacy' : `/${lang}/privacy`;
 const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
 ---
@@ -54,11 +53,6 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
                   </a>
                 </li>
                 <li>
-                  <a class="text-white/70 underline decoration-white/40 underline-offset-4 transition hover:text-white" href={policyHref}>
-                    {t(lang, 'footer_cookies')}
-                  </a>
-                </li>
-              </ul>
             </nav>
           </div>
         </div>
