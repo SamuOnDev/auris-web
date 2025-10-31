@@ -129,7 +129,241 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
       };
       const submitButton = form.querySelector('button[type="submit"]');
       const recaptchaSiteKey = form.dataset.recaptchaKey ?? '';
-      const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
+      const errorElements = new Map();
+      form.querySelectorAll('[data-error-for]').forEach((element) => {
+        const key = element.getAttribute('data-error-for');
+        if (key) {
+          errorElements.set(key, element);
+        }
+      });
+
+      const toggleError = (key, message, control) => {
+        const errorElement = errorElements.get(key);
+        if (!(errorElement instanceof HTMLElement)) {
+          return;
+        }
+
+        const hasMessage = typeof message === 'string' && message.length > 0;
+        errorElement.textContent = hasMessage ? message : '';
+        errorElement.classList.toggle('hidden', !hasMessage);
+        errorElement.setAttribute('aria-hidden', hasMessage ? 'false' : 'true');
+
+        if (control instanceof HTMLElement) {
+          const isInput = control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement;
+          if (isInput) {
+            control.setAttribute('aria-invalid', hasMessage ? 'true' : 'false');
+            control.classList.toggle('border-red-500', hasMessage);
+          }
+        }
+      };
+
+      const consentContainer = form.querySelector('[data-error-container="consent"]');
+      const getMessage = (key) => form.dataset[key] ?? '';
+
+      const containsForbiddenContent = (value) => {
+        if (!value) {
+          return false;
+        }
+
+        const forbiddenPatterns = [
+          /(https?:\/\/|ftp:\/\/|www\.)/i,
+          /(\.{1,2}[\\/])/, // ./ or ../
+          /(^|[\s])[A-Za-z]:\\/i,
+          /(^|[\s@])[A-Za-z0-9._-]{2,}[\\/][A-Za-z0-9._-]{2,}/,
+        ];
+
+        return forbiddenPatterns.some((pattern) => pattern.test(value));
+      };
+
+      const fields = {
+        name: form.elements.namedItem('name'),
+        email: form.elements.namedItem('email'),
+        message: form.elements.namedItem('message'),
+        consent: form.querySelector('#consent'),
+      };
+
+      const ensureField = (field) =>
+        field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement ? field : null;
+      const ensureCheckbox = (field) =>
+        field instanceof HTMLInputElement && field.type === 'checkbox' ? field : null;
+
+      const validators = {
+        name: () => {
+          const input = ensureField(fields.name);
+          if (!input) {
+            return true;
+          }
+
+          const value = input.value.trim();
+          if (!value) {
+            toggleError('name', getMessage('errorNameRequired'), input);
+            return false;
+          }
+
+          if (value.length < 2 || value.length > 200) {
+            toggleError('name', getMessage('errorNameInvalid'), input);
+            return false;
+          }
+
+          if (/\d/.test(value) || !/^[-'\p{L}\p{M}\s]+$/u.test(value)) {
+            toggleError('name', getMessage('errorNameInvalid'), input);
+            return false;
+          }
+
+          if (containsForbiddenContent(value)) {
+            toggleError('name', getMessage('errorNameForbidden'), input);
+            return false;
+          }
+
+          toggleError('name', '', input);
+          return true;
+        },
+        email: () => {
+          const input = ensureField(fields.email);
+          if (!input) {
+            return true;
+          }
+
+          const value = input.value.trim();
+          if (!value) {
+            toggleError('email', getMessage('errorEmailRequired'), input);
+            return false;
+          }
+
+          if (!input.checkValidity()) {
+            toggleError('email', getMessage('errorEmailInvalid'), input);
+            return false;
+          }
+
+          if (containsForbiddenContent(value)) {
+            toggleError('email', getMessage('errorEmailForbidden'), input);
+            return false;
+          }
+
+          toggleError('email', '', input);
+          return true;
+        },
+        message: () => {
+          const input = ensureField(fields.message);
+          if (!input) {
+            return true;
+          }
+
+          const value = input.value.trim();
+          if (!value) {
+            toggleError('message', getMessage('errorMessageRequired'), input);
+            return false;
+          }
+
+          if (value.length < 10 || value.length > 5000) {
+            toggleError('message', getMessage('errorMessageLength'), input);
+            return false;
+          }
+
+          if (containsForbiddenContent(value)) {
+            toggleError('message', getMessage('errorMessageForbidden'), input);
+            return false;
+          }
+
+          toggleError('message', '', input);
+          return true;
+        },
+        consent: () => {
+          const checkbox = ensureCheckbox(fields.consent);
+          if (!checkbox) {
+            return true;
+          }
+
+          if (!checkbox.checked) {
+            toggleError('consent', getMessage('errorConsent'), checkbox);
+            consentContainer?.classList.add('text-red-400');
+            return false;
+          }
+
+          toggleError('consent', '', checkbox);
+          consentContainer?.classList.remove('text-red-400');
+          return true;
+        },
+      };
+
+      const validatorKeys = Object.keys(validators);
+
+      const validateAll = () => {
+        let firstInvalidControl;
+        const results = validatorKeys.map((key) => {
+          const isValid = validators[key]();
+          if (!isValid && !firstInvalidControl) {
+            const field = fields[key];
+            if (field instanceof HTMLElement) {
+              firstInvalidControl = field;
+            }
+          }
+          return isValid;
+        });
+
+        if (firstInvalidControl instanceof HTMLElement) {
+          firstInvalidControl.focus({ preventScroll: false });
+        }
+
+        return results.every(Boolean);
+      };
+
+      const clearAllErrors = () => {
+        validatorKeys.forEach((key) => {
+          const field = fields[key];
+          if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+            toggleError(key, '', field);
+          } else {
+            toggleError(key, '', undefined);
+          }
+        });
+        consentContainer?.classList.remove('text-red-400');
+      };
+
+      Object.entries(fields).forEach(([key, field]) => {
+        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+          field.addEventListener('input', () => {
+            validators[key]?.();
+          });
+          field.addEventListener('blur', () => {
+            validators[key]?.();
+          });
+        }
+      });
+
+      if (fields.consent instanceof HTMLInputElement) {
+        fields.consent.addEventListener('change', () => {
+          validators.consent();
+        });
+      }
+
+      const executeRecaptcha = (siteKey) =>
+        new Promise((resolve, reject) => {
+          if (!siteKey) {
+            resolve(undefined);
+            return;
+          }
+
+          let attempts = 0;
+          const maxAttempts = 50; // ~5s esperando a que cargue el script
+
+          const attemptExecution = () => {
+            attempts += 1;
+            const grecaptcha = window.grecaptcha;
+
+            if (!grecaptcha || typeof grecaptcha.ready !== 'function') {
+              if (attempts >= maxAttempts) {
+                reject(new Error('reCAPTCHA no se ha cargado a tiempo'));
+                return;
+              }
+
+              setTimeout(attemptExecution, 100);
+              return;
+            }
+
+            grecaptcha.ready(() => {
+              grecaptcha
+                .execute(siteKey, { action: 'contact_form' })
                 .then((token) => {
                   if (typeof token === 'string' && token) {
                     resolve(token);
@@ -195,7 +429,9 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
         }
 
         const body = { ...serialised, lang: currentLang, token: recaptchaToken };
-        const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
           });
