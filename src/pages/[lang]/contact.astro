@@ -7,6 +7,7 @@ const statusMessageTranslations = {
   success: t(lang, 'contact_success'),
   error: t(lang, 'contact_error'),
   network: t(lang, 'contact_network_error'),
+  disabled: t(lang, 'contact_disabled_message'),
 };
 const privacySlug = lang === 'en' ? 'privacy' : 'privacy';
 const privacyPrefix = t(lang, 'contact_privacy_prefix');
@@ -31,6 +32,7 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
         data-status-error={statusMessageTranslations.error}
         data-status-network={statusMessageTranslations.network}
         data-status-validation={t(lang, 'contact_validation_error')}
+        data-status-disabled={statusMessageTranslations.disabled}
         data-recaptcha-key={isRecaptchaEnabled ? recaptchaSiteKey : undefined}
         data-error-name-required={t(lang, 'contact_name_error_required')}
         data-error-name-invalid={t(lang, 'contact_name_error_invalid')}
@@ -93,9 +95,12 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
 
         <button
           type="submit"
-          class="w-full rounded-md bg-brand-accent px-5 py-3 font-semibold text-black hover:opacity-90 sm:w-auto"
+          disabled
+          aria-disabled="true"
+          data-disabled="true"
+          class="w-full rounded-md bg-brand-accent px-5 py-3 font-semibold text-black hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
-          Enviar
+          {t(lang, 'contact_submit')}
         </button>
 
         {isRecaptchaEnabled && (
@@ -126,6 +131,7 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
         error: form.dataset.statusError ?? '',
         network: form.dataset.statusNetwork ?? '',
         validation: form.dataset.statusValidation ?? '',
+        disabled: form.dataset.statusDisabled ?? '',
       };
       const submitButton = form.querySelector('button[type="submit"]');
       const recaptchaSiteKey = form.dataset.recaptchaKey ?? '';
@@ -380,6 +386,12 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        if (submitButton instanceof HTMLButtonElement && submitButton.dataset.disabled === 'true') {
+          statusEl.textContent = statusMessages.disabled;
+          statusEl.classList.remove('text-red-400');
+          return;
+        }
 
         if (!validateAll()) {
           statusEl.textContent = statusMessages.validation;
