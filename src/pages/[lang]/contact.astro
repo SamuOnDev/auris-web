@@ -14,6 +14,8 @@ const privacyLinkText = t(lang, 'contact_privacy_link');
 const privacySuffix = t(lang, 'contact_privacy_suffix');
 const needsSpaceBeforeLink = /\S$/.test(privacyPrefix) && !/[’']$/.test(privacyPrefix);
 const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(privacySuffix);
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSiteKey.length > 0;
 ---
 <Base title={`Auris — ${t(lang, 'nav_contact')}`} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
@@ -27,6 +29,7 @@ const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(priva
       data-status-success={statusMessageTranslations.success}
       data-status-error={statusMessageTranslations.error}
       data-status-network={statusMessageTranslations.network}
+      data-recaptcha-key={isRecaptchaEnabled ? recaptchaSiteKey : undefined}
     >
       <div>
         <label class="block text-sm mb-1">{t(lang, 'contact_name_label')}</label>
@@ -66,6 +69,10 @@ const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(priva
     </form>
   </section>
 
+  {isRecaptchaEnabled && (
+    <script src={`https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(recaptchaSiteKey)}`} async defer></script>
+  )}
+
   <script is:inline>
     const form = document.getElementById('contactForm');
     const statusEl = document.getElementById('msg');
@@ -80,6 +87,48 @@ const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(priva
         network: form.dataset.statusNetwork ?? '',
       };
       const submitButton = form.querySelector('button[type="submit"]');
+      const recaptchaSiteKey = form.dataset.recaptchaKey ?? '';
+
+      const executeRecaptcha = (siteKey) =>
+        new Promise((resolve, reject) => {
+          if (!siteKey) {
+            resolve(undefined);
+            return;
+          }
+
+          let attempts = 0;
+          const maxAttempts = 50; // ~5s esperando a que cargue el script
+
+          const attemptExecution = () => {
+            attempts += 1;
+            const grecaptcha = window.grecaptcha;
+
+            if (!grecaptcha || typeof grecaptcha.ready !== 'function') {
+              if (attempts >= maxAttempts) {
+                reject(new Error('reCAPTCHA no se ha cargado a tiempo'));
+                return;
+              }
+
+              setTimeout(attemptExecution, 100);
+              return;
+            }
+
+            grecaptcha.ready(() => {
+              grecaptcha
+                .execute(siteKey, { action: 'contact_form' })
+                .then((token) => {
+                  if (typeof token === 'string' && token) {
+                    resolve(token);
+                  } else {
+                    reject(new Error('Token de reCAPTCHA inválido'));
+                  }
+                })
+                .catch(reject);
+            });
+          };
+
+          attemptExecution();
+        });
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -89,7 +138,6 @@ const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(priva
         const serialised = Object.fromEntries(
           Object.entries(entries).map(([key, value]) => [key, typeof value === 'string' ? value : ''])
         );
-        const body = { ...serialised, lang: currentLang };
 
         if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = true;
@@ -97,6 +145,25 @@ const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(priva
         }
 
         statusEl.textContent = '';
+
+        let recaptchaToken;
+
+        try {
+          recaptchaToken = await executeRecaptcha(recaptchaSiteKey);
+        } catch (err) {
+          console.error('Error resolviendo reCAPTCHA', err);
+          statusEl.textContent = statusMessages.network;
+
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = false;
+            delete submitButton.dataset.loading;
+          }
+
+          return;
+        }
+
+        const body = { ...serialised, lang: currentLang, token: recaptchaToken };
+
 
         try {
           const response = await fetch('/api/contact', {

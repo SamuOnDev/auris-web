@@ -12,6 +12,9 @@ interface ImportMetaEnv {
     readonly RESEND_API_KEY?: string;
     readonly TO_EMAIL?: string;
     readonly FROM_EMAIL?: string;
+    readonly PUBLIC_RECAPTCHA_SITE_KEY?: string;
+    readonly RECAPTCHA_SECRET_KEY?: string;
+    readonly RECAPTCHA_MIN_SCORE?: string;
 }
 
 interface ImportMeta {

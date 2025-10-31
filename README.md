@@ -1,3 +1,6 @@
++4
+-1
+
 # Auris International — auris.cat
 
 Sitio web construido con [Astro](https://astro.build/) y Tailwind CSS.
@@ -21,12 +24,15 @@ npm install
 
 ## Variables de entorno
 
-Las siguientes variables son opcionales y permiten integrar el formulario de contacto con servicios externos:
+Las siguientes variables son opcionales y permiten integrar el formulario de contacto con servicios externos y mecanismos anti-spam:
 
 - `N8N_WEBHOOK_URL`
 - `RESEND_API_KEY`
 - `TO_EMAIL`
 - `FROM_EMAIL`
+- `PUBLIC_RECAPTCHA_SITE_KEY`
+- `RECAPTCHA_SECRET_KEY`
+- `RECAPTCHA_MIN_SCORE`
 
 Configúralas en tu entorno de desarrollo y en el panel de Vercel si las necesitas.
 
