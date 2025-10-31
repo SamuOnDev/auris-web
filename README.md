@@ -1,6 +1,3 @@
-+4
--1
-
 # Auris International — auris.cat
 
 Sitio web construido con [Astro](https://astro.build/) y Tailwind CSS.
