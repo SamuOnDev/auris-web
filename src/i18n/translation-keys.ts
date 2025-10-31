@@ -61,6 +61,7 @@ export const TRANSLATION_KEYS = [
     'cta_primary',
     'cta_secondary',
     'footer_cookies',
+    'footer_legal',
     'footer_privacy',
     'footer_rights',
     'footer_terms',

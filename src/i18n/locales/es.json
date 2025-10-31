@@ -57,8 +57,10 @@
     "where_address_label": "Dirección",
     "where_phone_label": "Teléfono",
     "where_map_title": "Ubicación en el mapa",
+    "footer_legal": "Información legal",
     "footer_privacy": "Política de privacidad",
     "footer_terms": "Términos y condiciones",
+    "footer_cookies": "Política de cookies",
     "privacy": {
         "metaTitle": "Política de privacidad",
         "heading": "Política de privacidad",
