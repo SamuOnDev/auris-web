@@ -63,18 +63,18 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
         </div>
       </figure>
       <!-- Texto: priorizado en móviles -->
-      <div class="order-1 space-y-6 text-left md:order-2">
+      <div class="order-1 space-y-6 text-right md:order-2">
         
         <h1 class="text-[32px] font-extrabold leading-tight tracking-tight text-white sm:text-[40px] md:text-[52px]">
-          {t(lang, 'h1a')} <span class="text-brand-accent">{t(lang, 'h1b')}</span> {t(lang, 'h1c')}
+          {t(lang, 'h1a2')} <span class="text-brand-accent">{t(lang, 'h1b2')}</span> {t(lang, 'h1c2')}
         </h1>
 
         <p class="max-w-xl text-lg text-white/85">
-          {t(lang, 'sub')}
+          {t(lang, 'sub2')}
         </p>
 
     <p class="max-w-xl text-sm text-white/60 sm:text-base">
-          {t(lang, 'sub_alt')}
+          {t(lang, 'sub_alt2')}
         </p>
       </div>
     </div>

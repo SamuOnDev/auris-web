@@ -69,6 +69,9 @@ export const TRANSLATION_KEYS = [
     'h1a',
     'h1b',
     'h1c',
+    'h1a2',
+    'h1b2',
+    'h1c2',
     'nav_about',
     'nav_contact',
     'nav_home',
@@ -79,5 +82,7 @@ export const TRANSLATION_KEYS = [
     'where_phone_label',
     'sub',
     'sub_alt',
+    'sub2',
+    'sub_alt2',
 ] as const;
 export type TranslationKey = typeof TRANSLATION_KEYS[number];
