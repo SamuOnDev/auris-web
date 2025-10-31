@@ -40,7 +40,7 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
           <span class="block">© {new Date().getFullYear()} Auris Internacional — auris.cat {t(lang, 'footer_rights')}</span>
           <div class="flex flex-col items-start gap-3 sm:items-end">
             <span class="text-[0.7rem] uppercase tracking-[0.35em] text-white/40">{t(lang, 'footer_legal')}</span>
-            <nav aria-label={t(lang, 'footer_legal')} class="w-full max-w-xs">
+            <nav aria-label={t(lang, 'footer_legal')} class="w-full max-w-xs text-left sm:text-right">
               <ul class="flex flex-wrap gap-x-6 gap-y-3 text-xs sm:justify-end">
                 <li>
                   <a class="transition hover:text-white" href={privacyPath}>
