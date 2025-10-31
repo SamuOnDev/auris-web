@@ -25,6 +25,7 @@
     "contact_consent_error": "Has d'acceptar la política de privacitat abans d'enviar.",
     "contact_success": "Enviat correctament",
     "contact_submit": "Enviar",
+    "contact_disabled_message": "De moment el formulari no està operatiu. Si us plau, escriu-nos a hola@auris.cat.",
     "contact_error": "Error",
     "contact_network_error": "Error de xarxa",
     "contact_validation_error": "Revisa els camps destacats i corregeix els errors.",

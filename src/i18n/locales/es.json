@@ -25,6 +25,7 @@
     "contact_consent_error": "Debes aceptar la política de privacidad antes de enviar.",
     "contact_success": "Enviado correctamente",
     "contact_submit": "Enviar",
+    "contact_disabled_message": "De momento el formulario no está operativo. Escríbenos a hola@auris.cat.",
     "contact_error": "Error",
     "contact_network_error": "Error de red",
     "contact_validation_error": "Revisa los campos marcados y corrige los errores.",
