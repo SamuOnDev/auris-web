@@ -23,7 +23,7 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
 
     <form
       id="contactForm"
-      class="mt-6 max-w-xl space-y-4"
+      class="mt-6 max-w-xl mx-auto space-y-4"
       novalidate
       data-lang={lang}
       data-status-success={statusMessageTranslations.success}
@@ -77,7 +77,7 @@ const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSite
       <input type="text" name="website" style="display:none" autocomplete="off" />
 
       <button class="w-full sm:w-auto rounded-md bg-brand-accent text-black font-semibold px-5 py-3 hover:opacity-90">
-        {t(lang,'cta_primary')}
+        {t(lang, 'contact_submit')}
       </button>
 
       {isRecaptchaEnabled && (

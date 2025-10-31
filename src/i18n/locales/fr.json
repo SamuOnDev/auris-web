@@ -19,6 +19,7 @@
     "contact_privacy_suffix": ".",
     "contact_consent_error": "Vous devez accepter la politique de confidentialité avant d'envoyer.",
     "contact_success": "Envoyé avec succès",
+    "contact_submit": "Envoyer",
     "contact_error": "Erreur",
     "contact_network_error": "Erreur réseau",
     "contact_validation_error": "Vérifiez les champs en surbrillance et corrigez les erreurs.",

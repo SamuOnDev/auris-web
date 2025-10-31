@@ -19,6 +19,7 @@
     "contact_privacy_suffix": ".",
     "contact_consent_error": "Du musst die Datenschutzerklärung akzeptieren, bevor du senden kannst.",
     "contact_success": "Erfolgreich gesendet",
+    "contact_submit": "Senden",
     "contact_error": "Fehler",
     "contact_network_error": "Netzwerkfehler",
     "contact_validation_error": "Bitte überprüfe die markierten Felder und korrigiere die Fehler.",

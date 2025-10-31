@@ -19,6 +19,7 @@
     "contact_privacy_suffix": ".",
     "contact_consent_error": "Has d'acceptar la política de privacitat abans d'enviar.",
     "contact_success": "Enviat correctament",
+    "contact_submit": "Enviar",
     "contact_error": "Error",
     "contact_network_error": "Error de xarxa",
     "contact_validation_error": "Revisa els camps destacats i corregeix els errors.",
