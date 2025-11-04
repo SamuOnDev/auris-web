@@ -392,7 +392,11 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 
             if (recaptchaSiteKey && recaptchaContainer instanceof HTMLElement) {
               window.initRecaptcha = () => {
-                const grecaptcha = window.grecaptcha;
+                if (typeof recaptchaWidgetId === 'number') {
+                  return;
+              }
+
+            const grecaptcha = window.grecaptcha;
 
                     if (!grecaptcha || typeof grecaptcha.render !== 'function') {
             console.error('reCAPTCHA no está disponible');
