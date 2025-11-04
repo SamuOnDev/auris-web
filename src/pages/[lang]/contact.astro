@@ -379,31 +379,31 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
       }
 
       const resetRecaptchaState = () => {
-        const grecaptcha = window.grecaptcha;
+      const grecaptcha = window.grecaptcha;
 
-          if (typeof grecaptcha?.reset === 'function' && typeof recaptchaWidgetId === 'number') {
-            grecaptcha.reset(recaptchaWidgetId);
-          }
+        if (typeof grecaptcha?.reset === 'function' && typeof recaptchaWidgetId === 'number') {
+          grecaptcha.reset(recaptchaWidgetId);
+        }
 
-          latestRecaptchaToken = '';
-            setSubmitDisabled(true);
-            markRecaptchaNoticeError(false);
-          };
+        latestRecaptchaToken = '';
+          setSubmitDisabled(true);
+          markRecaptchaNoticeError(false);
+        };
 
-            if (recaptchaSiteKey && recaptchaContainer instanceof HTMLElement) {
-              window.initRecaptcha = () => {
-                if (typeof recaptchaWidgetId === 'number') {
-                  return;
+          if (recaptchaSiteKey && recaptchaContainer instanceof HTMLElement) {
+            window.initRecaptcha = () => {
+              if (typeof recaptchaWidgetId === 'number') {
+                return;
               }
 
-            const grecaptcha = window.grecaptcha;
+          const grecaptcha = window.grecaptcha;
 
-                    if (!grecaptcha || typeof grecaptcha.render !== 'function') {
+          if (!grecaptcha || typeof grecaptcha.render !== 'function') {
             console.error('reCAPTCHA no está disponible');
             return;
           }
 
-            recaptchaWidgetId = grecaptcha.render(recaptchaContainer, {
+          recaptchaWidgetId = grecaptcha.render(recaptchaContainer, {
             sitekey: recaptchaSiteKey,
             callback: (token) => {
               if (typeof token === 'string' && token.length > 0) {
@@ -428,6 +428,10 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
         };
 
         setSubmitDisabled(true);
+        
+        if (typeof window.grecaptcha?.render === 'function') {
+          window.initRecaptcha();
+        }
       } else {
         setSubmitDisabled(true);
         window.initRecaptcha = () => {};
@@ -478,7 +482,7 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
         if (recaptchaSiteKey) {
           const grecaptcha = window.grecaptcha;
 
-           if (
+          if (
             typeof grecaptcha?.getResponse === 'function' &&
             typeof recaptchaWidgetId === 'number'
           ) {

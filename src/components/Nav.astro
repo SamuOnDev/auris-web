@@ -37,8 +37,8 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                         lg:h-[118px] lg:w-[118px]   /* ≥1024px ~118px */
                         max-h-[128px] max-w-[128px]" />
             <span class="brand__stack">
-                <span class="brand__name">
-                    Auris Internacional
+                <span class="brand__name" aria-label="Auris Internacional">
+                    <span class="brand__name-part brand__name-part--initial">A</span><span class="brand__name-part brand__name-part--rest brand__name-part--rest--auris">URIS</span><span class="brand__name-part brand__name-part--initial">I</span><span class="brand__name-part brand__name-part--rest brand__name-part--rest--internacional">NTERNACIONAL</span>
                 </span>
                 <span class="brand__tagline">
                     {t(lang, 'badge')}
@@ -122,7 +122,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
         </style>
 
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Belleza&family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Forum&family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap');
 
             .brand {
                 text-decoration: none;
@@ -141,9 +141,43 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                 color: #fff;
                 font-size: var(--brand-name-size);
                 font-weight: 300;
-                letter-spacing: -0.015em;
+                letter-spacing: 0.01em;
                 line-height: 0.95;
-                font-family: 'Belleza', 'TikTok Sans', 'Helvetica Neue', Arial, sans-serif;
+                font-family: 'Forum', 'TikTok Sans', 'Helvetica Neue', Arial, sans-serif;
+            }
+
+            .brand__name {
+                text-transform: uppercase;
+            }
+
+            .brand__name-part {
+                display: inline-block;
+            }
+
+            .brand__name-part--initial {
+                /* Tamaño base (A e I) */
+                font-size: 1em;
+            }
+
+            .brand__name-part--rest--auris {
+                font-size: 0.9em;
+                margin-left: -0.30em;
+            }
+
+            .brand__name-part--rest--auris {
+                font-size: 0.9em;
+                margin-left: -0.06em;   /* el que ya tenías para pegarlo a la A */
+                margin-right: 0.20em;   /* separación entre AURIS e INTERNACIONAL */
+            }
+
+            .brand__name-part--rest--internacional {
+                font-size: 0.9em;
+                margin-left: -0.04em;   /* pega la I a NTERNACIONAL */
+            }
+
+            .brand__name-part--rest--internacional {
+                font-size: 0.9em;
+                margin-left: 0.03em;
             }
 
             @supports (font-variation-settings: normal) {
