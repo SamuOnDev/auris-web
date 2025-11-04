@@ -30,6 +30,7 @@
     "contact_network_error": "Netzwerkfehler",
     "contact_validation_error": "Bitte überprüfe die markierten Felder und korrigiere die Fehler.",
     "contact_recaptcha_notice": "Diese Website ist durch reCAPTCHA geschützt und es gelten die Datenschutzrichtlinie und Nutzungsbedingungen von Google.",
+    "contact_recaptcha_error": "Bitte schließe die reCAPTCHA-Verifizierung ab.",
     "contact_name_error_required": "Bitte gib deinen Namen ein.",
     "contact_name_error_invalid": "Gib einen gültigen Namen ohne Zahlen oder ungewöhnliche Zeichen ein.",
     "contact_name_error_forbidden": "Füge im Namensfeld keine Pfade oder Links hinzu.",

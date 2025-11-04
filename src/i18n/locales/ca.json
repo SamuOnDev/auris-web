@@ -30,6 +30,7 @@
     "contact_network_error": "Error de xarxa",
     "contact_validation_error": "Revisa els camps destacats i corregeix els errors.",
     "contact_recaptcha_notice": "Aquest lloc està protegit per reCAPTCHA i s'apliquen la Política de privacitat i les Condicions del servei de Google.",
+    "contact_recaptcha_error": "Si us plau, completa la verificació de reCAPTCHA.",
     "contact_name_error_required": "Escriu el teu nom.",
     "contact_name_error_invalid": "Introdueix un nom vàlid sense números ni símbols estranys.",
     "contact_name_error_forbidden": "No incloguis rutes ni enllaços al nom.",

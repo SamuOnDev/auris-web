@@ -34,6 +34,7 @@ export const TRANSLATION_KEYS = [
     'contact_privacy_prefix',
     'contact_privacy_suffix',
     'contact_recaptcha_notice',
+    'contact_recaptcha_error',
     'contact_success',
     'contact_submit',
     'contact_disabled_message',
