@@ -202,6 +202,24 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
       let latestRecaptchaToken = '';
       let recaptchaLoadTimeoutId = null;
 
+      const executeEnterpriseRecaptcha = (action = 'CONTACT_SUBMIT') =>
+        new Promise((resolve, reject) => {
+          const grecaptcha = window.grecaptcha;
+          if (!grecaptcha?.enterprise) {
+            reject(new Error('grecaptcha.enterprise no está disponible'));
+            return;
+          }
+
+          grecaptcha.enterprise.ready(async () => {
+            try {
+              const token = await grecaptcha.enterprise.execute(recaptchaSiteKey, { action });
+              resolve(typeof token === 'string' ? token : '');
+            } catch (error) {
+              reject(error);
+            }
+          });
+        });
+
       const containsForbiddenContent = (value) => {
         if (!value) {
           return false;
@@ -504,14 +522,18 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 
         let recaptchaToken;
 
-        if (recaptchaSiteKey) {
-          const grecaptcha = window.grecaptcha;
+          try {
+            latestRecaptchaToken = await executeEnterpriseRecaptcha('CONTACT_SUBMIT');
+          } catch (err) {
+            console.error('No se pudo obtener el token de reCAPTCHA Enterprise', err);
+            showRecaptchaError();
 
-          if (
-            typeof grecaptcha?.getResponse === 'function' &&
-            typeof recaptchaWidgetId === 'number'
-          ) {
-            latestRecaptchaToken = grecaptcha.getResponse(recaptchaWidgetId);
+            if (submitButton instanceof HTMLButtonElement) {
+              submitButton.disabled = false;
+              delete submitButton.dataset.loading;
+            }
+
+            return;
           }
 
           recaptchaToken = latestRecaptchaToken;
