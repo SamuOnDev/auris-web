@@ -25,7 +25,7 @@
     "contact_consent_error": "Has d'acceptar la política de privacitat abans d'enviar.",
     "contact_success": "Enviat correctament",
     "contact_submit": "Enviar",
-    "contact_disabled_message": "De moment el formulari no està operatiu. Si us plau, escriu-nos a hola@auris.cat.",
+    "contact_disabled_message": "De moment el formulari no està operatiu. Si us plau, escriu-nos a internacional@auris.cat.",
     "contact_error": "Error",
     "contact_network_error": "Error de xarxa",
     "contact_validation_error": "Revisa els camps destacats i corregeix els errors.",
@@ -93,7 +93,7 @@
             {
                 "title": "1. Responsable del tractament",
                 "body": [
-                    "Auris Internacional (auris.cat) és la responsable del tractament de les dades personals recollides a través d'aquest lloc web. Pots contactar amb nosaltres a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                    "Auris Internacional (auris.cat) és la responsable del tractament de les dades personals recollides a través d'aquest lloc web. Pots contactar amb nosaltres a <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>."
                 ]
             },
             {
@@ -135,7 +135,7 @@
             {
                 "title": "7. Drets de les persones usuàries",
                 "body": [
-                    "Pots exercir els drets d'accés, rectificació, supressió, oposició, limitació i portabilitat escrivint a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>. També tens dret a retirar el consentiment en qualsevol moment i a presentar una reclamació davant l'autoritat de control (AEPD) si consideres que el tractament no s'ajusta a la normativa."
+                    "Pots exercir els drets d'accés, rectificació, supressió, oposició, limitació i portabilitat escrivint a <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>. També tens dret a retirar el consentiment en qualsevol moment i a presentar una reclamació davant l'autoritat de control (AEPD) si consideres que el tractament no s'ajusta a la normativa."
                 ]
             },
             {
@@ -171,7 +171,7 @@
             {
                 "title": "1. Identitat del titular",
                 "body": [
-                    "El lloc web és propietat d'Auris Internacional. Per a qualsevol consulta ens pots escriure a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                    "El lloc web és propietat d'Auris Internacional. Per a qualsevol consulta ens pots escriure a <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>."
                 ]
             },
             {

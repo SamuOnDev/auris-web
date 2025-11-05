@@ -25,7 +25,7 @@
     "contact_consent_error": "You must accept the privacy policy before sending.",
     "contact_success": "Sent successfully",
     "contact_submit": "Send",
-    "contact_disabled_message": "The form is not available yet. Please email us at hola@auris.cat.",
+    "contact_disabled_message": "The form is not available yet. Please email us at internacional@auris.cat.",
     "contact_error": "Error",
     "contact_network_error": "Network error",
     "contact_validation_error": "Review the highlighted fields and fix the errors.",
@@ -93,7 +93,7 @@
             {
                 "title": "1. Data controller",
                 "body": [
-                    "Auris Internacional (auris.cat) is the entity responsible for processing the personal data collected through this website. You can contact us at <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                    "Auris Internacional (auris.cat) is the entity responsible for processing the personal data collected through this website. You can contact us at <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>."
                 ]
             },
             {
@@ -135,7 +135,7 @@
             {
                 "title": "7. Your rights",
                 "body": [
-                    "You may exercise your rights of access, rectification, erasure, objection, restriction, and portability by writing to <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>. You also have the right to withdraw your consent at any time and to lodge a complaint with the supervisory authority if you believe the processing does not comply with the law."
+                    "You may exercise your rights of access, rectification, erasure, objection, restriction, and portability by writing to <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>. You also have the right to withdraw your consent at any time and to lodge a complaint with the supervisory authority if you believe the processing does not comply with the law."
                 ]
             },
             {
@@ -171,7 +171,7 @@
             {
                 "title": "1. Owner identification",
                 "body": [
-                    "The website is owned by Auris Internacional. For any question you can write to <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                    "The website is owned by Auris Internacional. For any question you can write to <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>."
                 ]
             },
             {

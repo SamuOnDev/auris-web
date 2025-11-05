@@ -25,7 +25,7 @@
     "contact_consent_error": "Devi accettare la politica sulla privacy prima di inviare.",
     "contact_success": "Inviato con successo",
     "contact_submit": "Invia",
-    "contact_disabled_message": "Il modulo non è ancora disponibile. Scrivici a hola@auris.cat.",
+    "contact_disabled_message": "Il modulo non è ancora disponibile. Scrivici a internacional@auris.cat.",
     "contact_error": "Errore",
     "contact_network_error": "Errore di rete",
     "contact_validation_error": "Controlla i campi evidenziati e correggi gli errori.",
@@ -93,7 +93,7 @@
             {
                 "title": "1. Titolare del trattamento",
                 "body": [
-                    "Auris Internacional (auris.cat) è la responsabile del trattamento dei dati personali raccolti tramite questo sito. Puoi contattarci all'indirizzo <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                    "Auris Internacional (auris.cat) è la responsabile del trattamento dei dati personali raccolti tramite questo sito. Puoi contattarci all'indirizzo <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>."
                 ]
             },
             {
@@ -135,7 +135,7 @@
             {
                 "title": "7. Diritti degli interessati",
                 "body": [
-                    "Puoi esercitare i diritti di accesso, rettifica, cancellazione, opposizione, limitazione e portabilità scrivendo a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>. Hai inoltre il diritto di revocare il consenso in qualsiasi momento e di presentare reclamo all'autorità di controllo se ritieni che il trattamento non sia conforme alla normativa."
+                    "Puoi esercitare i diritti di accesso, rettifica, cancellazione, opposizione, limitazione e portabilità scrivendo a <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>. Hai inoltre il diritto di revocare il consenso in qualsiasi momento e di presentare reclamo all'autorità di controllo se ritieni che il trattamento non sia conforme alla normativa."
                 ]
             },
             {
@@ -171,7 +171,7 @@
             {
                 "title": "1. Identità del titolare",
                 "body": [
-                    "Il sito web è di proprietà di Auris Internacional. Per qualsiasi domanda puoi scriverci a <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                    "Il sito web è di proprietà di Auris Internacional. Per qualsiasi domanda puoi scriverci a <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>."
                 ]
             },
             {
