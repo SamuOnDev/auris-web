@@ -1,8 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { t, DEFAULT_LANG, type Lang } from '../../i18n';
+import { getCanonicalUrl } from '../../utils/seo';
 
 const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const title = t(lang, 'seo_where_title');
+const description = t(lang, 'seo_where_description');
+const url = getCanonicalUrl(lang, '/where');
 
 const ADDRESS = 'Carrer de Provença, 105, entresuelo, 2ª, Eixample, 08029 Barcelona';
 const PHONE_DISPLAY = '934 54 54 17';
@@ -10,7 +14,7 @@ const PHONE_LINK = '+34934545417';
 const MAP_EMBED_SRC =
     'https://maps.google.com/maps?q=Carrer%20de%20Proven%C3%A7a%2C%20105%2C%2008029%20Barcelona&output=embed';
 ---
-<Base title={`Auris — ${t(lang, 'nav_where')}`} lang={lang}>
+<Base title={title} description={description} url={url} lang={lang}>
     <section class="mx-auto max-w-container px-4 py-10 md:py-16">
         <div class="space-y-10 md:space-y-12">
         <header class="space-y-4">

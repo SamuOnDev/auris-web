@@ -1,10 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { t, DEFAULT_LANG, type Lang } from '../../i18n';
+import { getCanonicalUrl } from '../../utils/seo';
 
 const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const title = t(lang, 'seo_home_title');
+const description = t(lang, 'seo_home_description');
+const url = getCanonicalUrl(lang, '/');
+const heroPrimaryAlt = t(lang, 'home_hero_primary_alt');
+const heroSecondaryAlt = t(lang, 'home_hero_secondary_alt');
 ---
-<Base title={`Auris Internacional — ${t(lang, 'nav_home')}`} lang={lang}>
+<Base title={title} description={description} url={url} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
     <!-- Mobile-first: 1 columna; en md → 2 columnas equilibradas -->
     <div
@@ -31,7 +37,7 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
           <div class="overflow-hidden rounded-[220px] bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.45)]">
             <img
               src="/hero.png"
-              alt=""
+              alt={heroPrimaryAlt}
               class="block h-[420px] w-full object-cover object-top sm:h-[460px] md:h-[520px]"
               loading="eager"
               decoding="async"
@@ -53,7 +59,7 @@ const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
           <div class="aspect-auto overflow-hidden rounded-[16px] bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.45)]">
             <img
               src="/hero_second.jpg"
-              alt=""
+              alt={heroSecondaryAlt}
               class="block h-[420px] w-full object-cover object-top sm:h-[460px] md:h-[520px]"
               loading="eager"
               decoding="async"

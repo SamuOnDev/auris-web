@@ -2,34 +2,56 @@
 import '../styles/global.css';
 import '../styles/tailwind.css';
 import Nav from '../components/Nav.astro';
-import { DEFAULT_LANG, t, type Lang } from '../i18n';
+import SeoHead from '../components/SeoHead.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import { DEFAULT_LANG, t, type Lang } from '../i18n';
+import { getAlternateLinks, getCanonicalUrl, stripLangFromPath } from '../utils/seo';
 
 interface Props {
   title?: string;
   description?: string;
   lang?: Lang;
+  url?: string;
+  image?: string;
 }
 
 const {
-  title = 'Auris International',
-  description = 'Psicología y bienestar — auris.cat',
+  title = 'Auris Internacional — Psicología y bienestar emocional',
+  description =
+    'Centro de psicología en Barcelona especializado en bienestar emocional, terapia integrativa y acompañamiento humano en varios idiomas.',
   lang: explicitLang,
+  url,
+  image,
 } = Astro.props as Props;
 
 const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
+const currentPath = Astro.currentPath ?? '/';
+const normalizedPath = stripLangFromPath(currentPath);
+const canonicalUrl = url ?? getCanonicalUrl(lang, normalizedPath);
+const alternateLinks = getAlternateLinks(normalizedPath);
+const defaultAlternate = getCanonicalUrl(DEFAULT_LANG, normalizedPath);
+
 const privacyPath = lang === DEFAULT_LANG ? '/privacy' : `/${lang}/privacy`;
 const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
 ---
 <html lang={lang} class="h-full">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap" rel="stylesheet">
-    <title>{title}</title>
+    <SeoHead
+      title={title}
+      description={description}
+      url={canonicalUrl}
+      lang={lang}
+      image={image}
+      alternates={alternateLinks}
+      defaultAlternate={defaultAlternate}
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <slot name="head" />
   </head>
   <body class="min-h-screen bg-landing font-sans antialiased text-white">
     <Nav lang={lang} />
@@ -41,19 +63,24 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
           <div class="flex flex-col items-start gap-3 sm:items-end">
             <span class="text-[0.7rem] uppercase tracking-[0.35em] text-white/40">{t(lang, 'footer_legal')}</span>
             <nav aria-label={t(lang, 'footer_legal')} class="w-full max-w-xs text-left sm:text-right">
-              <ul class="flex flex-wrap gap-x-6 gap-y-3 text-xs sm:justify-end">
-                <li>
-                  <a class="transition hover:text-white" href={privacyPath}>
-                    {t(lang, 'footer_privacy')}
-                  </a>
-                </li>
-                <li>
-                  <a class="transition hover:text-white" href={termsPath}>
-                    {t(lang, 'footer_terms')}
-                  </a>
-                </li>
-                <li>
-            </nav>
+                <ul class="flex flex-wrap gap-x-6 gap-y-3 text-xs sm:justify-end">
+                  <li>
+                    <a class="transition hover:text-white" href={privacyPath}>
+                      {t(lang, 'footer_privacy')}
+                    </a>
+                  </li>
+                  <li>
+                    <a class="transition hover:text-white" href={termsPath}>
+                      {t(lang, 'footer_terms')}
+                    </a>
+                  </li>
+                  <li>
+                    <a class="transition hover:text-white" href={lang === DEFAULT_LANG ? '/cookies' : `/${lang}/cookies`}>
+                      {t(lang, 'footer_cookies')}
+                    </a>
+                  </li>
+                </ul>
+              </nav>
           </div>
         </div>
       </div>

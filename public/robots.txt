@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://auris.cat/sitemap.xml

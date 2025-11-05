@@ -1,8 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { t, DEFAULT_LANG, type Lang } from '../../i18n';
+import { getCanonicalUrl } from '../../utils/seo';
 
 const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const title = t(lang, 'seo_about_title');
+const description = t(lang, 'seo_about_description');
+const url = getCanonicalUrl(lang, '/about');
 
 const teamMembers = [
   {
@@ -23,7 +27,7 @@ const teamMembers = [
   },
 ];
 ---
-<Base title={`Auris — ${t(lang, 'nav_about')}`} lang={lang}>
+<Base title={title} description={description} url={url} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
     <h1 class="text-3xl font-bold text-white md:text-4xl">{t(lang, 'about_title')}</h1>
     <p class="mt-4 max-w-3xl text-lg text-white/80 md:text-xl">{t(lang, 'about_intro')}</p>

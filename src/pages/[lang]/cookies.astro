@@ -1,10 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { t, DEFAULT_LANG, type Lang } from '../../i18n';
+import { getCanonicalUrl } from '../../utils/seo';
 
 const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const title = t(lang, 'seo_cookies_title');
+const description = t(lang, 'seo_cookies_description');
+const url = getCanonicalUrl(lang, '/cookies');
 ---
-<Base title={`Auris Internacional — ${t(lang, 'cookie_policy_heading')}`} lang={lang}>
+<Base title={title} description={description} url={url} lang={lang}>
     <section class="mx-auto max-w-4xl px-4 py-16">
         <header class="space-y-4">
         <p class="text-sm uppercase tracking-[0.3em] text-brand-accent">Auris Internacional</p>

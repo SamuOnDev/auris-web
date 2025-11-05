@@ -1,5 +1,17 @@
 {
     "badge": "Medizinisch-psychologisches Institut",
+    "seo_home_title": "Auris International – Psychologie und emotionales Wohlbefinden in Barcelona",
+    "seo_home_description": "Psychologisches Zentrum in Barcelona mit klinischen Psycholog:innen und Psychiater:innen, integrativer Therapie und mehrsprachiger Betreuung.",
+    "seo_about_title": "Team von Auris International | Psycholog:innen in Barcelona",
+    "seo_about_description": "Lernen Sie das multidisziplinäre Team von Auris International kennen: Psychologie, Psychiatrie und Neuropsychologie mit menschlichen, sicheren und evidenzbasierten Prozessen.",
+    "seo_contact_title": "Kontakt Auris International | Termin vereinbaren",
+    "seo_contact_description": "Vereinbaren Sie einen Termin mit unserem Psycholog:innenteam in Barcelona oder online. Wir antworten schnell und klären alle Fragen.",
+    "seo_where_title": "Wo wir sind | Praxis von Auris International in Barcelona",
+    "seo_where_description": "Besuchen Sie uns in der Carrer de Provença 105, Eixample (Barcelona). Psycholog:innen und Psychiater:innen mit Terminen vor Ort und online in der Nähe der Station Provença.",
+    "seo_cookies_title": "Cookie-Richtlinie | Auris International",
+    "seo_cookies_description": "Erfahren Sie, wie Auris International notwendige und optionale Cookies nutzt, um Ihr Erlebnis zu verbessern, und wie Sie Ihre Einstellungen verwalten.",
+    "home_hero_primary_alt": "Psychologin von Auris International begleitet eine Klientin während einer Sitzung",
+    "home_hero_secondary_alt": "Heller Therapieraum im Zentrum von Auris International in Barcelona",
     "h1a": "Wir begleiten dich auf jedem Schritt deines",
     "h1b": "emotionalen Wohlbefindens",
     "h1c": "mit Fachwissen und menschlicher Wärme",
@@ -10,7 +22,7 @@
     "h1c2": "der deinen Rhythmus und deine Bedürfnisse respektiert",
     "sub2": "Unser Team vereint Psychologie und Psychiatrie, um eine umfassende, persönliche und vertrauensvolle Begleitung zu bieten.",
     "sub_alt2": "Wir helfen dir, dich selbst besser zu verstehen und nachhaltige Veränderungen mit realistischen Strategien aufzubauen.",
-    "cta_primary": "Erste Sitzung gratis",
+    "cta_primary": "Termin vereinbaren",
     "cta_secondary": "Therapie verschenken",
     "contact_title": "Kontakt",
     "contact_name_label": "Name",
@@ -87,6 +99,7 @@
     "footer_terms": "Allgemeine Geschäftsbedingungen",
     "privacy": {
         "metaTitle": "Datenschutzerklärung",
+        "metaDescription": "Wie Auris International Ihre personenbezogenen Daten verarbeitet, zu welchen Zwecken, auf welcher Rechtsgrundlage, wie lange und welche Datenschutzrechte Sie haben.",
         "heading": "Datenschutzerklärung",
         "intro": "Diese Richtlinie erläutert, wie Auris Internacional die personenbezogenen Daten verarbeitet, die wir über unsere Website und insbesondere über die auf auris.cat verfügbaren Kontakt- und Terminformulare erhalten. Unser Anliegen ist es sicherzustellen, dass die Daten, die Sie uns anvertrauen, transparent, vertraulich und sicher verwendet werden.",
         "sections": [
@@ -111,7 +124,7 @@
             {
                 "title": "3. Zweck und Rechtsgrundlage",
                 "body": [
-                    "Wir verwenden Ihre Daten ausschließlich, um Informationsanfragen zu beantworten, den Kalender für kostenlose Erstgespräche zu organisieren, Ihnen Erinnerungen oder therapiebezogene Unterlagen zu senden und die Erbringung unserer psychologischen Dienstleistungen zu koordinieren. Rechtsgrundlage der Verarbeitung ist Ihre Einwilligung, die Sie mit dem Absenden des Formulars erteilen, sowie die Vorbereitung oder Durchführung der therapeutischen Beziehung, wenn Sie einen Termin anfragen."
+                    "Wir verwenden Ihre Daten ausschließlich, um Informationsanfragen zu beantworten, den Terminkalender zu organisieren, Ihnen Erinnerungen oder therapiebezogene Unterlagen zu senden und die Erbringung unserer psychologischen Dienstleistungen zu koordinieren. Rechtsgrundlage der Verarbeitung ist Ihre Einwilligung, die Sie mit dem Absenden des Formulars erteilen, sowie die Vorbereitung oder Durchführung der therapeutischen Beziehung, wenn Sie einen Termin anfragen."
                 ]
             },
             {
@@ -165,8 +178,9 @@
     },
     "terms": {
         "metaTitle": "Nutzungsbedingungen",
+        "metaDescription": "Nutzungsbedingungen der Website von Auris International und rechtliche Hinweise zu unseren psychologischen Dienstleistungen.",
         "heading": "Nutzungsbedingungen",
-        "intro": "Der Zugriff auf und die Nutzung der Website auris.cat setzen die Anerkennung dieser Bedingungen voraus. Unser Ziel ist es, klare Informationen über die Psychologie- und Wohlfühlangebote von Auris Internacional bereitzustellen und die Anfrage für ein kostenloses Erstgespräch über ein Kontaktformular zu erleichtern.",
+        "intro": "Der Zugriff auf und die Nutzung der Website auris.cat setzen die Anerkennung dieser Bedingungen voraus. Unser Ziel ist es, klare Informationen über die Psychologie- und Wohlfühlangebote von Auris Internacional bereitzustellen und die Terminvereinbarung über ein Kontaktformular zu erleichtern.",
         "sections": [
             {
                 "title": "1. Verantwortlicher Anbieter",
@@ -177,7 +191,7 @@
             {
                 "title": "2. Angebotene Leistungen",
                 "body": [
-                    "Über auris.cat informieren wir über unseren therapeutischen Ansatz, das klinische Team und unsere Räumlichkeiten sowie über ein Formular zur Anfrage eines kostenlosen Erstgesprächs oder für allgemeine Anfragen. Die tatsächliche Erbringung psychologischer Leistungen erfolgt individuell nach fachlicher Einschätzung."
+                    "Über auris.cat informieren wir über unseren therapeutischen Ansatz, das klinische Team und unsere Räumlichkeiten sowie über ein Formular zur Terminvereinbarung oder für allgemeine Anfragen. Die tatsächliche Erbringung psychologischer Leistungen erfolgt individuell nach fachlicher Einschätzung."
                 ]
             },
             {

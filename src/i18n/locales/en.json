@@ -1,5 +1,17 @@
 {
     "badge": "Medical Psychology Institute",
+    "seo_home_title": "Auris International — Psychology and emotional wellbeing in Barcelona",
+    "seo_home_description": "Psychology centre in Barcelona offering integrative therapy, clinical psychologists and psychiatrists, and multilingual care.",
+    "seo_about_title": "Meet the Auris International team | Psychologists in Barcelona",
+    "seo_about_description": "Discover our multidisciplinary team of psychologists, psychiatrists and neuropsychologists delivering evidence-based, human and safe therapy processes.",
+    "seo_contact_title": "Contact Auris International | Book an appointment",
+    "seo_contact_description": "Reach our psychology team in Barcelona or online. We reply quickly and answer every question.",
+    "seo_where_title": "Where we are | Auris International clinic in Barcelona",
+    "seo_where_description": "Visit us at Carrer de Provença 105, Eixample (Barcelona). Psychologists and psychiatrists with in-person and online appointments near Provença station.",
+    "seo_cookies_title": "Cookie policy | Auris International",
+    "seo_cookies_description": "Learn how Auris International uses essential and optional cookies to improve your experience and how to update your preferences.",
+    "home_hero_primary_alt": "Auris International psychologist supporting a client during a session",
+    "home_hero_secondary_alt": "Bright therapy room at the Auris International centre in Barcelona",
     "h1a": "We support every step of your",
     "h1b": "emotional wellbeing",
     "h1c": "with expertise and human warmth",
@@ -10,7 +22,7 @@
     "h1c2": "that adapts to your pace and personal needs",
     "sub2": "Our team combines psychology and psychiatry to offer complete, personalised and trust-based care.",
     "sub_alt2": "We help you understand what’s happening and build lasting change with strategies that fit your real life.",
-    "cta_primary": "First session free",
+    "cta_primary": "Book an appointment",
     "cta_secondary": "Gift therapy",
     "contact_title": "Contact",
     "contact_name_label": "Name",
@@ -87,6 +99,7 @@
     "footer_terms": "Terms and conditions",
     "privacy": {
         "metaTitle": "Privacy policy",
+        "metaDescription": "How Auris International processes your personal data, the lawful bases, retention periods and your privacy rights.",
         "heading": "Privacy policy",
         "intro": "This policy explains how Auris Internacional handles the personal information we receive through our website and, in particular, via the contact and appointment request forms available on auris.cat. Our commitment is to ensure that the data you entrust to us is used with transparency, confidentiality, and security.",
         "sections": [
@@ -111,7 +124,7 @@
             {
                 "title": "3. Purpose and lawful basis",
                 "body": [
-                    "We use your data exclusively to respond to information requests, manage the schedule for free first sessions, send you reminders or therapy-related materials, and coordinate the delivery of our psychological services. The lawful basis for processing is your consent, which you give when submitting the form, as well as the preparation or performance of the therapeutic relationship when you request an appointment."
+                    "We use your data exclusively to respond to information requests, manage the clinical schedule, send you reminders or therapy-related materials, and coordinate the delivery of our psychological services. The lawful basis for processing is your consent, which you give when submitting the form, as well as the preparation or performance of the therapeutic relationship when you request an appointment."
                 ]
             },
             {
@@ -165,8 +178,9 @@
     },
     "terms": {
         "metaTitle": "Terms and conditions",
+        "metaDescription": "Website terms of use for Auris International and the legal details that govern our psychological services.",
         "heading": "Terms and conditions of use",
-        "intro": "Accessing and using the auris.cat website implies acceptance of these terms. Our goal is to provide clear information about Auris Internacional's psychology and wellbeing services and to make it easy to request a free first session through a contact form.",
+        "intro": "Accessing and using the auris.cat website implies acceptance of these terms. Our goal is to provide clear information about Auris Internacional's psychology and wellbeing services and to make it easy to request an appointment through a contact form.",
         "sections": [
             {
                 "title": "1. Owner identification",
@@ -177,7 +191,7 @@
             {
                 "title": "2. Services provided",
                 "body": [
-                    "Through auris.cat we share information about our therapeutic approach, clinical team, and facilities, as well as a form to request a free first session or ask general questions. The actual provision of psychological services is formalized individually after professional assessment."
+                    "Through auris.cat we share information about our therapeutic approach, clinical team, and facilities, as well as a form to request an appointment or ask general questions. The actual provision of psychological services is formalized individually after professional assessment."
                 ]
             },
             {

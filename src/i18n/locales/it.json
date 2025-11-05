@@ -1,5 +1,17 @@
 {
     "badge": "Istituto Medico Psicologico",
+    "seo_home_title": "Auris International — Psicologia e benessere emotivo a Barcellona",
+    "seo_home_description": "Centro di psicologia a Barcellona con psicologi clinici e psichiatri, terapia integrata e assistenza multilingue.",
+    "seo_about_title": "Team di Auris International | Psicologi a Barcellona",
+    "seo_about_description": "Scopri il team multidisciplinare di Auris International: psicologia, psichiatria e neuropsicologia con percorsi umani, sicuri e basati sull’evidenza.",
+    "seo_contact_title": "Contatta Auris International | Prenota un appuntamento",
+    "seo_contact_description": "Prenota un appuntamento con il nostro team di psicologi a Barcellona o online. Rispondiamo rapidamente e chiariremo ogni dubbio.",
+    "seo_where_title": "Dove siamo | Studio di Auris International a Barcellona",
+    "seo_where_description": "Vieni a trovarci in Carrer de Provença 105, Eixample (Barcellona). Psicologi e psichiatri con visite in presenza e online vicino alla stazione Provença.",
+    "seo_cookies_title": "Informativa sui cookie | Auris International",
+    "seo_cookies_description": "Scopri come Auris International utilizza cookie necessari e opzionali per migliorare la tua esperienza e come modificare le preferenze.",
+    "home_hero_primary_alt": "Psicologa di Auris International che accompagna una paziente durante la seduta",
+    "home_hero_secondary_alt": "Studio di terapia luminoso nel centro Auris International di Barcellona",
     "h1a": "Accompagniamo ogni passo del tuo",
     "h1b": "benessere emotivo",
     "h1c": "con competenza e calore umano",
@@ -10,7 +22,7 @@
     "h1c2": "che rispetta i tuoi tempi e le tue esigenze",
     "sub2": "Il nostro team unisce psicologia e psichiatria per offrirti un accompagnamento completo, personalizzato e basato sulla fiducia reciproca.",
     "sub_alt2": "Ti aiutiamo a comprendere ciò che provi e a costruire cambiamenti duraturi con strategie adatte alla tua realtà.",
-    "cta_primary": "Prima seduta gratuita",
+    "cta_primary": "Prenota un appuntamento",
     "cta_secondary": "Regala terapia",
     "contact_title": "Contatto",
     "contact_name_label": "Nome",
@@ -87,6 +99,7 @@
     "footer_terms": "Termini e condizioni",
     "privacy": {
         "metaTitle": "Informativa sulla privacy",
+        "metaDescription": "Come Auris International tratta i tuoi dati personali, per quali finalità, sulla base giuridica applicabile, i tempi di conservazione e i tuoi diritti di privacy.",
         "heading": "Informativa sulla privacy",
         "intro": "La presente informativa spiega come Auris Internacional tratta i dati personali che riceviamo tramite il nostro sito web e, in particolare, attraverso i moduli di contatto e di richiesta appuntamento disponibili su auris.cat. Il nostro impegno è garantire che i dati che ci affidi siano utilizzati con trasparenza, riservatezza e sicurezza.",
         "sections": [
@@ -111,7 +124,7 @@
             {
                 "title": "3. Finalità e base giuridica",
                 "body": [
-                    "Utilizziamo i tuoi dati esclusivamente per rispondere alle richieste di informazioni, gestire l'agenda delle prime sessioni gratuite, inviarti promemoria o materiali legati alla terapia e coordinare l'erogazione dei nostri servizi psicologici. La base giuridica del trattamento è il tuo consenso, che ci fornisci inviando il modulo, nonché la preparazione o esecuzione del rapporto terapeutico quando richiedi un appuntamento."
+                    "Utilizziamo i tuoi dati esclusivamente per rispondere alle richieste di informazioni, gestire l'agenda degli appuntamenti, inviarti promemoria o materiali legati alla terapia e coordinare l'erogazione dei nostri servizi psicologici. La base giuridica del trattamento è il tuo consenso, che ci fornisci inviando il modulo, nonché la preparazione o esecuzione del rapporto terapeutico quando richiedi un appuntamento."
                 ]
             },
             {
@@ -165,8 +178,9 @@
     },
     "terms": {
         "metaTitle": "Termini e condizioni",
+        "metaDescription": "Condizioni d’uso del sito web di Auris International e informazioni legali sui nostri servizi di psicologia.",
         "heading": "Termini e condizioni d'uso",
-        "intro": "L'accesso e l'utilizzo del sito auris.cat comportano l'accettazione delle presenti condizioni. Il nostro obiettivo è fornire informazioni chiare sui servizi di psicologia e benessere di Auris Internacional e facilitare la richiesta di una prima sessione gratuita tramite un modulo di contatto.",
+        "intro": "L'accesso e l'utilizzo del sito auris.cat comportano l'accettazione delle presenti condizioni. Il nostro obiettivo è fornire informazioni chiare sui servizi di psicologia e benessere di Auris Internacional e facilitare la richiesta di un appuntamento tramite un modulo di contatto.",
         "sections": [
             {
                 "title": "1. Identità del titolare",
@@ -177,7 +191,7 @@
             {
                 "title": "2. Servizi offerti",
                 "body": [
-                    "Attraverso auris.cat presentiamo il nostro approccio terapeutico, il team clinico e le strutture, oltre a un modulo per richiedere una prima sessione gratuita o inviare domande generali. L'erogazione effettiva dei servizi psicologici viene formalizzata individualmente dopo la valutazione professionale."
+                    "Attraverso auris.cat presentiamo il nostro approccio terapeutico, il team clinico e le strutture, oltre a un modulo per richiedere un appuntamento o inviare domande generali. L'erogazione effettiva dei servizi psicologici viene formalizzata individualmente dopo la valutazione professionale."
                 ]
             },
             {

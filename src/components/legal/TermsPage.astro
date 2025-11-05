@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { DEFAULT_LANG, getDict, type Lang } from '../../i18n';
+import { getCanonicalUrl } from '../../utils/seo';
 
 interface Props {
     lang?: Lang;
@@ -24,8 +25,11 @@ const sections = terms.sections.map((section) => ({
 }));
 
 const lastUpdated = new Date().toLocaleDateString(lang);
+const title = `${terms.metaTitle} — Auris Internacional`;
+const description = terms.metaDescription ?? terms.intro;
+const url = getCanonicalUrl(lang, '/terms');
 ---
-<Base title={`${terms.metaTitle} — Auris Internacional`} lang={lang}>
+<Base title={title} description={description} url={url} lang={lang}>
     <section class="mx-auto max-w-3xl space-y-8 px-4 py-16 text-white/90">
         <header class="space-y-4">
         <h1 class="text-3xl font-semibold text-white sm:text-4xl">{terms.heading}</h1>

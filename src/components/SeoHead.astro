@@ -1,0 +1,89 @@
+---
+import type { Lang } from '../i18n';
+import type { AlternateLink } from '../utils/seo';
+import { LOCALE_CONFIG } from '../utils/seo';
+
+interface Props {
+    title: string;
+    description: string;
+    url: string;
+    lang: Lang;
+    image?: string;
+    alternates?: AlternateLink[];
+    defaultAlternate?: string;
+}
+
+const {
+    title,
+    description,
+    url,
+    lang,
+    image = '/og-image.jpg',
+    alternates = [],
+    defaultAlternate,
+} = Astro.props as Props;
+
+const locale = LOCALE_CONFIG[lang]?.hrefLang ?? 'es-ES';
+const ogLocale = locale.replace('-', '_');
+const siteName = 'Auris Internacional';
+const absoluteImage = image.startsWith('http') ? image : new URL(image, url).toString();
+
+const businessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalBusiness',
+    name: 'Auris Internacional',
+    url: 'https://auris.cat',
+    image: 'https://auris.cat/logo.png',
+    logo: 'https://auris.cat/logo.png',
+    description,
+    telephone: '+34 934 54 54 17',
+    email: 'info@auris.cat',
+    address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Carrer de Provença, 105, entresuelo 2ª',
+        addressLocality: 'Barcelona',
+        postalCode: '08029',
+        addressCountry: 'ES',
+    },
+    openingHours: 'Mo-Fr 09:00-20:00',
+    priceRange: '€€',
+    sameAs: [
+        'https://www.instagram.com/aurisinternacional/',
+        'https://www.linkedin.com/company/auris-internacional/',
+    ],
+};
+---
+
+<title>{title}</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={description} />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={url} />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#0b1734" />
+
+{alternates.map((link) => (
+    <link rel="alternate" hrefLang={link.hrefLang} href={link.href} />
+))}
+{defaultAlternate && <link rel="alternate" hrefLang="x-default" href={defaultAlternate} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:image:alt" content={description} />
+<meta property="og:url" content={url} />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:site_name" content={siteName} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImage} />
+
+<script type="application/ld+json">
+    {JSON.stringify(businessSchema)}
+</script>

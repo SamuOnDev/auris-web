@@ -1,8 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { t, DEFAULT_LANG, type Lang } from '../../i18n';
+import { getCanonicalUrl } from '../../utils/seo';
 
 const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const title = t(lang, 'seo_contact_title');
+const description = t(lang, 'seo_contact_description');
+const url = getCanonicalUrl(lang, '/contact');
 const statusMessageTranslations = {
   success: t(lang, 'contact_success'),
   error: t(lang, 'contact_error'),
@@ -22,7 +26,7 @@ const recaptchaScriptSrc = isRecaptchaEnabled
   : '';
 const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 ---
-<Base title={`Auris — ${t(lang, 'nav_contact')}`} lang={lang}>
+<Base title={title} description={description} url={url} lang={lang}>
   <section class="mx-auto flex min-h-[calc(100vh-22rem)] max-w-container items-center justify-center px-4 py-10 md:py-16">
     <div class="w-full max-w-xl">
       <h1 class="text-2xl font-extrabold md:text-3xl">{t(lang, 'contact_title')}</h1>

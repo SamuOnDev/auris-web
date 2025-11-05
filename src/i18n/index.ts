@@ -36,6 +36,7 @@ type CookieControlsContent = {
 
 type PrivacyContent = {
     metaTitle: string;
+    metaDescription: string;
     heading: string;
     intro: string;
     sections: PrivacySection[];
@@ -45,6 +46,7 @@ type PrivacyContent = {
 
 type TermsContent = {
     metaTitle: string;
+    metaDescription: string;
     heading: string;
     intro: string;
     sections: TermsSection[];
