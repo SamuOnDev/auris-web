@@ -25,7 +25,7 @@
     "contact_consent_error": "Du musst die Datenschutzerklärung akzeptieren, bevor du senden kannst.",
     "contact_success": "Erfolgreich gesendet",
     "contact_submit": "Senden",
-    "contact_disabled_message": "Das Formular ist derzeit nicht verfügbar. Bitte schreib uns an hola@auris.cat.",
+    "contact_disabled_message": "Das Formular ist derzeit nicht verfügbar. Bitte schreib uns an internacional@auris.cat.",
     "contact_error": "Fehler",
     "contact_network_error": "Netzwerkfehler",
     "contact_validation_error": "Bitte überprüfe die markierten Felder und korrigiere die Fehler.",
@@ -93,7 +93,7 @@
             {
                 "title": "1. Verantwortliche Stelle",
                 "body": [
-                    "Auris Internacional (auris.cat) ist für die Verarbeitung der personenbezogenen Daten verantwortlich, die über diese Website erhoben werden. Sie erreichen uns unter <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a>."
+                    "Auris Internacional (auris.cat) ist für die Verarbeitung der personenbezogenen Daten verantwortlich, die über diese Website erhoben werden. Sie erreichen uns unter <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a>."
                 ]
             },
             {
@@ -135,7 +135,7 @@
             {
                 "title": "7. Rechte der betroffenen Personen",
                 "body": [
-                    "Sie können Ihre Rechte auf Auskunft, Berichtigung, Löschung, Widerspruch, Einschränkung und Übertragbarkeit ausüben, indem Sie an <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a> schreiben. Zudem haben Sie das Recht, Ihre Einwilligung jederzeit zu widerrufen und bei der Aufsichtsbehörde Beschwerde einzulegen, wenn Sie der Ansicht sind, dass die Verarbeitung nicht rechtskonform ist."
+                    "Sie können Ihre Rechte auf Auskunft, Berichtigung, Löschung, Widerspruch, Einschränkung und Übertragbarkeit ausüben, indem Sie an <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a> schreiben. Zudem haben Sie das Recht, Ihre Einwilligung jederzeit zu widerrufen und bei der Aufsichtsbehörde Beschwerde einzulegen, wenn Sie der Ansicht sind, dass die Verarbeitung nicht rechtskonform ist."
                 ]
             },
             {
@@ -171,7 +171,7 @@
             {
                 "title": "1. Verantwortlicher Anbieter",
                 "body": [
-                    "Die Website wird von Auris Internacional betrieben. Bei Fragen können Sie uns unter <a class=\"text-brand-accent underline\" href=\"mailto:hola@auris.cat\">hola@auris.cat</a> kontaktieren."
+                    "Die Website wird von Auris Internacional betrieben. Bei Fragen können Sie uns unter <a class=\"text-brand-accent underline\" href=\"mailto:internacional@auris.cat\">internacional@auris.cat</a> kontaktieren."
                 ]
             },
             {
