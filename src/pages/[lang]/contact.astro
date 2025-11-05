@@ -521,6 +521,7 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 
         let recaptchaToken;
 
+        if (recaptchaSiteKey) {
           try {
             latestRecaptchaToken = await executeEnterpriseRecaptcha('CONTACT_SUBMIT');
           } catch (err) {
