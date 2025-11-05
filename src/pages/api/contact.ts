@@ -55,11 +55,71 @@ const parseBody = async (request: Request) => {
     };
 };
 
-const json = (data: unknown, status = 200) =>
-    new Response(JSON.stringify(data), {
-        status,
-        headers: { 'Content-Type': 'application/json' },
-    });
+const parseAllowedOrigins = () => {
+    const raw = import.meta.env.CONTACT_ALLOWED_ORIGINS;
+
+    if (typeof raw !== 'string') {
+        return [] as string[];
+    }
+
+    return raw
+        .split(',')
+        .map((value) => value.trim())
+        .filter((value) => value.length > 0);
+};
+
+const ALLOWED_ORIGINS = parseAllowedOrigins();
+
+const resolveAllowedOrigin = (request: Request) => {
+    const origin = request.headers.get('origin');
+
+    if (!origin) {
+        return undefined;
+    }
+
+    const requestOrigin = new URL(request.url).origin;
+
+    if (origin === requestOrigin) {
+        return origin;
+    }
+
+    if (
+        ALLOWED_ORIGINS.length > 0 &&
+        (ALLOWED_ORIGINS.includes('*') || ALLOWED_ORIGINS.includes(origin))
+    ) {
+        return origin;
+    }
+
+    return undefined;
+};
+
+const json = (request: Request, data: unknown, status = 200, initHeaders?: HeadersInit) => {
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+    };
+
+    const allowedOrigin = resolveAllowedOrigin(request);
+
+    if (allowedOrigin) {
+        headers['Access-Control-Allow-Origin'] = allowedOrigin;
+        headers.Vary = 'Origin';
+    }
+
+    if (initHeaders) {
+        const entries =
+            initHeaders instanceof Headers
+                ? Array.from(initHeaders.entries())
+                : Array.isArray(initHeaders)
+                    ? initHeaders
+                    : Object.entries(initHeaders as Record<string, string>);
+
+        for (const [key, value] of entries) {
+            headers[key] = value;
+        }
+    }
+
+    return new Response(JSON.stringify(data), { status, headers });
+};
 
 type RateLimitEntry = { count: number; expiresAt: number };
 
@@ -206,7 +266,11 @@ export const POST: APIRoute = async ({ request }) => {
 
             if (entry && entry.expiresAt > now) {
                 if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
-                    return json({ error: 'Demasiadas solicitudes, inténtalo de nuevo más tarde.' }, 429);
+                    return json(
+                        request,
+                        { error: 'Demasiadas solicitudes, inténtalo de nuevo más tarde.' },
+                        429,
+                    );
                 }
 
                 entry.count += 1;
@@ -217,11 +281,11 @@ export const POST: APIRoute = async ({ request }) => {
 
         if (payload.website) {
             // Honeypot activado: responder como si todo hubiese ido bien.
-            return json({ ok: true });
+            return json(request, { ok: true });
         }
 
         if (!payload.name || !payload.email || !payload.message) {
-            return json({ error: 'Faltan campos' }, 400);
+            return json(request, { error: 'Faltan campos' }, 400);
         }
 
         const trimmedName = payload.name.trim();
@@ -229,19 +293,19 @@ export const POST: APIRoute = async ({ request }) => {
         const trimmedMessage = payload.message.trim();
 
         if (trimmedName.length < 2 || trimmedName.length > 200) {
-            return json({ error: 'Nombre inválido' }, 400);
+            return json(request, { error: 'Nombre inválido' }, 400);
         }
 
         if (!EMAIL_PATTERN.test(trimmedEmail) || trimmedEmail.length > 254) {
-            return json({ error: 'Email inválido' }, 400);
+            return json(request, { error: 'Email inválido' }, 400);
         }
 
         if (trimmedMessage.length < 10 || trimmedMessage.length > 5000) {
-            return json({ error: 'Mensaje inválido' }, 400);
+            return json(request, { error: 'Mensaje inválido' }, 400);
         }
 
         if (containsForbiddenContent(trimmedName) || containsForbiddenContent(trimmedMessage)) {
-            return json({ error: 'Contenido inválido' }, 400);
+            return json(request, { error: 'Contenido inválido' }, 400);
         }
 
         const trimmed = {
@@ -270,7 +334,7 @@ export const POST: APIRoute = async ({ request }) => {
 
         if (isRecaptchaConfigured) {
             if (!payload.token) {
-                return json({ error: 'Validación de seguridad requerida' }, 400);
+                return json(request, { error: 'Validación de seguridad requerida' }, 400);
             }
 
             const verification = await verifyRecaptcha(
@@ -281,7 +345,7 @@ export const POST: APIRoute = async ({ request }) => {
             );
 
             if (!verification.ok) {
-                return json({ error: 'No se pudo verificar la solicitud' }, 400);
+                return json(request, { error: 'No se pudo verificar la solicitud' }, 400);
             }
         }
 
@@ -318,9 +382,26 @@ export const POST: APIRoute = async ({ request }) => {
             );
         }
 
-        return json({ ok: true });
+        return json(request, { ok: true });
     } catch (error) {
         const message = error instanceof Error ? error.message : 'Error inesperado';
-        return json({ error: message }, 500);
+        return json(request, { error: message }, 500);
     }
+};
+
+export const OPTIONS: APIRoute = async ({ request }) => {
+    const allowedOrigin = resolveAllowedOrigin(request);
+    const headers: Record<string, string> = {
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers':
+            request.headers.get('access-control-request-headers') ?? 'Content-Type',
+        'Access-Control-Max-Age': '86400',
+    };
+
+    if (allowedOrigin) {
+        headers['Access-Control-Allow-Origin'] = allowedOrigin;
+        headers.Vary = 'Origin';
+    }
+
+    return new Response(null, { status: 204, headers });
 };

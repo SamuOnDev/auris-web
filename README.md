@@ -30,6 +30,7 @@ Las siguientes variables son opcionales y permiten integrar el formulario de con
 - `PUBLIC_RECAPTCHA_SITE_KEY`
 - `RECAPTCHA_SECRET_KEY`
 - `RECAPTCHA_MIN_SCORE`
+- `CONTACT_ALLOWED_ORIGINS`
 
 Configúralas en tu entorno de desarrollo y en el panel de Vercel si las necesitas.
 
