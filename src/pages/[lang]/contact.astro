@@ -407,8 +407,10 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
         clearRecaptchaLoadTimeout();
         const grecaptcha = window.grecaptcha;
 
-        if (typeof grecaptcha?.reset === 'function' && typeof recaptchaWidgetId === 'number') {
-          grecaptcha.reset(recaptchaWidgetId);
+        const resetFn = grecaptcha?.enterprise?.reset ?? grecaptcha?.reset;
+
+        if (typeof resetFn === 'function' && typeof recaptchaWidgetId === 'number') {
+          resetFn(recaptchaWidgetId);
         }
 
         latestRecaptchaToken = '';
@@ -433,13 +435,15 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 
           const grecaptcha = window.grecaptcha;
 
-          if (!grecaptcha || typeof grecaptcha.render !== 'function') {
+          const renderFn = grecaptcha?.enterprise?.render ?? grecaptcha?.render;
+
+          if (typeof renderFn !== 'function') {
             console.error('reCAPTCHA no está disponible');
             showRecaptchaError();
             return;
           }
 
-          recaptchaWidgetId = grecaptcha.render(recaptchaContainer, {
+          recaptchaWidgetId = renderFn(recaptchaContainer, {
             sitekey: recaptchaSiteKey,
             callback: (token) => {
               if (typeof token === 'string' && token.length > 0) {
@@ -464,7 +468,11 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 
         setSubmitDisabled(true);
 
-        if (typeof window.grecaptcha?.render === 'function') {
+        const hasRenderer =
+          typeof window.grecaptcha?.enterprise?.render === 'function' ||
+          typeof window.grecaptcha?.render === 'function';
+
+        if (hasRenderer) {
           window.initRecaptcha();
         }
 
