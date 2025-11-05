@@ -200,6 +200,7 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 
       let recaptchaWidgetId = null;
       let latestRecaptchaToken = '';
+      let recaptchaLoadTimeoutId = null;
 
       const containsForbiddenContent = (value) => {
         if (!value) {
@@ -378,28 +379,46 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
         });
       }
 
+      const clearRecaptchaLoadTimeout = () => {
+        if (typeof recaptchaLoadTimeoutId === 'number') {
+          window.clearTimeout(recaptchaLoadTimeoutId);
+          recaptchaLoadTimeoutId = null;
+        }
+      };
+
       const resetRecaptchaState = () => {
-      const grecaptcha = window.grecaptcha;
+        clearRecaptchaLoadTimeout();
+        const grecaptcha = window.grecaptcha;
 
         if (typeof grecaptcha?.reset === 'function' && typeof recaptchaWidgetId === 'number') {
           grecaptcha.reset(recaptchaWidgetId);
         }
 
         latestRecaptchaToken = '';
-          setSubmitDisabled(true);
-          markRecaptchaNoticeError(false);
-        };
 
-          if (recaptchaSiteKey && recaptchaContainer instanceof HTMLElement) {
-            window.initRecaptcha = () => {
-              if (typeof recaptchaWidgetId === 'number') {
-                return;
-              }
+        if (recaptchaSiteKey) {
+          setSubmitDisabled(true);
+        }
+      };
+
+      const showRecaptchaError = () => {
+        resetRecaptchaState();
+        markRecaptchaNoticeError(true);
+        statusEl.textContent = getMessage('errorRecaptcha') || statusMessages.validation;
+        statusEl.classList.add('text-red-400');
+      };
+
+      if (recaptchaSiteKey && recaptchaContainer instanceof HTMLElement) {
+        window.initRecaptcha = () => {
+          if (typeof recaptchaWidgetId === 'number') {
+            return;
+          }
 
           const grecaptcha = window.grecaptcha;
 
           if (!grecaptcha || typeof grecaptcha.render !== 'function') {
             console.error('reCAPTCHA no está disponible');
+            showRecaptchaError();
             return;
           }
 
@@ -408,6 +427,7 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
             callback: (token) => {
               if (typeof token === 'string' && token.length > 0) {
                 latestRecaptchaToken = token;
+                clearRecaptchaLoadTimeout();
                 setSubmitDisabled(false);
                 statusEl.textContent = '';
                 statusEl.classList.remove('text-red-400');
@@ -415,23 +435,28 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
               }
             },
             'expired-callback': () => {
-              latestRecaptchaToken = '';
-              setSubmitDisabled(true);
-              markRecaptchaNoticeError(true);
+              showRecaptchaError();
             },
             'error-callback': () => {
-              latestRecaptchaToken = '';
-              setSubmitDisabled(true);
-              markRecaptchaNoticeError(true);
+              showRecaptchaError();
             },
           });
+
+          clearRecaptchaLoadTimeout();
         };
 
         setSubmitDisabled(true);
-        
+
         if (typeof window.grecaptcha?.render === 'function') {
           window.initRecaptcha();
         }
+
+        recaptchaLoadTimeoutId = window.setTimeout(() => {
+          if (typeof recaptchaWidgetId !== 'number') {
+            console.error('reCAPTCHA no se ha inicializado a tiempo');
+            showRecaptchaError();
+          }
+        }, 8000);
       } else {
         setSubmitDisabled(false);
         window.initRecaptcha = () => {};
@@ -514,18 +539,35 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
             body: JSON.stringify(body),
           });
 
-          const result = await response.json();
+          let result = null;
 
-          if (response.ok && result.ok) {
+          try {
+            result = await response.json();
+          } catch (jsonError) {
+            console.warn('Respuesta no JSON desde /api/contact', jsonError);
+          }
+
+          if (response.ok && result?.ok) {
             statusEl.textContent = statusMessages.success;
             form.reset();
             clearAllErrors();
+            statusEl.classList.remove('text-red-400');
           } else {
-            statusEl.textContent = result.error || statusMessages.error;
+            const errorMessage =
+              (result && typeof result.error === 'string' && result.error.length > 0)
+                ? result.error
+                : statusMessages.error;
+            statusEl.textContent = errorMessage;
+            statusEl.classList.add('text-red-400');
+
+            if (recaptchaSiteKey) {
+              showRecaptchaError();
+            }
           }
         } catch (err) {
           console.error('Error enviando formulario de contacto', err);
           statusEl.textContent = statusMessages.network;
+          statusEl.classList.add('text-red-400');
         } finally {
           if (submitButton instanceof HTMLButtonElement) {
             submitButton.disabled = false;
