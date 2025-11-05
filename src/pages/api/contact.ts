@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { getDict } from '../../i18n';
+import type { Lang } from '../../i18n';
 
 const SUPPORTED_LANGS = ['es', 'en', 'ca', 'fr', 'de', 'it'] as const;
 type SupportedLang = (typeof SUPPORTED_LANGS)[number];
@@ -69,6 +71,18 @@ const parseAllowedOrigins = () => {
 };
 
 const ALLOWED_ORIGINS = parseAllowedOrigins();
+
+const getDisabledMessage = (lang: SupportedLang) => {
+    const dictionaryLang = (SUPPORTED_LANGS.includes(lang) ? lang : DEFAULT_LANG) as Lang;
+    const dict = getDict(dictionaryLang);
+    if (typeof dict.contact_disabled_message === 'string') {
+        return dict.contact_disabled_message;
+    }
+
+    const fallbackDict = getDict(DEFAULT_LANG as Lang);
+    return fallbackDict.contact_disabled_message;
+};
+
 
 const resolveAllowedOrigin = (request: Request) => {
     const origin = request.headers.get('origin');
@@ -324,7 +338,28 @@ export const POST: APIRoute = async ({ request }) => {
             PUBLIC_RECAPTCHA_SITE_KEY,
         } = import.meta.env;
 
-        const toEmail = import.meta.env.TO_EMAIL ?? 'mrsamupanda@gmail.com';
+        const toEmailsRaw = import.meta.env.TO_EMAIL;
+        const toEmails = typeof toEmailsRaw === 'string'
+            ? toEmailsRaw
+                .split(',')
+                .map((value) => value.trim())
+                .filter((value) => value.length > 0)
+            : [];
+
+        const isWebhookConfigured =
+            typeof N8N_WEBHOOK_URL === 'string' && N8N_WEBHOOK_URL.trim().length > 0;
+        const isEmailConfigured =
+            typeof RESEND_API_KEY === 'string' &&
+            RESEND_API_KEY.trim().length > 0 &&
+            typeof FROM_EMAIL === 'string' &&
+            FROM_EMAIL.trim().length > 0 &&
+            toEmails.length > 0;
+
+        if (!isWebhookConfigured && !isEmailConfigured) {
+            const disabledMessage = getDisabledMessage(trimmed.lang);
+            console.error('Contact form misconfigured: missing N8N webhook and Resend credentials');
+            return json(request, { error: disabledMessage }, 503);
+        }
 
         const isRecaptchaConfigured =
             typeof RECAPTCHA_SECRET_KEY === 'string' &&
@@ -349,7 +384,7 @@ export const POST: APIRoute = async ({ request }) => {
             }
         }
 
-        if (N8N_WEBHOOK_URL) {
+        if (isWebhookConfigured && N8N_WEBHOOK_URL) {
             await postJson(
                 N8N_WEBHOOK_URL,
                 {
@@ -366,12 +401,12 @@ export const POST: APIRoute = async ({ request }) => {
             );
         }
 
-        if (RESEND_API_KEY && toEmail && FROM_EMAIL) {
+        if (isEmailConfigured && RESEND_API_KEY && FROM_EMAIL) {
             await postJson(
                 'https://api.resend.com/emails',
                 {
                     from: FROM_EMAIL,
-                    to: [toEmail],
+                    to: toEmails,
                     subject: `Nuevo contacto — auris.cat (${trimmed.lang})`,
                     html: buildEmailHtml(trimmed.name, trimmed.email, trimmed.message),
                 },
