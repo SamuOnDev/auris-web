@@ -37,7 +37,7 @@ const toOptionalString = (value: unknown): string | undefined => {
 };
 
 const parseBody = async (request: Request) => {
-const data = await request.json().catch(() => null);
+    const data = await request.json().catch(() => null);
 
     if (!data || typeof data !== 'object') {
         return { name: '', email: '', message: '' };
@@ -257,11 +257,18 @@ export const POST: APIRoute = async ({ request }) => {
             FROM_EMAIL,
             RECAPTCHA_SECRET_KEY,
             RECAPTCHA_MIN_SCORE,
+            PUBLIC_RECAPTCHA_SITE_KEY,
         } = import.meta.env;
 
         const toEmail = import.meta.env.TO_EMAIL ?? 'mrsamupanda@gmail.com';
 
-        if (RECAPTCHA_SECRET_KEY) {
+        const isRecaptchaConfigured =
+            typeof RECAPTCHA_SECRET_KEY === 'string' &&
+            RECAPTCHA_SECRET_KEY.length > 0 &&
+            typeof PUBLIC_RECAPTCHA_SITE_KEY === 'string' &&
+            PUBLIC_RECAPTCHA_SITE_KEY.length > 0;
+
+        if (isRecaptchaConfigured) {
             if (!payload.token) {
                 return json({ error: 'Validación de seguridad requerida' }, 400);
             }
