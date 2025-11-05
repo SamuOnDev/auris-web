@@ -433,7 +433,7 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
           window.initRecaptcha();
         }
       } else {
-        setSubmitDisabled(true);
+        setSubmitDisabled(false);
         window.initRecaptcha = () => {};
       }
 

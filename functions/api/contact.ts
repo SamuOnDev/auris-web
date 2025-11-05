@@ -254,11 +254,12 @@ export const POST: APIRoute = async ({ request }) => {
         const {
             N8N_WEBHOOK_URL,
             RESEND_API_KEY,
-            TO_EMAIL,
             FROM_EMAIL,
             RECAPTCHA_SECRET_KEY,
             RECAPTCHA_MIN_SCORE,
         } = import.meta.env;
+
+        const toEmail = import.meta.env.TO_EMAIL ?? 'mrsamupanda@gmail.com';
 
         if (RECAPTCHA_SECRET_KEY) {
             if (!payload.token) {
@@ -294,12 +295,12 @@ export const POST: APIRoute = async ({ request }) => {
             );
         }
 
-        if (RESEND_API_KEY && TO_EMAIL && FROM_EMAIL) {
+        if (RESEND_API_KEY && toEmail && FROM_EMAIL) {
             await postJson(
                 'https://api.resend.com/emails',
                 {
                     from: FROM_EMAIL,
-                    to: [TO_EMAIL],
+                    to: [toEmail],
                     subject: `Nuevo contacto — auris.cat (${trimmed.lang})`,
                     html: buildEmailHtml(trimmed.name, trimmed.email, trimmed.message),
                 },
