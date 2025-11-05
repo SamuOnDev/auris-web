@@ -1,4 +1,4 @@
-import { SUPPORTED, type Lang } from '../i18n';
+import { DEFAULT_LANG, SUPPORTED, type Lang } from '../i18n';
 
 export type AlternateLink = {
     hrefLang: string;
@@ -59,7 +59,12 @@ export const normalizePath = (path: string): string => {
     return withLeadingSlash.replace(/\/+/g, '/').replace(/\/$/, '') || '/';
 };
 
-const buildLocalizedPath = ({ pathPrefix }: LocaleConfig, path: string): string => {
+const getLocaleConfig = (lang: Lang): LocaleConfig => {
+    return LOCALE_CONFIG[lang] ?? LOCALE_CONFIG[DEFAULT_LANG];
+};
+
+const buildLocalizedPath = (config: LocaleConfig, path: string): string => {
+    const { pathPrefix } = config;
     const normalized = normalizePath(path);
     if (normalized === '/') {
         const base = pathPrefix.length > 0 ? `${pathPrefix}/` : '/';
@@ -72,16 +77,19 @@ const buildLocalizedPath = ({ pathPrefix }: LocaleConfig, path: string): string 
 };
 
 export const getCanonicalUrl = (lang: Lang, path: string): string => {
-    const config = LOCALE_CONFIG[lang];
+    const config = getLocaleConfig(lang);
     const localizedPath = buildLocalizedPath(config, path);
     return new URL(localizedPath, config.origin).toString();
 };
 
 export const getAlternateLinks = (path: string): AlternateLink[] => {
-    return SUPPORTED.map((code) => ({
-        hrefLang: LOCALE_CONFIG[code].hrefLang,
-        href: getCanonicalUrl(code, path),
-    }));
+    return SUPPORTED.map((code) => {
+        const config = getLocaleConfig(code);
+        return {
+            hrefLang: config.hrefLang,
+            href: getCanonicalUrl(code, path),
+        };
+    });
 };
 
 export const stripLangFromPath = (path: string): string => {
