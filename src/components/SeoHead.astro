@@ -66,9 +66,9 @@ const businessSchema = {
 <meta name="theme-color" content="#0b1734" />
 
 {alternates.map((link) => (
-    <link rel="alternate" hrefLang={link.hrefLang} href={link.href} />
+    <link rel="alternate" hreflang={link.hrefLang} href={link.href} />
 ))}
-{defaultAlternate && <link rel="alternate" hrefLang="x-default" href={defaultAlternate} />}
+{defaultAlternate && <link rel="alternate" hreflang="x-default" href={defaultAlternate} />}
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />

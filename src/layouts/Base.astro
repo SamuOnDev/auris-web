@@ -25,7 +25,7 @@ const {
 } = Astro.props as Props;
 
 const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
-const currentPath = Astro.currentPath ?? '/';
+const currentPath = Astro.url?.pathname ?? '/';
 const normalizedPath = stripLangFromPath(currentPath);
 const canonicalUrl = url ?? getCanonicalUrl(lang, normalizedPath);
 const alternateLinks = getAlternateLinks(normalizedPath);
