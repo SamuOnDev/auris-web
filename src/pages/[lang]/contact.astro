@@ -20,9 +20,13 @@ const privacySuffix = t(lang, 'contact_privacy_suffix');
 const needsSpaceBeforeLink = /\S$/.test(privacyPrefix) && !/[’']$/.test(privacyPrefix);
 const needsSpaceBeforeSuffix = privacySuffix !== '' && !/^[\s,.;:!?]/.test(privacySuffix);
 const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+const recaptchaScriptBase =
+  import.meta.env.PUBLIC_RECAPTCHA_ENTERPRISE === 'true'
+    ? 'https://www.google.com/recaptcha/enterprise.js'
+    : 'https://www.google.com/recaptcha/api.js';
 const isRecaptchaEnabled = typeof recaptchaSiteKey === 'string' && recaptchaSiteKey.length > 0;
 const recaptchaScriptSrc = isRecaptchaEnabled
-  ? `https://www.google.com/recaptcha/api.js?render=explicit&onload=initRecaptcha&hl=${encodeURIComponent(lang)}`
+  ? `${recaptchaScriptBase}?render=explicit&onload=initRecaptcha&hl=${encodeURIComponent(lang)}`
   : '';
 const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
 ---
@@ -203,32 +207,65 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
       let recaptchaWidgetId = null;
       let latestRecaptchaToken = '';
       let recaptchaLoadTimeoutId = null;
+      let recaptchaMode = 'uninitialised';
 
-      const executeRecaptchaAction = (action = 'CONTACT_SUBMIT') =>
-        new Promise((resolve, reject) => {
-          const grecaptchaApi = getRecaptchaApi();
+      const getRecaptchaToken = async (action = 'CONTACT_SUBMIT') => {
+        const grecaptchaApi = getRecaptchaApi();
 
-          if (!grecaptchaApi || typeof grecaptchaApi.execute !== 'function') {
-            reject(new Error('grecaptcha.execute no está disponible'));
-            return;
+          if (!grecaptchaApi) {
+            throw new Error('reCAPTCHA no está disponible');
           }
 
+          if (recaptchaMode === 'widget') {
+            if (latestRecaptchaToken) {
+              return latestRecaptchaToken;
+          }
+
+          if (typeof grecaptchaApi.getResponse === 'function' && typeof recaptchaWidgetId === 'number') {
+            const response = grecaptchaApi.getResponse(recaptchaWidgetId);
+            if (typeof response === 'string' && response.length > 0) {
+              latestRecaptchaToken = response;
+              return response;
+            }
+          }
+
+          if (typeof grecaptchaApi.execute === 'function' && typeof recaptchaWidgetId === 'number') {
+            try {
+              const result = await grecaptchaApi.execute(recaptchaWidgetId);
+              if (typeof result === 'string' && result.length > 0) {
+                latestRecaptchaToken = result;
+                return result;
+              }
+            } catch (error) {
+              console.error('No se pudo ejecutar reCAPTCHA', error);
+            }
+          }
+
+          return '';
+        }
+
+        if (recaptchaMode === 'execute') {
           const ready = typeof grecaptchaApi.ready === 'function'
             ? grecaptchaApi.ready.bind(grecaptchaApi)
             : (fn) => fn();
 
-          ready(async () => {
-            try {
-              const token = await grecaptchaApi.execute(
-                recaptchaSiteKey,
-                typeof action === 'string' ? { action } : undefined
-              );
-              resolve(typeof token === 'string' ? token : '');
-            } catch (error) {
-              reject(error);
-            }
+          return new Promise((resolve, reject) => {
+            ready(async () => {
+              try {
+                const token = await grecaptchaApi.execute(
+                  recaptchaSiteKey,
+                  typeof action === 'string' ? { action } : undefined
+                );
+                resolve(typeof token === 'string' ? token : '');
+              } catch (error) {
+                reject(error);
+              }
+            });
           });
-        });
+        }
+
+        return '';
+      };
 
       const containsForbiddenContent = (value) => {
         if (!value) {
@@ -417,15 +454,14 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
       const resetRecaptchaState = () => {
         clearRecaptchaLoadTimeout();
         const grecaptchaApi = getRecaptchaApi();
-        const resetFn = grecaptchaApi?.reset;
-
-        if (typeof resetFn === 'function' && typeof recaptchaWidgetId === 'number') {
-          resetFn.call(grecaptchaApi, recaptchaWidgetId);
-        }
-
         latestRecaptchaToken = '';
 
-        if (recaptchaSiteKey) {
+        if (recaptchaSiteKey && recaptchaMode === 'widget') {
+          const resetFn = grecaptchaApi?.reset;
+
+          if (typeof resetFn === 'function' && typeof recaptchaWidgetId === 'number') {
+            resetFn.call(grecaptchaApi, recaptchaWidgetId);
+          }
           setSubmitDisabled(true);
         }
       };
@@ -437,59 +473,87 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
         statusEl.classList.add('text-red-400');
       };
 
-      if (recaptchaSiteKey && recaptchaContainer instanceof HTMLElement) {
+      if (recaptchaSiteKey) {
         window.initRecaptcha = () => {
-          if (typeof recaptchaWidgetId === 'number') {
+          if (recaptchaMode !== 'uninitialised') {
             return;
           }
 
           const grecaptchaApi = getRecaptchaApi();
 
-          const renderFn = grecaptchaApi?.render;
-
-          if (typeof renderFn !== 'function') {
+          if (!grecaptchaApi) {
             console.error('reCAPTCHA no está disponible');
             showRecaptchaError();
             return;
           }
 
-          recaptchaWidgetId = renderFn.call(grecaptchaApi, recaptchaContainer, {
-            sitekey: recaptchaSiteKey,
-            callback: (token) => {
-              if (typeof token === 'string' && token.length > 0) {
-                latestRecaptchaToken = token;
-                clearRecaptchaLoadTimeout();
-                setSubmitDisabled(false);
-                statusEl.textContent = '';
-                statusEl.classList.remove('text-red-400');
-                markRecaptchaNoticeError(false);
-              }
-            },
-            'expired-callback': () => {
-              showRecaptchaError();
-            },
-            'error-callback': () => {
-              showRecaptchaError();
-            },
-          });
+          const ready = typeof grecaptchaApi.ready === 'function'
+            ? grecaptchaApi.ready.bind(grecaptchaApi)
+            : (fn) => fn();
 
-          clearRecaptchaLoadTimeout();
+          ready(() => {
+            const api = getRecaptchaApi();
+            if (!api) {
+              showRecaptchaError();
+            return;
+          }
+
+            const hasRender = typeof api.render === 'function';
+            const hasExecute = typeof api.execute === 'function';
+
+            if (hasRender && recaptchaContainer instanceof HTMLElement) {
+              recaptchaMode = 'widget';
+              recaptchaContainer.removeAttribute('hidden');
+              recaptchaWidgetId = api.render(recaptchaContainer, {
+                sitekey: recaptchaSiteKey,
+                callback: (token) => {
+                  if (typeof token === 'string' && token.length > 0) {
+                    latestRecaptchaToken = token;
+                    clearRecaptchaLoadTimeout();
+                    setSubmitDisabled(false);
+                    statusEl.textContent = '';
+                    statusEl.classList.remove('text-red-400');
+                    markRecaptchaNoticeError(false);
+                  }
+                },
+                'expired-callback': () => {
+                  showRecaptchaError();
+                },
+                'error-callback': () => {
+                  showRecaptchaError();
+                },
+              });
+
+              setSubmitDisabled(true);
+
+              clearRecaptchaLoadTimeout();
+              recaptchaLoadTimeoutId = window.setTimeout(() => {
+                if (typeof recaptchaWidgetId !== 'number') {
+                  console.error('reCAPTCHA no se ha inicializado a tiempo');
+                  showRecaptchaError();
+                }
+              }, 8000);
+            } else if (hasExecute) {
+              recaptchaMode = 'execute';
+              clearRecaptchaLoadTimeout();
+              setSubmitDisabled(false);
+              statusEl.textContent = '';
+              statusEl.classList.remove('text-red-400');
+              markRecaptchaNoticeError(false);
+
+              if (recaptchaContainer instanceof HTMLElement) {
+                recaptchaContainer.setAttribute('hidden', 'true');
+              }
+            } else {
+              console.error('reCAPTCHA no está disponible');
+              showRecaptchaError();
+            }
+          });
         };
 
-        setSubmitDisabled(true);
-
-        const hasRenderer = typeof getRecaptchaApi()?.render === 'function';
-
-        if (hasRenderer) {
+        if (getRecaptchaApi()) {
           window.initRecaptcha();
-        }
-
-        recaptchaLoadTimeoutId = window.setTimeout(() => {
-          if (typeof recaptchaWidgetId !== 'number') {
-            console.error('reCAPTCHA no se ha inicializado a tiempo');
-            showRecaptchaError();
-          }
-        }, 8000);
+        }        
       } else {
         setSubmitDisabled(false);
         window.initRecaptcha = () => {};
@@ -538,25 +602,19 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
         let recaptchaToken;
 
         if (recaptchaSiteKey) {
-          const grecaptchaApi = getRecaptchaApi();
+          try {
+            recaptchaToken = await getRecaptchaToken('CONTACT_SUBMIT');
+            latestRecaptchaToken = typeof recaptchaToken === 'string' ? recaptchaToken : '';
+          } catch (err) {
+            console.error('No se pudo obtener el token de reCAPTCHA', err);
+            showRecaptchaError();
 
-          if (grecaptchaApi && typeof grecaptchaApi.execute === 'function') {
-            try {
-              latestRecaptchaToken = await executeRecaptchaAction('CONTACT_SUBMIT');
-            } catch (err) {
-              console.error('No se pudo obtener el token de reCAPTCHA', err);
-              showRecaptchaError();
-
-              if (submitButton instanceof HTMLButtonElement) {
-                submitButton.disabled = false;
-                delete submitButton.dataset.loading;
-              }
-
-              return;
-            }
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = false;
+            delete submitButton.dataset.loading;
           }
-
-          recaptchaToken = latestRecaptchaToken;
+          return;
+        }
 
           if (!recaptchaToken) {
             statusEl.textContent = getMessage('errorRecaptcha') || statusMessages.validation;
@@ -568,7 +626,9 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
               delete submitButton.dataset.loading;
             }
 
-            setSubmitDisabled(true);
+            if (recaptchaMode === 'widget') {
+              setSubmitDisabled(true);
+            }
             return;
           }
         }

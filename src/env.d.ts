@@ -13,6 +13,7 @@ interface ImportMetaEnv {
     readonly TO_EMAIL?: string;
     readonly FROM_EMAIL?: string;
     readonly PUBLIC_RECAPTCHA_SITE_KEY?: string;
+    readonly PUBLIC_RECAPTCHA_ENTERPRISE?: string;
     readonly RECAPTCHA_SECRET_KEY?: string;
     readonly RECAPTCHA_MIN_SCORE?: string;
     readonly CONTACT_ALLOWED_ORIGINS?: string;
