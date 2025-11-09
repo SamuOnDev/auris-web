@@ -73,7 +73,11 @@ const teamMembers = [
               <p class="text-sm text-white/70 md:text-base">{member.details}</p>
             </div>
 
-            <p class="text-sm leading-relaxed text-white/70 md:col-span-2 md:text-base">{member.bio}</p>
+            <div class="space-y-4 text-sm leading-relaxed text-white/70 md:col-span-2 md:text-base">
+              {member.bio.split('\n\n').map((paragraph, paragraphIndex) => (
+                <p key={paragraphIndex}>{paragraph}</p>
+              ))}
+            </div>
           </article>
         ))}
       </div>
