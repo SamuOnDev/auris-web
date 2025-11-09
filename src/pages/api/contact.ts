@@ -83,6 +83,17 @@ const getDisabledMessage = (lang: SupportedLang) => {
     return fallbackDict.contact_disabled_message;
 };
 
+const getServiceUnavailableMessage = (lang: SupportedLang) => {
+    const dictionaryLang = (SUPPORTED_LANGS.includes(lang) ? lang : DEFAULT_LANG) as Lang;
+    const dict = getDict(dictionaryLang);
+    if (typeof dict.contact_service_unavailable === 'string') {
+        return dict.contact_service_unavailable;
+    }
+
+    const fallbackDict = getDict(DEFAULT_LANG as Lang);
+    return fallbackDict.contact_service_unavailable;
+};
+
 
 const resolveAllowedOrigin = (request: Request) => {
     const origin = request.headers.get('origin');
@@ -237,7 +248,9 @@ const postJson = async (url: string, payload: unknown, headers: HeadersInit) => 
     });
 
     if (!response.ok) {
-        throw new Error(`Request to ${url} failed with status ${response.status}`);
+        const error = new Error(`Request to ${url} failed with status ${response.status}`);
+        (error as Error & { status?: number }).status = response.status;
+        throw error;
     }
 };
 
@@ -259,6 +272,34 @@ const buildEmailHtml = (name: string, email: string, message: string) => {
             <p><b>Nombre:</b> ${escapeHtml(name)}</p>
             <p><b>Email:</b> ${escapeHtml(email)}</p>
             <p><b>Mensaje:</b><br>${escapedMessage}</p>
+        `;
+};
+
+const buildEmergencyEmailHtml = (
+    contact: { name: string; email: string; message: string; lang: string },
+    errorMessage: string,
+) => {
+    const escapeHtml = (value: string) =>
+        value.replace(/[&<>"']/g, (match) =>
+            ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;',
+            }[match]!),
+        );
+
+    const escapedMessage = escapeHtml(contact.message).replace(/\n/g, '<br>');
+
+    return `
+            <p><b>Error:</b> ${escapeHtml(errorMessage)}</p>
+            <p><b>Idioma:</b> ${escapeHtml(contact.lang)}</p>
+            <p><b>Generado:</b> ${escapeHtml(new Date().toISOString())}</p>
+            <hr />
+            <p><b>Nombre:</b> ${escapeHtml(contact.name)}</p>
+            <p><b>Email:</b> ${escapeHtml(contact.email)}</p>
+            <p><b>Mensaje original:</b><br>${escapedMessage}</p>
         `;
 };
 
@@ -334,27 +375,42 @@ export const POST: APIRoute = async ({ request }) => {
             N8N_WEBHOOK_URL,
             RESEND_API_KEY,
             FROM_EMAIL,
+            EMERGENCY_FROM_EMAIL,
             RECAPTCHA_SECRET_KEY,
             RECAPTCHA_MIN_SCORE,
             PUBLIC_RECAPTCHA_SITE_KEY,
         } = import.meta.env;
 
         const toEmailsRaw = import.meta.env.TO_EMAIL;
+        const emergencyToEmailsRaw = import.meta.env.EMERGENCY_TO_EMAIL;
         const toEmails = typeof toEmailsRaw === 'string'
             ? toEmailsRaw
                 .split(',')
                 .map((value) => value.trim())
                 .filter((value) => value.length > 0)
             : [];
+        const emergencyToEmails = typeof emergencyToEmailsRaw === 'string'
+            ? emergencyToEmailsRaw
+                .split(',')
+                .map((value) => value.trim())
+                .filter((value) => value.length > 0)
+            : [];
+        const fromEmail = typeof FROM_EMAIL === 'string' ? FROM_EMAIL.trim() : '';
+        const emergencyFromEmail =
+            typeof EMERGENCY_FROM_EMAIL === 'string' ? EMERGENCY_FROM_EMAIL.trim() : '';
 
         const isWebhookConfigured =
             typeof N8N_WEBHOOK_URL === 'string' && N8N_WEBHOOK_URL.trim().length > 0;
         const isEmailConfigured =
             typeof RESEND_API_KEY === 'string' &&
             RESEND_API_KEY.trim().length > 0 &&
-            typeof FROM_EMAIL === 'string' &&
-            FROM_EMAIL.trim().length > 0 &&
+            fromEmail.length > 0 &&
             toEmails.length > 0;
+        const isEmergencyEmailConfigured =
+            typeof RESEND_API_KEY === 'string' &&
+            RESEND_API_KEY.trim().length > 0 &&
+            emergencyFromEmail.length > 0 &&
+            emergencyToEmails.length > 0;
 
         if (!isWebhookConfigured && !isEmailConfigured) {
             const disabledMessage = getDisabledMessage(trimmed.lang);
@@ -402,20 +458,58 @@ export const POST: APIRoute = async ({ request }) => {
             );
         }
 
-        if (isEmailConfigured && RESEND_API_KEY && FROM_EMAIL) {
-            await postJson(
-                'https://api.resend.com/emails',
-                {
-                    from: FROM_EMAIL,
-                    to: toEmails,
-                    subject: `Nuevo contacto — auris.cat (${trimmed.lang})`,
-                    html: buildEmailHtml(trimmed.name, trimmed.email, trimmed.message),
-                },
-                {
-                    Authorization: `Bearer ${RESEND_API_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-            );
+        if (isEmailConfigured && RESEND_API_KEY && fromEmail) {
+            try {
+                await postJson(
+                    'https://api.resend.com/emails',
+                    {
+                        from: fromEmail,
+                        to: toEmails,
+                        subject: `Nuevo contacto — auris.cat (${trimmed.lang})`,
+                        html: buildEmailHtml(trimmed.name, trimmed.email, trimmed.message),
+                    },
+                    {
+                        Authorization: `Bearer ${RESEND_API_KEY}`,
+                        'Content-Type': 'application/json',
+                    },
+                );
+            } catch (error) {
+                const status =
+                    typeof error === 'object' && error && 'status' in error
+                        ? Number((error as { status?: number }).status)
+                        : undefined;
+
+                if (status === 403) {
+                    const serviceUnavailableMessage = getServiceUnavailableMessage(trimmed.lang);
+                    const errorMessage =
+                        error instanceof Error ? error.message : 'Error inesperado al enviar email';
+                    console.error('Resend contact email rejected with status 403', errorMessage);
+
+                    if (isEmergencyEmailConfigured && emergencyFromEmail) {
+                        try {
+                            await postJson(
+                                'https://api.resend.com/emails',
+                                {
+                                    from: emergencyFromEmail,
+                                    to: emergencyToEmails,
+                                    subject: 'Alerta: error en formulario de contacto (Resend 403)',
+                                    html: buildEmergencyEmailHtml(trimmed, errorMessage),
+                                },
+                                {
+                                    Authorization: `Bearer ${RESEND_API_KEY}`,
+                                    'Content-Type': 'application/json',
+                                },
+                            );
+                        } catch (emergencyError) {
+                            console.error('No se pudo enviar el email de emergencia', emergencyError);
+                        }
+                    }
+
+                    return json(request, { error: serviceUnavailableMessage }, 503);
+                }
+
+                throw error;
+            }
         }
 
         return json(request, { ok: true });

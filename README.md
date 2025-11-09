@@ -27,6 +27,8 @@ Las siguientes variables son opcionales y permiten integrar el formulario de con
 - `RESEND_API_KEY`
 - `TO_EMAIL`
 - `FROM_EMAIL`
+- `EMERGENCY_TO_EMAIL`
+- `EMERGENCY_FROM_EMAIL`
 - `PUBLIC_RECAPTCHA_SITE_KEY`
 - `RECAPTCHA_SECRET_KEY`
 - `RECAPTCHA_MIN_SCORE`

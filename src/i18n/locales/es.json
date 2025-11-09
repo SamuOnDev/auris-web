@@ -38,6 +38,7 @@
     "contact_success": "Enviado correctamente",
     "contact_submit": "Enviar",
     "contact_disabled_message": "De momento el formulario no está operativo. Escríbenos a internacional@auris.cat.",
+    "contact_service_unavailable": "El servicio no está disponible en este momento. Inténtalo de nuevo más tarde.",
     "contact_error": "Error",
     "contact_network_error": "Error de red",
     "contact_validation_error": "Revisa los campos marcados y corrige los errores.",
