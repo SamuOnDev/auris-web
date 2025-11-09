@@ -38,6 +38,7 @@
     "contact_success": "Envoyé avec succès",
     "contact_submit": "Envoyer",
     "contact_disabled_message": "Le formulaire n'est pas encore disponible. Merci de nous écrire à internacional@auris.cat.",
+    "contact_service_unavailable": "Le service est momentanément indisponible. Veuillez réessayer plus tard.",
     "contact_error": "Erreur",
     "contact_network_error": "Erreur réseau",
     "contact_validation_error": "Vérifiez les champs en surbrillance et corrigez les erreurs.",
