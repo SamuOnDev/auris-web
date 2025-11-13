@@ -62,21 +62,23 @@ const teamMembers = [
             </figure>
 
             <div
-              class={`space-y-3 text-left ${
+              class={`space-y-4 text-left ${
                 index % 2 === 0 ? 'md:order-2' : 'md:order-1'
               }`}
             >
-              <h3 class="text-2xl font-semibold text-white md:text-[28px]">{member.name}</h3>
-              <p class="text-base font-medium uppercase tracking-wide text-brand-accent/90 md:text-lg">
-                {member.role}
-              </p>
-              <p class="text-sm text-white/70 md:text-base">{member.details}</p>
-            </div>
+              <div class="space-y-3">
+                <h3 class="text-2xl font-semibold text-white md:text-[28px]">{member.name}</h3>
+                <p class="text-base font-medium uppercase tracking-wide text-brand-accent/90 md:text-lg">
+                  {member.role}
+                </p>
+                <p class="text-sm text-white/70 md:text-base">{member.details}</p>
+              </div>
 
-            <div class="space-y-4 text-sm leading-relaxed text-white/70 md:col-span-2 md:text-base">
-              {member.bio.split('\n\n').map((paragraph, paragraphIndex) => (
-                <p key={paragraphIndex}>{paragraph}</p>
-              ))}
+              <div class="space-y-4 text-sm leading-relaxed text-white/70 md:text-base">
+                {member.bio.split('\n\n').map((paragraph, paragraphIndex) => (
+                  <p key={paragraphIndex}>{paragraph}</p>
+                ))}
+              </div>
             </div>
           </article>
         ))}
