@@ -21,7 +21,7 @@ const CTA_LINK = LINKS.find((l) => l.variant === 'cta');
 const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 ---
 
-<header data-site-header class="site-header sticky top-0 z-50 border-b border-white/15 bg-[#0B1734]/95 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0B1734]/90">
+<header data-site-header class="site-header sticky top-0 z-50 border-b backdrop-blur-xl">
     <div class="mx-auto max-w-container min-h-[92px] sm:min-h-[108px] lg:min-h-[128px] px-4 py-2 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
         <a href={`/${lang}/`} class="flex items-center gap-4 shrink-0 mr-3 brand">
@@ -65,6 +65,35 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
         </nav>
 
         <style is:global>
+            :root {
+                --site-header-rgb: 233 240 255;
+                --site-header-opacity: 0.68;
+                --site-header-solid-opacity: 0.82;
+                --site-header-border-opacity: 0.22;
+                --site-header-drawer-opacity: 0.75;
+                --site-header-blur: 26px;
+                --site-header-solid-blur: 18px;
+            }
+
+            [data-site-header] {
+                background-color: rgba(var(--site-header-rgb), var(--site-header-opacity));
+                border-color: rgba(255, 255, 255, var(--site-header-border-opacity));
+                backdrop-filter: blur(var(--site-header-blur));
+                -webkit-backdrop-filter: blur(var(--site-header-blur));
+            }
+
+            [data-site-header].is-solid {
+                background-color: rgba(var(--site-header-rgb), var(--site-header-solid-opacity));
+                backdrop-filter: blur(var(--site-header-solid-blur));
+                -webkit-backdrop-filter: blur(var(--site-header-solid-blur));
+            }
+
+            #navDrawer {
+                background-color: rgba(var(--site-header-rgb), var(--site-header-drawer-opacity));
+                backdrop-filter: blur(var(--site-header-blur));
+                -webkit-backdrop-filter: blur(var(--site-header-blur));
+            }
+
             /* Oculto en móvil */
             .desktop-nav {
                 display: none;
@@ -241,7 +270,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
     </div>
 
     <!-- DRAWER MÓVIL -->
-    <div id="navDrawer" class="hidden border-t border-white/10 bg-[#0B1734]/95 backdrop-blur">
+    <div id="navDrawer" class="hidden border-t border-white/10 backdrop-blur">
         <div class="mx-auto max-w-container px-4 py-3 space-y-2">
             {MENU_LINKS.map(l => (
                 <a
@@ -282,21 +311,6 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 
             .site-header {
                 transition: background-color 200ms ease, border-color 200ms ease, backdrop-filter 200ms ease;
-            }
-
-            .site-header.is-solid {
-                background-color: rgba(11, 23, 52, 0.92);
-                border-color: rgba(255, 255, 255, 0.18);
-            }
-
-            @supports (backdrop-filter: blur(0)) {
-                .site-header {
-                    backdrop-filter: blur(1000px);
-                }
-
-                .site-header.is-solid {
-                    backdrop-filter: blur(28px);
-                }
             }
         }
     </style>
