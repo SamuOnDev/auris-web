@@ -1,16 +1,16 @@
 ---
-import { LANGUAGE_OPTIONS, DEFAULT_LANG, type Lang } from '../i18n';
+import { LANGUAGE_OPTIONS, DEFAULT_LANG, type ActiveLang } from '../i18n';
 
 interface Props {
-  currentLang?: Lang;
+  currentLang?: ActiveLang;
 }
 
 const { currentLang } = Astro.props as Props;
-const current = currentLang ?? (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const current = currentLang ?? (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
 const options = LANGUAGE_OPTIONS;
 const selectId = `lang-switcher-${Math.random().toString(36).slice(2)}`;
 const TWEMOJI_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/15.1.0/svg';
-const CUSTOM_FLAG_OVERRIDES: Partial<Record<Lang, string>> = {
+const CUSTOM_FLAG_OVERRIDES: Partial<Record<ActiveLang, string>> = {
   ca: '/flags/ca.svg',
 };
 const toTwemojiUrl = (emoji: string) => {

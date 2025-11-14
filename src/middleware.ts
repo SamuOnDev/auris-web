@@ -4,7 +4,7 @@ import {
     DEFAULT_LANG,
     normalizeLang,
     fromAcceptLanguage,
-    type Lang,
+    type ActiveLang,
 } from './i18n';
 
 export const onRequest: MiddlewareHandler = async (
@@ -21,8 +21,8 @@ export const onRequest: MiddlewareHandler = async (
     const [, first] = path.split('/'); // posible lang
 
     // Si ya viene /{lang}/..., continúa
-    if (SUPPORTED.includes(first as Lang)) {
-        locals.lang = first as Lang;
+    if (SUPPORTED.includes(first as ActiveLang)) {
+        locals.lang = first as ActiveLang;
         return next();
     }
 

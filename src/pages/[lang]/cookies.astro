@@ -1,9 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { t, DEFAULT_LANG, type Lang } from '../../i18n';
+import { t, DEFAULT_LANG, type ActiveLang } from '../../i18n';
 import { getCanonicalUrl } from '../../utils/seo';
 
-const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const lang = (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
 const title = t(lang, 'seo_cookies_title');
 const description = t(lang, 'seo_cookies_description');
 const url = getCanonicalUrl(lang, '/cookies');
