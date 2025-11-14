@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { getDict } from '../../i18n';
 import type { Lang } from '../../i18n';
 
-const SUPPORTED_LANGS = ['es', 'en', 'ca', 'fr', 'de', 'it'] as const;
+const SUPPORTED_LANGS = ['ca', 'es', 'en', 'de'] as const;
 type SupportedLang = (typeof SUPPORTED_LANGS)[number];
 const DEFAULT_LANG: SupportedLang = 'es';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -1,10 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { DEFAULT_LANG, getDict, type Lang } from '../../i18n';
+import { DEFAULT_LANG, getDict, type ActiveLang } from '../../i18n';
 import { getCanonicalUrl } from '../../utils/seo';
 
 interface Props {
-    lang?: Lang;
+    lang?: ActiveLang;
 }
 
 const { lang = DEFAULT_LANG } = Astro.props as Props;

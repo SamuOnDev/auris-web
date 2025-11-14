@@ -1,7 +1,7 @@
 ---
 import PrivacyPage from '../../components/legal/PrivacyPage.astro';
-import { DEFAULT_LANG, type Lang } from '../../i18n';
+import { DEFAULT_LANG, type ActiveLang } from '../../i18n';
 
-const lang = (Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG;
+const lang = (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
 ---
 <PrivacyPage lang={lang} />

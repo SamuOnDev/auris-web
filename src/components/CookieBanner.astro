@@ -1,12 +1,12 @@
 ---
-import { DEFAULT_LANG, t, type Lang } from '../i18n';
+import { DEFAULT_LANG, t, type ActiveLang } from '../i18n';
 
 interface Props {
-  lang?: Lang;
+  lang?: ActiveLang;
 }
 
 const { lang: explicitLang } = Astro.props as Props;
-const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
+const lang = explicitLang ?? ((Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG);
 const policyHref = `/${lang}/cookies`;
 ---
 <div data-cookie-banner class="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-6 sm:pb-8">

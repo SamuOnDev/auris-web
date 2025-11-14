@@ -8,9 +8,12 @@ import type { TranslationKey } from './translation-keys.ts';
 export type { TranslationKey } from './translation-keys.ts';
 export { TRANSLATION_KEYS } from './translation-keys.ts';
 
-export const SUPPORTED = ['es', 'en', 'ca', 'fr', 'de', 'it'] as const;
-export type Lang = typeof SUPPORTED[number];
-export const DEFAULT_LANG: Lang = 'es';
+const DICTS = { es, en, ca, fr, de, it } satisfies Record<string, Dictionary>;
+
+export type Lang = keyof typeof DICTS;
+export const SUPPORTED = ['ca', 'es', 'en', 'de'] as const satisfies readonly Lang[];
+export type ActiveLang = typeof SUPPORTED[number];
+export const DEFAULT_LANG: ActiveLang = 'es';
 
 type PrivacySection = {
     title: string;
@@ -60,8 +63,6 @@ export type Dictionary = StringTranslations & {
     terms: TermsContent;
 };
 
-const DICTS = { es, en, ca, fr, de, it } as Record<Lang, Dictionary>;
-
 export const LANGUAGE_LABELS: Record<Lang, string> = {
     es: '🇪🇸',
     en: '🇬🇧',
@@ -71,7 +72,7 @@ export const LANGUAGE_LABELS: Record<Lang, string> = {
     it: '🇮🇹',
 };
 
-export const LANGUAGE_OPTIONS: ReadonlyArray<{ code: Lang; label: string }> = SUPPORTED.map((code) => ({
+export const LANGUAGE_OPTIONS: ReadonlyArray<{ code: ActiveLang; label: string }> = SUPPORTED.map((code) => ({
     code,
     label: LANGUAGE_LABELS[code],
 }));
@@ -86,16 +87,16 @@ export function t(lang: Lang, key: TranslationKey): string {
     return dict[key] ?? DICTS[DEFAULT_LANG][key] ?? '';
 }
 
-export function normalizeLang(input?: string | null): Lang {
+export function normalizeLang(input?: string | null): ActiveLang {
     const base = (input || '')
         .toLowerCase()
         .split('-')[0];
     return (SUPPORTED as readonly string[]).includes(base)
-        ? (base as Lang)
+        ? (base as ActiveLang)
         : DEFAULT_LANG;
 }
 
-export function fromAcceptLanguage(header: string | null): Lang {
+export function fromAcceptLanguage(header: string | null): ActiveLang {
     if (!header) return DEFAULT_LANG;
     const prefs = header
         .split(',')

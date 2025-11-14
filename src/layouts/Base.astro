@@ -4,13 +4,13 @@ import '../styles/tailwind.css';
 import Nav from '../components/Nav.astro';
 import SeoHead from '../components/SeoHead.astro';
 import CookieBanner from '../components/CookieBanner.astro';
-import { DEFAULT_LANG, t, type Lang } from '../i18n';
+import { DEFAULT_LANG, t, type ActiveLang } from '../i18n';
 import { getAlternateLinks, getCanonicalUrl, stripLangFromPath } from '../utils/seo';
 
 interface Props {
   title?: string;
   description?: string;
-  lang?: Lang;
+  lang?: ActiveLang;
   url?: string;
   image?: string;
 }
@@ -24,7 +24,7 @@ const {
   image,
 } = Astro.props as Props;
 
-const lang = explicitLang ?? ((Astro.params.lang as Lang | undefined) ?? DEFAULT_LANG);
+const lang = explicitLang ?? ((Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG);
 const currentPath = Astro.url?.pathname ?? '/';
 const normalizedPath = stripLangFromPath(currentPath);
 const canonicalUrl = url ?? getCanonicalUrl(lang, normalizedPath);
