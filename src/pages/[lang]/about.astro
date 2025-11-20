@@ -46,7 +46,7 @@ const teamMembers = [
             class="grid grid-cols-1 gap-8 rounded-3xl border border-white/5 bg-white/5 p-6 backdrop-blur md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-12 md:p-10"
           >
             <figure
-              class={`mx-auto w-full max-w-[280px] overflow-hidden rounded-2xl bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.35)] sm:max-w-[320px] md:max-w-[360px] ${
+              class={`mx-auto w-full max-w-[280px] overflow-hidden rounded-2xl bg-white/5 shadow-[0_18px_40px_rgba(8,12,32,.35)] sm:max-w-[320px] md:max-w-[360px] md:self-end ${
                 index % 2 === 0
                   ? 'md:order-1 md:justify-self-start'
                   : 'md:order-2 md:justify-self-end'
@@ -74,9 +74,9 @@ const teamMembers = [
                 <p class="text-sm text-white/70 md:text-base">{member.details}</p>
               </div>
 
-              <div class="space-y-4 text-sm leading-relaxed text-white/70 md:text-base">
-                {member.bio.split('\n\n').map((paragraph, paragraphIndex) => (
-                  <p key={paragraphIndex}>{paragraph}</p>
+              <div class="space-y-1 text-sm leading-relaxed text-white/70 md:text-sm text-justify [text-align-last:left] hyphens-auto break-words">
+                {member.bio.split('\n\n').map((paragraph) => (
+                  <p>{paragraph}</p>
                 ))}
               </div>
             </div>

@@ -20,14 +20,19 @@ const LINKS: Array<{ key: TranslationKey; href: string; variant?: 'cta' }> = [
 const CTA_LINK = LINKS.find((l) => l.variant === 'cta');
 const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 ---
+<header
+  data-site-header
+  class="site-header sticky top-0 z-50 border-b border-white/25 relative
+         bg-white/10
+         backdrop-blur-[90px] backdrop-saturate-150">
+  <div class="pointer-events-none absolute inset-0 bg-blue-500/20"></div>
 
-<header data-site-header class="site-header sticky top-0 z-50 border-b border-white/15 bg-[#0B1734]/95 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0B1734]/90">
     <div class="mx-auto max-w-container min-h-[92px] sm:min-h-[108px] lg:min-h-[128px] px-4 py-2 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
         <a href={`/${lang}/`} class="flex items-center gap-4 shrink-0 mr-3 brand">
             <!-- Logo: tamaño contenido y escalable -->
             <img
-                src="/logo.png"
+                src="/logo2.png"
                 alt="Auris"
                 width="96" height="96"
                 class="object-contain aspect-square brand__logo
@@ -280,22 +285,17 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                 display: none !important;
             }
 
-            .site-header {
-                transition: background-color 200ms ease, border-color 200ms ease, backdrop-filter 200ms ease;
-            }
-
-            .site-header.is-solid {
-                background-color: rgba(11, 23, 52, 0.92);
-                border-color: rgba(255, 255, 255, 0.18);
-            }
-
-            @supports (backdrop-filter: blur(0)) {
+            @media (min-width: 768px) {
                 .site-header {
-                    backdrop-filter: blur(1000px);
+                    backdrop-filter: blur(80px) saturate(150%) brightness(110%);
+                    -webkit-backdrop-filter: blur(80px) saturate(150%) brightness(110%);
+                    background-color: rgba(255,255,255,0.06); /* casi transparente */
                 }
 
                 .site-header.is-solid {
-                    backdrop-filter: blur(28px);
+                    background-color: rgba(11, 23, 52, 0.55); /* baja mucho la opacidad */
+                    backdrop-filter: blur(80px) saturate(150%) brightness(110%);
+                    -webkit-backdrop-filter: blur(80px) saturate(150%) brightness(110%);
                 }
             }
         }
