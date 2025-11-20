@@ -22,9 +22,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 ---
 <header
   data-site-header
-  class="site-header sticky top-0 z-50 border-b border-white/25 relative
-         bg-white/10
-         backdrop-blur-[90px] backdrop-saturate-150">
+  class="site-header sticky top-0 z-50 border-b border-white/25 relative bg-white/10 glass-blur">
   <div class="pointer-events-none absolute inset-0 bg-blue-500/20"></div>
 
     <div class="mx-auto max-w-container min-h-[92px] sm:min-h-[108px] lg:min-h-[128px] px-4 py-2 flex items-center">
@@ -223,7 +221,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
 
         <!-- ACCIONES MÓVILES: CTA arriba y fila con idioma + hamburguesa -->
         <!-- Ajusta el espaciado móvil editando las variables CSS --mobile-actions-vertical-gap y --mobile-actions-horizontal-gap -->
-        <div class="mobile-actions ml-auto flex flex-col items-end md:hidden">
+    <div class="mobile-actions ml-auto flex flex-col items-end md:hidden">
             {CTA_LINK && (
             <a
                 href={CTA_LINK.href}
@@ -246,7 +244,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
     </div>
 
     <!-- DRAWER MÓVIL -->
-    <div id="navDrawer" class="hidden border-t border-white/10 bg-[#0B1734]/95 backdrop-blur">
+    <div id="navDrawer" class="hidden border-t border-white/10 bg-[#0B1734]/95 glass-blur">
         <div class="mx-auto max-w-container px-4 py-3 space-y-2">
             {MENU_LINKS.map(l => (
                 <a
@@ -284,20 +282,16 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             .mobile-actions {
                 display: none !important;
             }
+        }
 
-            @media (min-width: 768px) {
-                .site-header {
-                    backdrop-filter: blur(80px) saturate(150%) brightness(110%);
-                    -webkit-backdrop-filter: blur(80px) saturate(150%) brightness(110%);
-                    background-color: rgba(255,255,255,0.06); /* casi transparente */
-                }
+        .glass-blur {
+            backdrop-filter: blur(48px) saturate(180%) brightness(120%);
+            -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(120%);
+            background-color: rgba(9, 16, 34, 0.55);
+        }
 
-                .site-header.is-solid {
-                    background-color: rgba(11, 23, 52, 0.55); /* baja mucho la opacidad */
-                    backdrop-filter: blur(80px) saturate(150%) brightness(110%);
-                    -webkit-backdrop-filter: blur(80px) saturate(150%) brightness(110%);
-                }
-            }
+        .site-header.is-solid {
+            background-color: rgba(9, 16, 34, 0.68);
         }
     </style>
 
