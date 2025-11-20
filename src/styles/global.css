@@ -33,7 +33,7 @@ a:focus {
         radial-gradient(900px 420px at 70% 12%, rgba(124,58,237,.10), transparent 60%),
         radial-gradient(720px 380px at -10% 5%, rgba(56,189,248,.10), transparent 75%),
         linear-gradient(180deg,
-            #0A1530 0%,
+            rgb(47, 84, 165) 0%,
             #0B1734 22%,
             #0C1C3D 47%,
             #0D2044 74%,
