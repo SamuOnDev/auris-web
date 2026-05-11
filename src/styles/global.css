@@ -45,7 +45,7 @@ a:focus {
 .glass-blur {
     backdrop-filter: blur(48px) saturate(50%) brightness(120%);
     -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(120%);
-    background-color: rgba(11, 23, 52, 0.7);
+    background-color: rgba(47, 84, 165, 0.6);
 }
 
 .bg-landing::after{
