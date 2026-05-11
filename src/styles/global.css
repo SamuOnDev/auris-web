@@ -42,6 +42,12 @@ a:focus {
     background-size: auto, auto, 100% 600%;
     position: relative;
 }
+.glass-blur {
+    backdrop-filter: blur(48px) saturate(180%) brightness(120%);
+    -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(120%);
+    background-color: rgba(35, 59, 114, 0.75);
+}
+
 .bg-landing::after{
     content:""; position:absolute; inset:0; pointer-events:none;
     background:

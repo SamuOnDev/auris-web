@@ -15,6 +15,8 @@ const teamMembers = [
     details: t(lang, 'about_member_ana_details'),
     bio: t(lang, 'about_member_ana_bio'),
     image: '/team-esther.png',
+    imageWidth: 450,
+    imageHeight: 360,
     imageAlt: t(lang, 'about_member_ana_image_alt'),
   },
   {
@@ -23,6 +25,8 @@ const teamMembers = [
     details: t(lang, 'about_member_javier_details'),
     bio: t(lang, 'about_member_javier_bio'),
     image: '/team-jordi.jpg',
+    imageWidth: 740,
+    imageHeight: 493,
     imageAlt: t(lang, 'about_member_javier_image_alt'),
   },
 ];
@@ -55,6 +59,8 @@ const teamMembers = [
               <img
                 src={member.image}
                 alt={member.imageAlt}
+                width={member.imageWidth}
+                height={member.imageHeight}
                 class="block h-[360px] w-full object-cover object-center sm:h-[420px]"
                 loading="lazy"
                 decoding="async"

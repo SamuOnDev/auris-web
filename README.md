@@ -21,20 +21,15 @@ npm install
 
 ## Variables de entorno
 
-Las siguientes variables son opcionales y permiten integrar el formulario de contacto con servicios externos y mecanismos anti-spam:
+Copia `.env.example` a `.env.local` y rellena los valores para desarrollo local. En producción, configura las mismas variables como _Environment Variables_ en el panel de Vercel. Nunca commitees `.env.local`.
 
-- `N8N_WEBHOOK_URL`
-- `RESEND_API_KEY`
-- `TO_EMAIL`
-- `FROM_EMAIL`
-- `EMERGENCY_TO_EMAIL`
-- `EMERGENCY_FROM_EMAIL`
-- `PUBLIC_RECAPTCHA_SITE_KEY`
-- `RECAPTCHA_SECRET_KEY`
-- `RECAPTCHA_MIN_SCORE`
-- `CONTACT_ALLOWED_ORIGINS`
+Variables soportadas:
 
-Configúralas en tu entorno de desarrollo y en el panel de Vercel si las necesitas.
+- `RESEND_API_KEY`, `FROM_EMAIL`, `TO_EMAIL`: envío del formulario de contacto vía Resend.
+- `EMERGENCY_FROM_EMAIL`, `EMERGENCY_TO_EMAIL`: ruta de fallback si la entrega principal falla.
+- `PUBLIC_RECAPTCHA_SITE_KEY`, `RECAPTCHA_SECRET_KEY`, `RECAPTCHA_MIN_SCORE`: protección anti-spam con reCAPTCHA v3.
+- `CONTACT_ALLOWED_ORIGINS`: lista separada por comas de orígenes con permiso para hacer POST a `/api/contact`.
+- `N8N_WEBHOOK_URL`: integración opcional con n8n.
 
 ## Despliegue en Vercel
 

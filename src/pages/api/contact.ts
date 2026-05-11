@@ -14,8 +14,6 @@ const FORBIDDEN_CONTENT_PATTERNS = [
 ] as const;
 const containsForbiddenContent = (value: string) =>
     FORBIDDEN_CONTENT_PATTERNS.some((pattern) => pattern.test(value));
-const RATE_LIMIT_MAX_REQUESTS = 5;
-const RATE_LIMIT_WINDOW_MS = 60_000;
 
 const normalizeLang = (value?: string): SupportedLang => {
     if (!value) {
@@ -144,20 +142,6 @@ const json = (request: Request, data: unknown, status = 200, initHeaders?: Heade
     }
 
     return new Response(JSON.stringify(data), { status, headers });
-};
-
-type RateLimitEntry = { count: number; expiresAt: number };
-
-const getRateLimitStore = () => {
-    const globalRef = globalThis as typeof globalThis & {
-        __AURIS_RATE_LIMIT__?: Map<string, RateLimitEntry>;
-    };
-
-    if (!globalRef.__AURIS_RATE_LIMIT__) {
-        globalRef.__AURIS_RATE_LIMIT__ = new Map<string, RateLimitEntry>();
-    }
-
-    return globalRef.__AURIS_RATE_LIMIT__;
 };
 
 const getClientIp = (request: Request) => {
@@ -308,32 +292,6 @@ export const POST: APIRoute = async ({ request }) => {
         const payload = await parseBody(request);
 
         const clientIp = getClientIp(request);
-        if (clientIp) {
-            const store = getRateLimitStore();
-            const now = Date.now();
-
-            for (const [key, value] of store.entries()) {
-                if (value.expiresAt <= now) {
-                    store.delete(key);
-                }
-            }
-
-            const entry = store.get(clientIp);
-
-            if (entry && entry.expiresAt > now) {
-                if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
-                    return json(
-                        request,
-                        { error: 'Demasiadas solicitudes, inténtalo de nuevo más tarde.' },
-                        429,
-                    );
-                }
-
-                entry.count += 1;
-            } else {
-                store.set(clientIp, { count: 1, expiresAt: now + RATE_LIMIT_WINDOW_MS });
-            }
-        }
 
         if (payload.website) {
             // Honeypot activado: responder como si todo hubiese ido bien.
@@ -481,9 +439,7 @@ export const POST: APIRoute = async ({ request }) => {
 
                 if (status === 403) {
                     const serviceUnavailableMessage = getServiceUnavailableMessage(trimmed.lang);
-                    const errorMessage =
-                        error instanceof Error ? error.message : 'Error inesperado al enviar email';
-                    console.error('Resend contact email rejected with status 403', errorMessage);
+                    console.error('Resend contact email rejected with status 403');
 
                     if (isEmergencyEmailConfigured && emergencyFromEmail) {
                         try {
@@ -493,7 +449,7 @@ export const POST: APIRoute = async ({ request }) => {
                                     from: emergencyFromEmail,
                                     to: emergencyToEmails,
                                     subject: 'Alerta: error en formulario de contacto (Resend 403)',
-                                    html: buildEmergencyEmailHtml(trimmed, errorMessage),
+                                    html: buildEmergencyEmailHtml(trimmed, 'Resend rejected the request (HTTP 403)'),
                                 },
                                 {
                                     Authorization: `Bearer ${RESEND_API_KEY}`,
@@ -514,8 +470,8 @@ export const POST: APIRoute = async ({ request }) => {
 
         return json(request, { ok: true });
     } catch (error) {
-        const message = error instanceof Error ? error.message : 'Error inesperado';
-        return json(request, { error: message }, 500);
+        console.error('Unexpected error in /api/contact', error);
+        return json(request, { ok: false }, 500);
     }
 };
 

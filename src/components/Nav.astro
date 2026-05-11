@@ -19,11 +19,15 @@ const LINKS: Array<{ key: TranslationKey; href: string; variant?: 'cta' }> = [
 ];
 const CTA_LINK = LINKS.find((l) => l.variant === 'cta');
 const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
+
+const normalizePath = (value: string) => value.replace(/\/+$/, '') || '/';
+const currentPath = normalizePath(Astro.url.pathname);
+const isActive = (href: string) => normalizePath(href) === currentPath;
 ---
 <header
-  data-site-header
-  class="site-header sticky top-0 z-50 border-b border-white/25 relative bg-white/10 glass-blur">
-  <div class="pointer-events-none absolute inset-0 bg-blue-500/20"></div>
+    data-site-header
+    class="site-header sticky top-0 z-50 border-b border-white/25 relative bg-white/10 glass-blur">
+    <div class="pointer-events-none absolute inset-0 bg-blue-500/20"></div>
 
     <div class="mx-auto max-w-container min-h-[92px] sm:min-h-[108px] lg:min-h-[128px] px-4 py-2 flex items-center">
         <!-- IZQUIERDA: logo + marca -->
@@ -56,6 +60,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
                 <li class="m-0 p-0">
                     <a
                         href={l.href}
+                        aria-current={isActive(l.href) ? 'page' : undefined}
                         class:list={{
                             link: true,
                             'link-cta': l.variant === 'cta'
@@ -249,6 +254,7 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             {MENU_LINKS.map(l => (
                 <a
                     href={l.href}
+                    aria-current={isActive(l.href) ? 'page' : undefined}
                     class:list={{
                         'block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5': l.variant !== 'cta',
                     }}>
@@ -284,12 +290,6 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
             }
         }
 
-        .glass-blur {
-            backdrop-filter: blur(48px) saturate(50%) brightness(120%);
-            -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(120%);
-            background-color: rgba(35, 59, 114, 0.75);
-        }
-
         .site-header.is-solid {
             background-color: rgba(55, 80, 140, 0.68);
         }
@@ -298,9 +298,25 @@ const MENU_LINKS = LINKS.filter((l) => l.variant !== 'cta');
     <script is:inline>
         const btn = document.getElementById('navToggle');
         const drawer = document.getElementById('navDrawer');
-        btn?.addEventListener('click', () => {
+        const closeDrawer = () => {
+            if (!drawer || drawer.classList.contains('hidden')) return;
+            drawer.classList.add('hidden');
+            btn?.setAttribute('aria-expanded', 'false');
+        };
+        btn?.addEventListener('click', (event) => {
+            event.stopPropagation();
             const open = drawer?.classList.toggle('hidden') === false;
             btn.setAttribute('aria-expanded', String(open));
+        });
+        document.addEventListener('click', (event) => {
+            if (!drawer || drawer.classList.contains('hidden')) return;
+            const target = event.target;
+            if (!(target instanceof Node)) return;
+            if (drawer.contains(target) || btn?.contains(target)) return;
+            closeDrawer();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeDrawer();
         });
 
         const header = document.querySelector<HTMLElement>('[data-site-header]');

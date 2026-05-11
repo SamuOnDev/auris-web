@@ -100,7 +100,7 @@ const recaptchaErrorMessage = t(lang, 'contact_recaptcha_error');
         <p data-error-for="consent" class="hidden text-xs text-red-400" role="alert" aria-live="assertive"></p>
 
         <!-- Honeypot anti-spam -->
-        <input type="text" name="website" class="hidden" autocomplete="off" tabindex="-1" />
+        <input type="text" name="website" class="hidden" autocomplete="off" tabindex="-1" aria-hidden="true" />
 
         <button
           type="submit"
