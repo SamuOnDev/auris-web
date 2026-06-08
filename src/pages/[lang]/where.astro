@@ -8,6 +8,8 @@ import { makeText } from '../../lib/page-content';
 const lang = (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
 const cms = Astro.locals.cms ?? (await loadCms());
 const text = makeText(lang, cms);
+const editMode = Astro.locals.editMode ?? false;
+const ek = (k: string): string | undefined => (editMode ? k : undefined);
 
 const title = text('seo_where_title');
 const description = text('seo_where_description');
@@ -28,10 +30,10 @@ const contactHref = `/${lang}/contact`;
     <div class="space-y-10 md:space-y-14">
 
       <header class="space-y-4 max-w-3xl">
-        <h1 class="text-[34px] sm:text-[42px] md:text-[54px] font-extrabold leading-[1.05] tracking-tight text-white">
+        <h1 class="text-[34px] sm:text-[42px] md:text-[54px] font-extrabold leading-[1.05] tracking-tight text-white" data-cms-key={ek('nav_where')}>
           {text('nav_where')}
         </h1>
-        <p class="text-base text-white/80 md:text-lg">{text('where_intro')}</p>
+        <p class="text-base text-white/80 md:text-lg" data-cms-key={ek('where_intro')}>{text('where_intro')}</p>
       </header>
 
       <div class="grid gap-8 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] lg:items-start">
@@ -40,12 +42,12 @@ const contactHref = `/${lang}/contact`;
 
           <!-- Dirección -->
           <div class="info-card">
-            <h2 class="info-eyebrow">{text('where_address_label')}</h2>
+            <h2 class="info-eyebrow" data-cms-key={ek('where_address_label')}>{text('where_address_label')}</h2>
             <address class="mt-2 text-lg not-italic leading-relaxed text-white/90">
               {ADDRESS_LINE_1}<br />
               {ADDRESS_LINE_2}
             </address>
-            <a href={MAP_DIRECTIONS_URL} target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm text-brand-accent hover:underline">
+            <a href={MAP_DIRECTIONS_URL} target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-1.5 text-sm text-brand-accent hover:underline" data-cms-key={ek('where_directions_link')}>
               {text('where_directions_link')}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
             </a>
@@ -53,44 +55,44 @@ const contactHref = `/${lang}/contact`;
 
           <!-- Teléfono -->
           <div class="info-card">
-            <h2 class="info-eyebrow">{text('where_phone_label')}</h2>
+            <h2 class="info-eyebrow" data-cms-key={ek('where_phone_label')}>{text('where_phone_label')}</h2>
             <p class="mt-2 text-lg text-white/90">
               <a class="hover:underline" href={`tel:${PHONE_LINK}`}>{PHONE_DISPLAY}</a>
             </p>
-            <p class="mt-1 text-sm text-white/55">{text('where_phone_helper')}</p>
+            <p class="mt-1 text-sm text-white/55" data-cms-key={ek('where_phone_helper')}>{text('where_phone_helper')}</p>
           </div>
 
           <!-- Horario -->
           <div class="info-card">
-            <h2 class="info-eyebrow">{text('where_hours_label')}</h2>
+            <h2 class="info-eyebrow" data-cms-key={ek('where_hours_label')}>{text('where_hours_label')}</h2>
             <ul class="mt-2 space-y-1.5 text-white/85 text-[15px]">
               <li class="flex justify-between gap-4 border-b border-white/5 pb-1.5">
-                <span>{text('where_hours_weekdays_label')}</span><span class="text-white/65">{text('where_hours_weekdays_value')}</span>
+                <span data-cms-key={ek('where_hours_weekdays_label')}>{text('where_hours_weekdays_label')}</span><span class="text-white/65" data-cms-key={ek('where_hours_weekdays_value')}>{text('where_hours_weekdays_value')}</span>
               </li>
               <li class="flex justify-between gap-4 border-b border-white/5 pb-1.5">
-                <span>{text('where_hours_friday_label')}</span><span class="text-white/65">{text('where_hours_friday_value')}</span>
+                <span data-cms-key={ek('where_hours_friday_label')}>{text('where_hours_friday_label')}</span><span class="text-white/65" data-cms-key={ek('where_hours_friday_value')}>{text('where_hours_friday_value')}</span>
               </li>
               <li class="flex justify-between gap-4">
-                <span>{text('where_hours_weekend_label')}</span><span class="text-white/55">{text('where_hours_weekend_value')}</span>
+                <span data-cms-key={ek('where_hours_weekend_label')}>{text('where_hours_weekend_label')}</span><span class="text-white/55" data-cms-key={ek('where_hours_weekend_value')}>{text('where_hours_weekend_value')}</span>
               </li>
             </ul>
           </div>
 
           <!-- Cómo llegar -->
           <div class="info-card">
-            <h2 class="info-eyebrow">{text('where_directions_label')}</h2>
+            <h2 class="info-eyebrow" data-cms-key={ek('where_directions_label')}>{text('where_directions_label')}</h2>
             <ul class="mt-3 space-y-2 text-[15px] text-white/85">
               <li class="flex items-start gap-3">
                 <span class="mt-1 inline-block h-2 w-2 rounded-full bg-brand-accent shrink-0"></span>
-                <span>{text('where_directions_metro1')}</span>
+                <span data-cms-key={ek('where_directions_metro1')}>{text('where_directions_metro1')}</span>
               </li>
               <li class="flex items-start gap-3">
                 <span class="mt-1 inline-block h-2 w-2 rounded-full bg-brand-accent shrink-0"></span>
-                <span>{text('where_directions_metro2')}</span>
+                <span data-cms-key={ek('where_directions_metro2')}>{text('where_directions_metro2')}</span>
               </li>
               <li class="flex items-start gap-3">
                 <span class="mt-1 inline-block h-2 w-2 rounded-full bg-brand-accent shrink-0"></span>
-                <span>{text('where_directions_bus')}</span>
+                <span data-cms-key={ek('where_directions_bus')}>{text('where_directions_bus')}</span>
               </li>
             </ul>
           </div>
@@ -112,15 +114,15 @@ const contactHref = `/${lang}/contact`;
       <!-- CTA final -->
       <div class="cta-card flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <h3 class="text-[22px] md:text-[28px] font-extrabold leading-tight tracking-tight text-white">
+          <h3 class="text-[22px] md:text-[28px] font-extrabold leading-tight tracking-tight text-white" data-cms-key={ek('where_finalcta_title')}>
             {text('where_finalcta_title')}
           </h3>
-          <p class="mt-2 text-white/70 text-sm md:text-base max-w-xl">
+          <p class="mt-2 text-white/70 text-sm md:text-base max-w-xl" data-cms-key={ek('where_finalcta_body')}>
             {text('where_finalcta_body')}
           </p>
         </div>
         <div class="flex flex-wrap gap-3 shrink-0">
-          <a href={contactHref} class="btn-primary">
+          <a href={contactHref} class="btn-primary" data-cms-key={ek('cta_primary')}>
             {text('cta_primary')}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>

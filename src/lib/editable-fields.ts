@@ -25,22 +25,6 @@ export interface EditableTextGroup {
 
 export const TEXT_GROUPS: EditableTextGroup[] = [
     {
-        id: "seo",
-        title: "SEO · Títulos y descripciones",
-        fields: [
-            { key: "seo_home_title", label: "Inicio · Título (meta)" },
-            { key: "seo_home_description", label: "Inicio · Descripción (meta)", multiline: true },
-            { key: "seo_about_title", label: "Quiénes somos · Título (meta)" },
-            { key: "seo_about_description", label: "Quiénes somos · Descripción (meta)", multiline: true },
-            { key: "seo_where_title", label: "Dónde estamos · Título (meta)" },
-            { key: "seo_where_description", label: "Dónde estamos · Descripción (meta)", multiline: true },
-            { key: "seo_contact_title", label: "Contacto · Título (meta)" },
-            { key: "seo_contact_description", label: "Contacto · Descripción (meta)", multiline: true },
-            { key: "seo_cookies_title", label: "Cookies · Título (meta)" },
-            { key: "seo_cookies_description", label: "Cookies · Descripción (meta)", multiline: true },
-        ],
-    },
-    {
         id: "brand_nav",
         title: "Marca y navegación",
         fields: [
@@ -186,33 +170,12 @@ export const TEXT_GROUPS: EditableTextGroup[] = [
     },
     {
         id: "contact_form",
-        title: "Contacto · Formulario y mensajes",
+        title: "Contacto · Formulario (etiquetas)",
         fields: [
             { key: "contact_name_label", label: "Campo — Nombre" },
             { key: "contact_email_label", label: "Campo — Email" },
             { key: "contact_message_label", label: "Campo — Mensaje" },
             { key: "contact_submit", label: "Botón enviar" },
-            { key: "contact_privacy_prefix", label: "Consentimiento — texto previo" },
-            { key: "contact_privacy_link", label: "Consentimiento — texto del enlace" },
-            { key: "contact_privacy_suffix", label: "Consentimiento — texto posterior" },
-            { key: "contact_success", label: "Mensaje — envío correcto" },
-            { key: "contact_error", label: "Mensaje — error genérico" },
-            { key: "contact_network_error", label: "Mensaje — error de red" },
-            { key: "contact_validation_error", label: "Mensaje — errores de validación" },
-            { key: "contact_consent_error", label: "Error — consentimiento" },
-            { key: "contact_name_error_required", label: "Error — nombre obligatorio" },
-            { key: "contact_name_error_invalid", label: "Error — nombre inválido" },
-            { key: "contact_name_error_forbidden", label: "Error — nombre con enlaces" },
-            { key: "contact_email_error_required", label: "Error — email obligatorio" },
-            { key: "contact_email_error_invalid", label: "Error — email inválido" },
-            { key: "contact_email_error_forbidden", label: "Error — email con enlaces" },
-            { key: "contact_message_error_required", label: "Error — mensaje obligatorio" },
-            { key: "contact_message_error_length", label: "Error — longitud del mensaje" },
-            { key: "contact_message_error_forbidden", label: "Error — mensaje con enlaces" },
-            { key: "contact_recaptcha_notice", label: "Aviso reCAPTCHA", multiline: true },
-            { key: "contact_recaptcha_error", label: "Error — reCAPTCHA" },
-            { key: "contact_disabled_message", label: "Mensaje — formulario desactivado", multiline: true },
-            { key: "contact_service_unavailable", label: "Mensaje — servicio no disponible", multiline: true },
         ],
     },
     {

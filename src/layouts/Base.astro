@@ -31,6 +31,8 @@ const lang = explicitLang ?? ((Astro.params.lang as ActiveLang | undefined) ?? D
 const cms = Astro.locals.cms ?? (await loadCms());
 const text = makeText(lang, cms);
 const logo = img(cms, 'brand.logo', '/logo2.png');
+const editMode = Astro.locals.editMode ?? false;
+const ek = (k: string): string | undefined => (editMode ? k : undefined);
 const currentPath = Astro.url?.pathname ?? '/';
 const normalizedPath = stripLangFromPath(currentPath);
 const canonicalUrl = url ?? getCanonicalUrl(lang, normalizedPath);
@@ -65,7 +67,7 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
     <footer class="mt-24 border-t border-white/10">
       <div class="mx-auto max-w-container px-4 py-10">
         <div class="flex flex-col gap-6 text-xs text-white/60 sm:flex-row sm:items-start sm:justify-between">
-          <span class="block">© {new Date().getFullYear()} Auris Internacional — auris.cat {text('footer_rights')}</span>
+          <span class="block" data-cms-key={ek('footer_rights')}>© {new Date().getFullYear()} Auris Internacional — auris.cat {text('footer_rights')}</span>
           <div class="flex flex-col items-start gap-3 sm:items-end">
             <span class="text-[0.7rem] uppercase tracking-[0.35em] text-white/40">{text('footer_legal')}</span>
             <nav aria-label={text('footer_legal')} class="w-full max-w-xs text-left sm:text-right">
@@ -86,7 +88,7 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
         </div>
       </div>
     </footer>
-    <CookieBanner lang={lang} text={text} />
-    <AdminFab />
+    {!editMode && <CookieBanner lang={lang} text={text} />}
+    {!editMode && <AdminFab />}
   </body>
 </html>

@@ -14,6 +14,7 @@ const { lang: explicitLang, text: textProp, logo: logoProp } = Astro.props as Pr
 const lang = explicitLang ?? ((Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG);
 const tr = textProp ?? ((key: TranslationKey) => t(lang, key));
 const logoSrc = logoProp ?? '/logo2.png';
+const editMode = Astro.locals.editMode ?? false;
 
 const LINKS: Array<{ key: TranslationKey; href: string; variant?: 'cta' }> = [
     { key: 'nav_home',      href: `/${lang}/` },
@@ -38,6 +39,7 @@ const MENU_LINKS = linkItems.filter((l) => l.variant !== 'cta');
             <img
                 src={logoSrc}
                 alt="Auris"
+                data-cms-slot={editMode ? 'brand.logo' : undefined}
                 width="96" height="96"
                 class="object-contain aspect-square brand__logo
                         h-16  w-16        /* móvil ~44px */
@@ -49,7 +51,7 @@ const MENU_LINKS = linkItems.filter((l) => l.variant !== 'cta');
                 <span class="brand__name" aria-label="Auris Internacional">
                     <span class="brand__name-part brand__name-part--initial">A</span><span class="brand__name-part brand__name-part--rest brand__name-part--rest--auris">URIS</span><span class="brand__name-part brand__name-part--initial">I</span><span class="brand__name-part brand__name-part--rest brand__name-part--rest--internacional">NTERNACIONAL</span>
                 </span>
-                <span class="brand__tagline">
+                <span class="brand__tagline" data-cms-key={editMode ? 'badge' : undefined}>
                     {tr('badge')}
                 </span>
             </span>

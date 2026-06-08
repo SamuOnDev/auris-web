@@ -9,7 +9,7 @@ import {
 import { loadCms } from './lib/cms-store';
 
 export const onRequest: MiddlewareHandler = async (
-    { request, redirect, locals, url },
+    { request, redirect, locals, url, cookies },
     next,
     ) => {
     const path = url.pathname; // e.g. "/", "/contact"
@@ -28,6 +28,13 @@ export const onRequest: MiddlewareHandler = async (
         // Load the CMS content once per request so Base, Nav, CookieBanner and the page
         // all read the same overrides without hitting the store multiple times.
         locals.cms = await loadCms();
+        // Visual edit mode: only active with `?cmsedit=1` AND a valid admin session.
+        // Anonymous visitors never get the edit markers, even with the query param.
+        locals.editMode = false;
+        if (url.searchParams.get('cmsedit') === '1') {
+            const { getSession } = await import('./lib/session');
+            locals.editMode = (await getSession(cookies)).authed;
+        }
         return next();
     }
 

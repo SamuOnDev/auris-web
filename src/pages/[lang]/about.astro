@@ -8,6 +8,8 @@ import { makeText, img } from '../../lib/page-content';
 const lang = (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
 const cms = Astro.locals.cms ?? (await loadCms());
 const text = makeText(lang, cms);
+const editMode = Astro.locals.editMode ?? false;
+const ek = (k: string): string | undefined => (editMode ? k : undefined);
 
 const title = text('seo_about_title');
 const description = text('seo_about_description');
@@ -15,6 +17,9 @@ const url = getCanonicalUrl(lang, '/about');
 
 const teamMembers = [
   {
+    nameKey: 'about_member_ana_name', roleKey: 'about_member_ana_role',
+    detailsKey: 'about_member_ana_details', bioKey: 'about_member_ana_bio',
+    slot: 'about.esther',
     name: text('about_member_ana_name'),
     role: text('about_member_ana_role'),
     details: text('about_member_ana_details'),
@@ -25,6 +30,9 @@ const teamMembers = [
     imageAlt: text('about_member_ana_image_alt'),
   },
   {
+    nameKey: 'about_member_javier_name', roleKey: 'about_member_javier_role',
+    detailsKey: 'about_member_javier_details', bioKey: 'about_member_javier_bio',
+    slot: 'about.javier',
     name: text('about_member_javier_name'),
     role: text('about_member_javier_role'),
     details: text('about_member_javier_details'),
@@ -40,15 +48,15 @@ const contactHref = `/${lang}/contact`;
 ---
 <Base title={title} description={description} url={url} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
-    <h1 class="text-3xl font-bold text-white md:text-4xl">{text('about_title')}</h1>
-    <p class="mt-4 max-w-3xl text-lg text-white/80 md:text-xl">{text('about_intro')}</p>
+    <h1 class="text-3xl font-bold text-white md:text-4xl" data-cms-key={ek('about_title')}>{text('about_title')}</h1>
+    <p class="mt-4 max-w-3xl text-lg text-white/80 md:text-xl" data-cms-key={ek('about_intro')}>{text('about_intro')}</p>
   </section>
 
   <section class="mx-auto max-w-container px-4 pb-16">
     <div class="space-y-12 md:space-y-16">
       <header class="space-y-3">
-        <h2 class="text-2xl font-semibold text-white md:text-3xl">{text('about_team_title')}</h2>
-        <p class="max-w-3xl text-base text-white/70 md:text-lg">{text('about_team_intro')}</p>
+        <h2 class="text-2xl font-semibold text-white md:text-3xl" data-cms-key={ek('about_team_title')}>{text('about_team_title')}</h2>
+        <p class="max-w-3xl text-base text-white/70 md:text-lg" data-cms-key={ek('about_team_intro')}>{text('about_team_intro')}</p>
       </header>
 
       <div class="space-y-14">
@@ -71,6 +79,7 @@ const contactHref = `/${lang}/contact`;
                 class="block h-[360px] w-full object-cover object-center sm:h-[420px]"
                 loading="lazy"
                 decoding="async"
+                data-cms-slot={ek(member.slot)}
               />
             </figure>
 
@@ -80,14 +89,14 @@ const contactHref = `/${lang}/contact`;
               }`}
             >
               <div class="space-y-3">
-                <h3 class="text-2xl font-semibold text-white md:text-[28px]">{member.name}</h3>
-                <p class="text-base font-medium uppercase tracking-wide text-brand-accent/90 md:text-lg">
+                <h3 class="text-2xl font-semibold text-white md:text-[28px]" data-cms-key={ek(member.nameKey)}>{member.name}</h3>
+                <p class="text-base font-medium uppercase tracking-wide text-brand-accent/90 md:text-lg" data-cms-key={ek(member.roleKey)}>
                   {member.role}
                 </p>
-                <p class="text-sm text-white/70 md:text-base">{member.details}</p>
+                <p class="text-sm text-white/70 md:text-base" data-cms-key={ek(member.detailsKey)}>{member.details}</p>
               </div>
 
-              <div class="space-y-1 text-sm leading-relaxed text-white/70 md:text-sm text-justify [text-align-last:left] hyphens-auto break-words">
+              <div class="space-y-1 text-sm leading-relaxed text-white/70 md:text-sm text-justify [text-align-last:left] hyphens-auto break-words" data-cms-key={ek(member.bioKey)}>
                 {member.bio.split('\n\n').map((paragraph) => (
                   <p>{paragraph}</p>
                 ))}
@@ -97,24 +106,23 @@ const contactHref = `/${lang}/contact`;
         ))}
       </div>
 
-      <!-- ▼ Tarjeta CTA final ▼ -->
+      <!-- Tarjeta CTA final -->
       <div class="cta-card flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <h3 class="text-[22px] md:text-[28px] font-extrabold leading-tight tracking-tight text-white">
+          <h3 class="text-[22px] md:text-[28px] font-extrabold leading-tight tracking-tight text-white" data-cms-key={ek('about_finalcta_title')}>
             {text('about_finalcta_title')}
           </h3>
-          <p class="mt-2 text-white/70 text-sm md:text-base max-w-xl">
+          <p class="mt-2 text-white/70 text-sm md:text-base max-w-xl" data-cms-key={ek('about_finalcta_body')}>
             {text('about_finalcta_body')}
           </p>
         </div>
         <div class="flex flex-wrap gap-3 shrink-0">
-          <a href={contactHref} class="btn-primary">
+          <a href={contactHref} class="btn-primary" data-cms-key={ek('cta_primary')}>
             {text('cta_primary')}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
-      <!-- ▲ /Tarjeta CTA final ▲ -->
     </div>
   </section>
 </Base>

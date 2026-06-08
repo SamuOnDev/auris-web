@@ -8,6 +8,8 @@ import { makeText } from '../../lib/page-content';
 const lang = (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
 const cms = Astro.locals.cms ?? (await loadCms());
 const text = makeText(lang, cms);
+const editMode = Astro.locals.editMode ?? false;
+const ek = (k: string): string | undefined => (editMode ? k : undefined);
 
 const title = text('seo_cookies_title');
 const description = text('seo_cookies_description');
@@ -17,47 +19,47 @@ const url = getCanonicalUrl(lang, '/cookies');
     <section class="mx-auto max-w-4xl px-4 py-16">
         <header class="space-y-4">
         <p class="text-sm uppercase tracking-[0.3em] text-brand-accent">Auris Internacional</p>
-        <h1 class="text-3xl font-extrabold text-white sm:text-4xl">{text('cookie_policy_heading')}</h1>
-        <p class="max-w-3xl text-base text-white/80">{text('cookie_policy_intro')}</p>
+        <h1 class="text-3xl font-extrabold text-white sm:text-4xl" data-cms-key={ek('cookie_policy_heading')}>{text('cookie_policy_heading')}</h1>
+        <p class="max-w-3xl text-base text-white/80" data-cms-key={ek('cookie_policy_intro')}>{text('cookie_policy_intro')}</p>
         </header>
 
         <div class="mt-12 space-y-10 text-sm leading-relaxed text-white/80 sm:text-base">
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-white sm:text-2xl">{text('cookie_policy_what_are_title')}</h2>
-            <p>{text('cookie_policy_what_are_body')}</p>
+            <h2 class="text-xl font-semibold text-white sm:text-2xl" data-cms-key={ek('cookie_policy_what_are_title')}>{text('cookie_policy_what_are_title')}</h2>
+            <p data-cms-key={ek('cookie_policy_what_are_body')}>{text('cookie_policy_what_are_body')}</p>
         </section>
 
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-white sm:text-2xl">{text('cookie_policy_types_title')}</h2>
+            <h2 class="text-xl font-semibold text-white sm:text-2xl" data-cms-key={ek('cookie_policy_types_title')}>{text('cookie_policy_types_title')}</h2>
             <ul class="space-y-3">
-            <li>{text('cookie_policy_types_necessary')}</li>
-            <li>{text('cookie_policy_types_functional')}</li>
-            <li>{text('cookie_policy_types_analytics')}</li>
+            <li data-cms-key={ek('cookie_policy_types_necessary')}>{text('cookie_policy_types_necessary')}</li>
+            <li data-cms-key={ek('cookie_policy_types_functional')}>{text('cookie_policy_types_functional')}</li>
+            <li data-cms-key={ek('cookie_policy_types_analytics')}>{text('cookie_policy_types_analytics')}</li>
             </ul>
         </section>
 
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-white sm:text-2xl">{text('cookie_policy_management_title')}</h2>
-            <p>{text('cookie_policy_management_body')}</p>
+            <h2 class="text-xl font-semibold text-white sm:text-2xl" data-cms-key={ek('cookie_policy_management_title')}>{text('cookie_policy_management_title')}</h2>
+            <p data-cms-key={ek('cookie_policy_management_body')}>{text('cookie_policy_management_body')}</p>
         </section>
 
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-white sm:text-2xl">{text('cookie_policy_changes_title')}</h2>
-            <p>{text('cookie_policy_changes_body')}</p>
+            <h2 class="text-xl font-semibold text-white sm:text-2xl" data-cms-key={ek('cookie_policy_changes_title')}>{text('cookie_policy_changes_title')}</h2>
+            <p data-cms-key={ek('cookie_policy_changes_body')}>{text('cookie_policy_changes_body')}</p>
         </section>
 
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-white sm:text-2xl">{text('cookie_policy_contact_title')}</h2>
+            <h2 class="text-xl font-semibold text-white sm:text-2xl" data-cms-key={ek('cookie_policy_contact_title')}>{text('cookie_policy_contact_title')}</h2>
             <p>
-            {text('cookie_policy_contact_body')}
-            <a class="ml-1 text-brand-accent underline decoration-2 underline-offset-4" href="mailto:info@auris.cat">
+            <span data-cms-key={ek('cookie_policy_contact_body')}>{text('cookie_policy_contact_body')}</span>
+            <a class="ml-1 text-brand-accent underline decoration-2 underline-offset-4" href="mailto:info@auris.cat" data-cms-key={ek('cookie_policy_contact_email')}>
                 {text('cookie_policy_contact_email')}
             </a>
             .
             </p>
         </section>
 
-        <p class="text-xs uppercase tracking-[0.25em] text-white/50">{text('cookie_policy_last_updated')}</p>
+        <p class="text-xs uppercase tracking-[0.25em] text-white/50" data-cms-key={ek('cookie_policy_last_updated')}>{text('cookie_policy_last_updated')}</p>
         </div>
     </section>
 </Base>

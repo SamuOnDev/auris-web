@@ -14,7 +14,7 @@ import {
 } from "../lib/editable-fields";
 import { SUPPORTED as LANGS, DEFAULT_LANG, getDict, type ActiveLang } from "../i18n";
 
-type Route = "dashboard" | "textos" | "imagenes" | "usuarios" | "ajustes";
+type Route = "editor" | "dashboard" | "textos" | "imagenes" | "usuarios" | "ajustes";
 type UserRole = "admin" | "editor";
 interface CurrentSession { user: string; role: UserRole; }
 interface AdminUser { username: string; role: UserRole; createdAt: number; updatedAt: number; }
@@ -123,12 +123,278 @@ function mountLogin() {
 
 /* ── ROUTING ──────────────────────────────────────────── */
 const ROUTES: Record<Route, { title: string; render: (root: HTMLElement) => void; requiresAdmin?: boolean }> = {
+    editor: { title: "Editar web", render: renderEditor },
     dashboard: { title: "Resumen", render: renderDashboard },
     textos: { title: "Textos", render: renderTextos },
     imagenes: { title: "Imágenes", render: renderImagenes },
     usuarios: { title: "Usuarios", render: renderUsuarios, requiresAdmin: true },
     ajustes: { title: "Ajustes", render: renderAjustes },
 };
+
+/* ── EDITOR VISUAL (clic-para-editar sobre la web real) ── */
+let editorLang: ActiveLang = DEFAULT_LANG;
+let editorPath = "/";
+
+const EDITOR_PAGES: Array<{ label: string; path: string }> = [
+    { label: "Inicio", path: "/" },
+    { label: "Quiénes somos", path: "/about" },
+    { label: "Dónde estamos", path: "/where" },
+    { label: "Contacto", path: "/contact" },
+    { label: "Cookies", path: "/cookies" },
+];
+
+// key -> human label, taken from the editable-fields registry; defaults to the key.
+const TEXT_LABELS: Record<string, string> = (() => {
+    const m: Record<string, string> = {};
+    for (const g of TEXT_GROUPS) for (const f of g.fields) m[f.key] = f.label;
+    return m;
+})();
+
+function editorIframeSrc(): string {
+    const base = editorPath === "/" ? `/${editorLang}/` : `/${editorLang}${editorPath}`;
+    return `${base}?cmsedit=1`;
+}
+
+function renderEditor(root: HTMLElement) {
+    const langTabs = LANGS.map(
+        (l) => `<button class="tab ${editorLang === l ? "active" : ""}" data-elang="${l}">${l.toUpperCase()}</button>`,
+    ).join("");
+    const pageTabs = EDITOR_PAGES.map(
+        (p) => `<button class="ed-page ${editorPath === p.path ? "active" : ""}" data-epath="${escapeHtml(p.path)}">${escapeHtml(p.label)}</button>`,
+    ).join("");
+    root.innerHTML = `
+        <div class="editor-bar">
+            <div class="ed-pages">${pageTabs}</div>
+            <div class="ed-right">
+                <span class="ed-hint">Haz clic en cualquier texto o imagen de la web para editarlo.</span>
+                ${LANGS.length > 1 ? `<div class="tabs">${langTabs}</div>` : ""}
+            </div>
+        </div>
+        <div class="editor-frame-wrap">
+            <iframe id="editorFrame" class="editor-frame" src="${editorIframeSrc()}"></iframe>
+        </div>
+    `;
+    root.querySelectorAll<HTMLElement>(".ed-page[data-epath]").forEach((b) =>
+        b.addEventListener("click", () => {
+            editorPath = b.dataset.epath as string;
+            navigate("editor");
+        }),
+    );
+    root.querySelectorAll<HTMLElement>(".tab[data-elang]").forEach((b) =>
+        b.addEventListener("click", () => {
+            editorLang = b.dataset.elang as ActiveLang;
+            navigate("editor");
+        }),
+    );
+    const frame = root.querySelector("#editorFrame") as HTMLIFrameElement;
+    frame.addEventListener("load", () => attachEditorOverlay(frame));
+}
+
+function attachEditorOverlay(frame: HTMLIFrameElement) {
+    const doc = frame.contentDocument;
+    if (!doc) return;
+    if (!doc.getElementById("cms-ed-style")) {
+        const st = doc.createElement("style");
+        st.id = "cms-ed-style";
+        st.textContent =
+            "[data-cms-key],[data-cms-slot]{outline:1px dashed rgba(195,243,92,.55);outline-offset:2px;cursor:pointer;transition:outline-color .15s,background .15s;}" +
+            "[data-cms-key]:hover,[data-cms-slot]:hover{outline:2px solid #C3F35C;background:rgba(195,243,92,.12);}";
+        doc.head.appendChild(st);
+    }
+    doc.addEventListener(
+        "click",
+        (e) => {
+            const target = e.target as HTMLElement | null;
+            if (!target) return;
+            const textEl = target.closest("[data-cms-key]") as HTMLElement | null;
+            if (textEl) {
+                e.preventDefault();
+                e.stopPropagation();
+                openTextEditor(textEl.dataset.cmsKey as string);
+                return;
+            }
+            const imgEl = target.closest("[data-cms-slot]") as HTMLElement | null;
+            if (imgEl) {
+                e.preventDefault();
+                e.stopPropagation();
+                openImageEditor(imgEl.dataset.cmsSlot as string);
+                return;
+            }
+            // Keep edit mode while navigating between pages of the same site.
+            const link = target.closest("a[href]") as HTMLAnchorElement | null;
+            if (link) {
+                const href = link.getAttribute("href") || "";
+                if (href.startsWith("/") && !href.startsWith("//")) {
+                    e.preventDefault();
+                    const sep = href.includes("?") ? "&" : "?";
+                    frame.src = `${href}${sep}cmsedit=1`;
+                }
+            }
+        },
+        true,
+    );
+    // Never submit forms (e.g. contact) while editing.
+    doc.addEventListener("submit", (e) => e.preventDefault(), true);
+}
+
+function reloadEditorFrame() {
+    const frame = document.getElementById("editorFrame") as HTMLIFrameElement | null;
+    if (frame) frame.src = editorIframeSrc();
+}
+
+function closeEditorModal() {
+    document.getElementById("cmsEditorModal")?.remove();
+}
+
+function openTextEditor(key: string) {
+    closeEditorModal();
+    let lang: ActiveLang = editorLang;
+    const label = TEXT_LABELS[key] ?? key;
+    const modal = document.createElement("div");
+    modal.id = "cmsEditorModal";
+    modal.className = "cms-modal";
+
+    const render = () => {
+        const value = (cms.text[lang] ?? {})[key] ?? "";
+        const fb = (fallbackText[lang] ?? {})[key] ?? "";
+        const langTabs = LANGS.map(
+            (l) => `<button class="tab ${l === lang ? "active" : ""}" data-mlang="${l}">${l.toUpperCase()}</button>`,
+        ).join("");
+        modal.innerHTML = `
+            <div class="cms-modal-card">
+                <div class="cms-modal-head">
+                    <div><b>${escapeHtml(label)}</b><span class="mono">${escapeHtml(key)}</span></div>
+                    <button class="cms-x" data-close>✕</button>
+                </div>
+                ${LANGS.length > 1 ? `<div class="tabs">${langTabs}</div>` : ""}
+                <textarea class="cms-ta" placeholder="${escapeHtml(fb ? "Por defecto: " + fb : "")}">${escapeHtml(value)}</textarea>
+                <div class="cms-modal-foot">
+                    <button class="btn ghost" data-restore>Restaurar original</button>
+                    <span style="flex:1"></span>
+                    <button class="btn ghost" data-close>Cancelar</button>
+                    <button class="btn solid" data-save>Guardar</button>
+                </div>
+            </div>
+        `;
+        modal.querySelectorAll<HTMLElement>("[data-mlang]").forEach((b) =>
+            b.addEventListener("click", () => {
+                lang = b.dataset.mlang as ActiveLang;
+                render();
+            }),
+        );
+        modal.querySelectorAll<HTMLElement>("[data-close]").forEach((b) => b.addEventListener("click", closeEditorModal));
+        const ta = modal.querySelector(".cms-ta") as HTMLTextAreaElement;
+        (modal.querySelector("[data-save]") as HTMLElement).addEventListener("click", async () => {
+            const v = ta.value;
+            if (!cms.text[lang]) cms.text[lang] = {};
+            if (v.trim() === "") delete cms.text[lang][key];
+            else cms.text[lang][key] = v;
+            await persist();
+            closeEditorModal();
+            reloadEditorFrame();
+        });
+        (modal.querySelector("[data-restore]") as HTMLElement).addEventListener("click", async () => {
+            if (cms.text[lang]) delete cms.text[lang][key];
+            await persist();
+            closeEditorModal();
+            reloadEditorFrame();
+        });
+    };
+
+    render();
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeEditorModal();
+    });
+    document.body.appendChild(modal);
+}
+
+function openImageEditor(slot: string) {
+    closeEditorModal();
+    const slotLabel = IMAGE_SLOTS.find((s) => s.slot === slot)?.label ?? slot;
+    const current = cms.images[slot] ?? "";
+    const modal = document.createElement("div");
+    modal.id = "cmsEditorModal";
+    modal.className = "cms-modal";
+    modal.innerHTML = `
+        <div class="cms-modal-card">
+            <div class="cms-modal-head">
+                <div><b>${escapeHtml(slotLabel)}</b><span class="mono">${escapeHtml(slot)}</span></div>
+                <button class="cms-x" data-close>✕</button>
+            </div>
+            <div class="cms-img-preview">${current ? `<img src="${escapeHtml(current)}" alt="">` : "Sin imagen"}</div>
+            <label class="file-btn cms-upload">📷 Subir nueva imagen<input type="file" accept="image/*" id="cmsImgFile" hidden></label>
+            <input type="text" class="cms-url" placeholder="o pega una URL (/...)" value="${escapeHtml(current)}">
+            <p class="cms-lib-title mono">Biblioteca</p>
+            <div class="cms-lib" id="cmsLib"><div class="empty-state"><p>Cargando…</p></div></div>
+            <div class="cms-modal-foot">
+                <button class="btn ghost" data-restore>Restaurar original</button>
+                <span style="flex:1"></span>
+                <button class="btn ghost" data-close>Cancelar</button>
+                <button class="btn solid" data-save>Guardar</button>
+            </div>
+        </div>
+    `;
+    const urlInput = modal.querySelector(".cms-url") as HTMLInputElement;
+    const preview = modal.querySelector(".cms-img-preview") as HTMLElement;
+    const setUrl = (u: string) => {
+        urlInput.value = u;
+        preview.innerHTML = u ? `<img src="${escapeHtml(u)}" alt="">` : "Sin imagen";
+    };
+    modal.querySelectorAll<HTMLElement>("[data-close]").forEach((b) => b.addEventListener("click", closeEditorModal));
+    (modal.querySelector("#cmsImgFile") as HTMLInputElement).addEventListener("change", async (e) => {
+        const f = (e.target as HTMLInputElement).files?.[0];
+        if (!f) return;
+        const uploaded = await uploadFile(f);
+        if (uploaded) setUrl(uploaded);
+    });
+    urlInput.addEventListener("input", () => setUrl(urlInput.value));
+    (modal.querySelector("[data-save]") as HTMLElement).addEventListener("click", async () => {
+        const v = urlInput.value.trim();
+        if (v === "") delete cms.images[slot];
+        else cms.images[slot] = v;
+        await persist();
+        closeEditorModal();
+        reloadEditorFrame();
+    });
+    (modal.querySelector("[data-restore]") as HTMLElement).addEventListener("click", async () => {
+        delete cms.images[slot];
+        await persist();
+        closeEditorModal();
+        reloadEditorFrame();
+    });
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeEditorModal();
+    });
+    document.body.appendChild(modal);
+    loadEditorLibrary(modal, setUrl);
+}
+
+async function loadEditorLibrary(modal: HTMLElement, pick: (u: string) => void) {
+    const lib = modal.querySelector("#cmsLib") as HTMLElement;
+    try {
+        const res = await fetch("/api/blobs");
+        const body = (await res.json()) as { ok: boolean; blobs?: Array<{ url: string; pathname: string }>; error?: string };
+        if (!res.ok || !body.ok) {
+            lib.innerHTML = `<div class="empty-state"><p>${escapeHtml(body.error || "Biblioteca no disponible.")}</p></div>`;
+            return;
+        }
+        const blobs = body.blobs ?? [];
+        if (!blobs.length) {
+            lib.innerHTML = `<div class="empty-state"><p>Aún no hay imágenes subidas.</p></div>`;
+            return;
+        }
+        lib.innerHTML = "";
+        blobs.forEach((b) => {
+            const item = document.createElement("button");
+            item.className = "cms-lib-item";
+            item.innerHTML = `<img src="${escapeHtml(b.url)}" alt="">`;
+            item.addEventListener("click", () => pick(b.url));
+            lib.appendChild(item);
+        });
+    } catch {
+        lib.innerHTML = `<div class="empty-state"><p>Biblioteca no disponible.</p></div>`;
+    }
+}
 
 function navigate(route: Route) {
     if (!ROUTES[route]) route = "dashboard";

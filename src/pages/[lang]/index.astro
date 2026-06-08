@@ -8,6 +8,8 @@ import { makeText, img } from '../../lib/page-content';
 const lang = (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
 const cms = Astro.locals.cms ?? (await loadCms());
 const text = makeText(lang, cms);
+const editMode = Astro.locals.editMode ?? false;
+const ek = (k: string): string | undefined => (editMode ? k : undefined);
 
 const title = text('seo_home_title');
 const description = text('seo_home_description');
@@ -20,51 +22,49 @@ const heroSecondary = img(cms, 'hero.secondary', '/hero_second.jpg');
 const contactHref = `/${lang}/contact`;
 
 const specialties = [
-  { n: '01', title: text('home_spec_trauma_title'),   desc: text('home_spec_trauma_desc') },
-  { n: '02', title: text('home_spec_ansiedad_title'), desc: text('home_spec_ansiedad_desc') },
-  { n: '03', title: text('home_spec_animo_title'),    desc: text('home_spec_animo_desc') },
-  { n: '04', title: text('home_spec_duelo_title'),    desc: text('home_spec_duelo_desc') },
-  { n: '05', title: text('home_spec_tdah_title'),     desc: text('home_spec_tdah_desc') },
-  { n: '06', title: text('home_spec_crisis_title'),   desc: text('home_spec_crisis_desc') },
+  { n: '01', key: 'home_spec_trauma_title',   dkey: 'home_spec_trauma_desc',   title: text('home_spec_trauma_title'),   desc: text('home_spec_trauma_desc') },
+  { n: '02', key: 'home_spec_ansiedad_title', dkey: 'home_spec_ansiedad_desc', title: text('home_spec_ansiedad_title'), desc: text('home_spec_ansiedad_desc') },
+  { n: '03', key: 'home_spec_animo_title',    dkey: 'home_spec_animo_desc',    title: text('home_spec_animo_title'),    desc: text('home_spec_animo_desc') },
+  { n: '04', key: 'home_spec_duelo_title',    dkey: 'home_spec_duelo_desc',    title: text('home_spec_duelo_title'),    desc: text('home_spec_duelo_desc') },
+  { n: '05', key: 'home_spec_tdah_title',     dkey: 'home_spec_tdah_desc',     title: text('home_spec_tdah_title'),     desc: text('home_spec_tdah_desc') },
+  { n: '06', key: 'home_spec_crisis_title',   dkey: 'home_spec_crisis_desc',   title: text('home_spec_crisis_title'),   desc: text('home_spec_crisis_desc') },
 ];
 
 const pillars = [
-  { n: '01', title: text('home_pillar_team_title'),      desc: text('home_pillar_team_desc') },
-  { n: '02', title: text('home_pillar_multilang_title'), desc: text('home_pillar_multilang_desc') },
-  { n: '03', title: text('home_pillar_evidence_title'),  desc: text('home_pillar_evidence_desc') },
+  { n: '01', key: 'home_pillar_team_title',      dkey: 'home_pillar_team_desc',      title: text('home_pillar_team_title'),      desc: text('home_pillar_team_desc') },
+  { n: '02', key: 'home_pillar_multilang_title', dkey: 'home_pillar_multilang_desc', title: text('home_pillar_multilang_title'), desc: text('home_pillar_multilang_desc') },
+  { n: '03', key: 'home_pillar_evidence_title',  dkey: 'home_pillar_evidence_desc',  title: text('home_pillar_evidence_title'),  desc: text('home_pillar_evidence_desc') },
 ];
 ---
 <Base title={title} description={description} url={url} lang={lang}>
 
-  <!-- ============================================ -->
-  <!-- HERO 1 — con CTAs                            -->
-  <!-- ============================================ -->
+  <!-- HERO 1 — con CTAs -->
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
     <div class="grid grid-cols-1 items-center gap-12 md:min-w-0 md:grid-cols-2 md:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
       <div class="space-y-6 text-left">
         <h1 class="text-[32px] font-extrabold leading-tight tracking-tight text-white sm:text-[40px] md:text-[52px]">
-          {text('h1a')} <span class="text-brand-accent">{text('h1b')}</span> {text('h1c')}
+          <span data-cms-key={ek('h1a')}>{text('h1a')}</span> <span class="text-brand-accent" data-cms-key={ek('h1b')}>{text('h1b')}</span> <span data-cms-key={ek('h1c')}>{text('h1c')}</span>
         </h1>
 
-        <p class="max-w-xl text-lg text-white/85">
+        <p class="max-w-xl text-lg text-white/85" data-cms-key={ek('sub')}>
           {text('sub')}
         </p>
 
-        <p class="max-w-xl text-sm text-white/60 sm:text-base">
+        <p class="max-w-xl text-sm text-white/60 sm:text-base" data-cms-key={ek('sub_alt')}>
           {text('sub_alt')}
         </p>
 
         <div class="pt-4">
           <div class="flex flex-wrap items-center gap-3">
-            <a href={contactHref} class="btn-primary">
+            <a href={contactHref} class="btn-primary" data-cms-key={ek('cta_primary')}>
               {text('cta_primary')}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
-            <a href={contactHref} class="btn-ghost">
+            <a href={contactHref} class="btn-ghost" data-cms-key={ek('cta_secondary')}>
               {text('cta_secondary')}
             </a>
           </div>
-          <p class="mt-3 text-xs text-white/45">{text('home_languages_line')}</p>
+          <p class="mt-3 text-xs text-white/45" data-cms-key={ek('home_languages_line')}>{text('home_languages_line')}</p>
         </div>
       </div>
 
@@ -79,6 +79,7 @@ const pillars = [
               class="block h-[420px] w-full object-cover object-top sm:h-[460px] md:h-[520px]"
               loading="eager"
               decoding="async"
+              data-cms-slot={ek('hero.primary')}
             />
           </div>
           <div class="mx-auto mt-5 h-5 w-2/3 rounded-full bg-white/10 blur-xl"></div>
@@ -87,16 +88,14 @@ const pillars = [
     </div>
   </section>
 
-  <!-- ============================================ -->
-  <!-- ESPECIALIDADES                               -->
-  <!-- ============================================ -->
+  <!-- ESPECIALIDADES -->
   <section class="mx-auto max-w-container px-4 py-10 md:py-20">
     <header class="max-w-3xl mb-10 md:mb-14">
-      <p class="eyebrow">{text('home_specialties_eyebrow')}</p>
+      <p class="eyebrow" data-cms-key={ek('home_specialties_eyebrow')}>{text('home_specialties_eyebrow')}</p>
       <h2 class="text-[28px] sm:text-[34px] md:text-[40px] font-extrabold leading-tight tracking-tight text-white">
-        {text('home_specialties_title_a')} <span class="text-brand-accent">{text('home_specialties_title_b')}</span>
+        <span data-cms-key={ek('home_specialties_title_a')}>{text('home_specialties_title_a')}</span> <span class="text-brand-accent" data-cms-key={ek('home_specialties_title_b')}>{text('home_specialties_title_b')}</span>
       </h2>
-      <p class="mt-4 text-white/70 text-base md:text-lg max-w-2xl">
+      <p class="mt-4 text-white/70 text-base md:text-lg max-w-2xl" data-cms-key={ek('home_specialties_sub')}>
         {text('home_specialties_sub')}
       </p>
     </header>
@@ -105,16 +104,14 @@ const pillars = [
       {specialties.map((s) => (
         <article class="spec-card">
           <span class="spec-num">{s.n}</span>
-          <h3 class="spec-title">{s.title}</h3>
-          <p class="spec-desc">{s.desc}</p>
+          <h3 class="spec-title" data-cms-key={ek(s.key)}>{s.title}</h3>
+          <p class="spec-desc" data-cms-key={ek(s.dkey)}>{s.desc}</p>
         </article>
       ))}
     </div>
   </section>
 
-  <!-- ============================================ -->
-  <!-- HERO 2                                       -->
-  <!-- ============================================ -->
+  <!-- HERO 2 -->
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
     <div class="grid grid-cols-1 items-center gap-12 md:min-w-0 md:grid-cols-2 md:gap-14 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
       <figure class="order-2 justify-self-center md:order-1 md:justify-self-end">
@@ -128,6 +125,7 @@ const pillars = [
               class="block h-[420px] w-full object-cover object-top sm:h-[460px] md:h-[520px]"
               loading="eager"
               decoding="async"
+              data-cms-slot={ek('hero.secondary')}
             />
           </div>
           <div class="mx-auto mt-5 h-5 w-2/3 rounded-full bg-white/10 blur-xl"></div>
@@ -135,26 +133,24 @@ const pillars = [
       </figure>
       <div class="order-1 space-y-6 text-right md:order-2">
         <h1 class="text-[32px] font-extrabold leading-tight tracking-tight text-white sm:text-[40px] md:text-[52px]">
-          {text('h1a2')} <span class="text-brand-accent">{text('h1b2')}</span> {text('h1c2')}
+          <span data-cms-key={ek('h1a2')}>{text('h1a2')}</span> <span class="text-brand-accent" data-cms-key={ek('h1b2')}>{text('h1b2')}</span> <span data-cms-key={ek('h1c2')}>{text('h1c2')}</span>
         </h1>
-        <p class="max-w-xl ml-auto text-lg text-white/85">
+        <p class="max-w-xl ml-auto text-lg text-white/85" data-cms-key={ek('sub2')}>
           {text('sub2')}
         </p>
-        <p class="max-w-xl ml-auto text-sm text-white/60 sm:text-base">
+        <p class="max-w-xl ml-auto text-sm text-white/60 sm:text-base" data-cms-key={ek('sub_alt2')}>
           {text('sub_alt2')}
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ============================================ -->
-  <!-- PILARES + CTA FINAL                          -->
-  <!-- ============================================ -->
+  <!-- PILARES + CTA FINAL -->
   <section class="mx-auto max-w-container px-4 py-10 md:py-20">
     <header class="max-w-3xl mb-10 md:mb-14">
-      <p class="eyebrow">{text('home_pillars_eyebrow')}</p>
+      <p class="eyebrow" data-cms-key={ek('home_pillars_eyebrow')}>{text('home_pillars_eyebrow')}</p>
       <h2 class="text-[28px] sm:text-[34px] md:text-[40px] font-extrabold leading-tight tracking-tight text-white">
-        {text('home_pillars_title_a')} <span class="text-brand-accent">{text('home_pillars_title_b')}</span>{text('home_pillars_title_c')}
+        <span data-cms-key={ek('home_pillars_title_a')}>{text('home_pillars_title_a')}</span> <span class="text-brand-accent" data-cms-key={ek('home_pillars_title_b')}>{text('home_pillars_title_b')}</span><span data-cms-key={ek('home_pillars_title_c')}>{text('home_pillars_title_c')}</span>
       </h2>
     </header>
 
@@ -162,23 +158,23 @@ const pillars = [
       {pillars.map((p, i) => (
         <div class={`pillar ${i === 0 ? 'md:pl-0 md:pr-8' : i === pillars.length - 1 ? 'md:pl-8 md:pr-0' : 'md:px-8'}`}>
           <span class="pillar-num">{p.n}</span>
-          <h3>{p.title}</h3>
-          <p>{p.desc}</p>
+          <h3 data-cms-key={ek(p.key)}>{p.title}</h3>
+          <p data-cms-key={ek(p.dkey)}>{p.desc}</p>
         </div>
       ))}
     </div>
 
     <div class="cta-card mt-12 md:mt-16 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
       <div>
-        <h3 class="text-[22px] md:text-[28px] font-extrabold leading-tight tracking-tight text-white">
+        <h3 class="text-[22px] md:text-[28px] font-extrabold leading-tight tracking-tight text-white" data-cms-key={ek('home_finalcta_title')}>
           {text('home_finalcta_title')}
         </h3>
-        <p class="mt-2 text-white/70 text-sm md:text-base max-w-xl">
+        <p class="mt-2 text-white/70 text-sm md:text-base max-w-xl" data-cms-key={ek('home_finalcta_body')}>
           {text('home_finalcta_body')}
         </p>
       </div>
       <div class="flex flex-wrap gap-3 shrink-0">
-        <a href={contactHref} class="btn-primary">
+        <a href={contactHref} class="btn-primary" data-cms-key={ek('cta_primary')}>
           {text('cta_primary')}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
