@@ -4,8 +4,11 @@ import '../styles/tailwind.css';
 import Nav from '../components/Nav.astro';
 import SeoHead from '../components/SeoHead.astro';
 import CookieBanner from '../components/CookieBanner.astro';
-import { DEFAULT_LANG, t, type ActiveLang } from '../i18n';
+import AdminFab from '../components/AdminFab.astro';
+import { DEFAULT_LANG, type ActiveLang } from '../i18n';
 import { getAlternateLinks, getCanonicalUrl, stripLangFromPath } from '../utils/seo';
+import { loadCms } from '../lib/cms-store';
+import { makeText, img } from '../lib/page-content';
 
 interface Props {
   title?: string;
@@ -25,6 +28,9 @@ const {
 } = Astro.props as Props;
 
 const lang = explicitLang ?? ((Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG);
+const cms = Astro.locals.cms ?? (await loadCms());
+const text = makeText(lang, cms);
+const logo = img(cms, 'brand.logo', '/logo2.png');
 const currentPath = Astro.url?.pathname ?? '/';
 const normalizedPath = stripLangFromPath(currentPath);
 const canonicalUrl = url ?? getCanonicalUrl(lang, normalizedPath);
@@ -48,30 +54,30 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Forum&family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap"
       rel="stylesheet"
     />
     <slot name="head" />
   </head>
   <body class="min-h-screen bg-landing font-sans antialiased text-white">
-    <Nav lang={lang} />
+    <Nav lang={lang} text={text} logo={logo} />
     <main class="relative"><slot /></main>
     <footer class="mt-24 border-t border-white/10">
       <div class="mx-auto max-w-container px-4 py-10">
         <div class="flex flex-col gap-6 text-xs text-white/60 sm:flex-row sm:items-start sm:justify-between">
-          <span class="block">© {new Date().getFullYear()} Auris Internacional — auris.cat {t(lang, 'footer_rights')}</span>
+          <span class="block">© {new Date().getFullYear()} Auris Internacional — auris.cat {text('footer_rights')}</span>
           <div class="flex flex-col items-start gap-3 sm:items-end">
-            <span class="text-[0.7rem] uppercase tracking-[0.35em] text-white/40">{t(lang, 'footer_legal')}</span>
-            <nav aria-label={t(lang, 'footer_legal')} class="w-full max-w-xs text-left sm:text-right">
+            <span class="text-[0.7rem] uppercase tracking-[0.35em] text-white/40">{text('footer_legal')}</span>
+            <nav aria-label={text('footer_legal')} class="w-full max-w-xs text-left sm:text-right">
                 <ul class="flex flex-wrap gap-x-6 gap-y-3 text-xs sm:justify-end">
                   <li>
                     <a class="transition hover:text-white" href={privacyPath}>
-                      {t(lang, 'footer_privacy')}
+                      {text('footer_privacy')}
                     </a>
                   </li>
                   <li>
                     <a class="transition hover:text-white" href={termsPath}>
-                      {t(lang, 'footer_terms')}
+                      {text('footer_terms')}
                     </a>
                   </li>
                 </ul>
@@ -80,6 +86,7 @@ const termsPath = lang === DEFAULT_LANG ? '/terms' : `/${lang}/terms`;
         </div>
       </div>
     </footer>
-    <CookieBanner lang={lang} />
+    <CookieBanner lang={lang} text={text} />
+    <AdminFab />
   </body>
 </html>

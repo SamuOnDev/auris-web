@@ -1,12 +1,16 @@
 ---
 import { DEFAULT_LANG, t, type ActiveLang } from '../i18n';
 
+type TranslationKey = Parameters<typeof t>[1];
+
 interface Props {
   lang?: ActiveLang;
+  text?: (key: TranslationKey) => string;
 }
 
-const { lang: explicitLang } = Astro.props as Props;
+const { lang: explicitLang, text: textProp } = Astro.props as Props;
 const lang = explicitLang ?? ((Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG);
+const tr = textProp ?? ((key: TranslationKey) => t(lang, key));
 const policyHref = `/${lang}/cookies`;
 ---
 <div data-cookie-banner class="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-6 sm:pb-8">
@@ -16,11 +20,11 @@ const policyHref = `/${lang}/cookies`;
     >
         <div class="space-y-4 md:flex md:items-start md:gap-6 md:space-y-0">
         <div class="space-y-2 text-sm text-white/80 md:flex-1">
-            <p class="text-base font-semibold text-white">{t(lang, 'cookie_banner_title')}</p>
+            <p class="text-base font-semibold text-white">{tr('cookie_banner_title')}</p>
             <p>
-            {t(lang, 'cookie_banner_body')}
+            {tr('cookie_banner_body')}
             <a class="text-brand-accent underline decoration-2 underline-offset-4" href={policyHref}>
-                {t(lang, 'cookie_banner_more_info')}
+                {tr('cookie_banner_more_info')}
             </a>
             .
             </p>
@@ -31,14 +35,14 @@ const policyHref = `/${lang}/cookies`;
             data-cookie-reject
             class="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10"
             >
-            {t(lang, 'cookie_banner_reject')}
+            {tr('cookie_banner_reject')}
             </button>
             <button
             type="button"
             data-cookie-accept
             class="inline-flex items-center justify-center rounded-full bg-brand-accent px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-brand-accent/90"
             >
-            {t(lang, 'cookie_banner_accept')}
+            {tr('cookie_banner_accept')}
             </button>
         </div>
         </div>

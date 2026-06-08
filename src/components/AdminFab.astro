@@ -1,0 +1,11 @@
+---
+// Floating "Admin" button shown on public pages. Hidden in production by setting
+// PUBLIC_HIDE_ADMIN_FAB=true; /admin stays reachable directly either way.
+const hide = import.meta.env.PUBLIC_HIDE_ADMIN_FAB === "true";
+---
+{!hide && (
+    <a class="admin-fab" href="/admin" title="Admin">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>
+        <span>Admin</span>
+    </a>
+)}

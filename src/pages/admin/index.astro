@@ -1,0 +1,95 @@
+---
+export const prerender = false;
+import "../../styles/admin.css";
+---
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script is:inline>
+        (function () { try { var t = localStorage.getItem('admin_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
+    </script>
+</head>
+<body>
+
+<div id="loginScreen" class="login">
+    <div class="login-card">
+        <div class="login-brand">
+            <span class="dot"></span>
+            <div>
+                <b>Panel de administración</b>
+                <span>admin</span>
+            </div>
+        </div>
+        <h1>Iniciar sesión</h1>
+        <p class="login-sub">Acceso a la gestión de contenidos.</p>
+        <form id="loginForm" autocomplete="off">
+            <label>Usuario<input type="text" name="user" id="loginUser" required autocomplete="username" /></label>
+            <label>Contraseña<input type="password" name="pass" id="loginPass" required autocomplete="current-password" /></label>
+            <div class="login-error" id="loginError"></div>
+            <button type="submit" class="btn solid block">Entrar →</button>
+        </form>
+        <p class="login-hint mono">Acceso restringido · contacta con un admin para crear tu usuario</p>
+    </div>
+</div>
+
+<div id="adminApp" class="app" hidden>
+    <aside class="sidebar">
+        <a class="brand" href="#dashboard">
+            <span class="dot"></span>
+            <div>
+                <b>Panel de admin</b>
+                <span>Gestión de contenidos</span>
+            </div>
+        </a>
+        <nav class="side-nav">
+            <button class="side-link active" data-route="dashboard"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg> Dashboard</button>
+            <button class="side-link" data-route="textos"><svg viewBox="0 0 24 24"><path d="M5 4v3h5.5v12h3V7H19V4z"/></svg> Textos</button>
+            <button class="side-link" data-route="imagenes"><svg viewBox="0 0 24 24"><path d="M21 5v14H3V5h18zM5 17h14l-4-6-3 4-2-3-5 5z"/></svg> Imágenes</button>
+            <button class="side-link" data-route="usuarios" hidden><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/></svg> Usuarios</button>
+            <button class="side-link" data-route="ajustes"><svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.03-.66-.07-.98l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.03 7.03 0 0 0-1.69-.98l-.38-2.65A.5.5 0 0 0 14 2h-4a.5.5 0 0 0-.5.42l-.38 2.65c-.61.25-1.18.58-1.69.98l-2.49-1a.5.5 0 0 0-.61.22l-2 3.46a.5.5 0 0 0 .12.64L4.57 11c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .61.22l2.49-1c.51.4 1.08.73 1.69.98l.38 2.65c.05.25.26.42.5.42h4c.24 0 .45-.17.5-.42l.38-2.65c.61-.25 1.18-.58 1.69-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg> Ajustes</button>
+        </nav>
+        <div class="side-foot">
+            <button id="themeBtn" class="side-utility" title="Cambiar tema">
+                <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <span>Tema</span>
+            </button>
+            <a class="side-utility" href="/" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                <span>Ver web</span>
+            </a>
+            <button class="side-utility" id="logoutBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                <span>Salir</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <span class="crumb mono" id="crumb">Dashboard</span>
+                <h2 id="pageTitle">Resumen</h2>
+            </div>
+            <div class="topbar-right">
+                <span class="badge save-badge" id="saveBadge" hidden>✓ Guardado</span>
+                <a class="btn ghost" href="/" target="_blank">Ver web →</a>
+            </div>
+        </header>
+        <div class="content" id="content"></div>
+    </main>
+</div>
+
+<script>
+    import "../../scripts/admin";
+</script>
+
+</body>
+</html>

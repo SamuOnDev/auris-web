@@ -31,6 +31,36 @@ Variables soportadas:
 - `CONTACT_ALLOWED_ORIGINS`: lista separada por comas de orígenes con permiso para hacer POST a `/api/contact`.
 - `N8N_WEBHOOK_URL`: integración opcional con n8n.
 
+## Panel de administración (`/admin`)
+
+El sitio incluye un panel oculto en `/admin` (login con usuario y contraseña, `noindex`) que
+permite al cliente **editar todos los textos** —con selector por idioma (ca · es · en · de)—
+y **cambiar todas las imágenes** sin tocar código. El motor sigue el patrón
+`override ?? default`: con el almacén vacío, la web se muestra exactamente como el diseño;
+el panel solo guarda los cambios.
+
+- Textos por defecto: diccionarios i18n (`src/i18n/locales/*.json`).
+- Imágenes por defecto: ficheros bajo `public/`.
+- Qué es editable: `src/lib/editable-fields.ts` (grupos de textos + slots de imagen).
+- Lectura en las páginas: `src/lib/page-content.ts` (`makeText` / `img`), con el CMS cargado
+  una vez por request en el middleware (`Astro.locals.cms`).
+
+### Almacenamiento
+
+- **Producción**: Vercel **KV** (contenido y usuarios) + Vercel **Blob** (imágenes subidas).
+- **Desarrollo**: si faltan las variables de KV/Blob, el motor cae a ficheros locales en
+  `.cache/*.json` (git-ignorados). La subida de imágenes requiere Blob; editar por URL
+  funciona siempre.
+
+### Variables de entorno del panel
+
+`ADMIN_USER`, `ADMIN_PASSWORD` (admin inicial, se crea en el primer login), `SESSION_SECRET`
+(firma HMAC, ≥ 32 hex), `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `BLOB_READ_WRITE_TOKEN`,
+`PUBLIC_HIDE_ADMIN_FAB`. Ver `.env.example`.
+
+> En `astro dev`, `astro.config.mjs` vuelca los `.env` en `process.env` para que el panel
+> funcione en local; en Vercel se usan las variables reales del proyecto en tiempo de ejecución.
+
 ## Despliegue en Vercel
 
 El proyecto está preparado para ejecutarse como _serverless_ en Vercel mediante `@astrojs/vercel`:

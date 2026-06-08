@@ -1,47 +1,54 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { t, DEFAULT_LANG, type ActiveLang } from '../../i18n';
+import { DEFAULT_LANG, type ActiveLang } from '../../i18n';
 import { getCanonicalUrl } from '../../utils/seo';
+import { loadCms } from '../../lib/cms-store';
+import { makeText, img } from '../../lib/page-content';
 
 const lang = (Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG;
-const title = t(lang, 'seo_about_title');
-const description = t(lang, 'seo_about_description');
+const cms = Astro.locals.cms ?? (await loadCms());
+const text = makeText(lang, cms);
+
+const title = text('seo_about_title');
+const description = text('seo_about_description');
 const url = getCanonicalUrl(lang, '/about');
 
 const teamMembers = [
   {
-    name: t(lang, 'about_member_ana_name'),
-    role: t(lang, 'about_member_ana_role'),
-    details: t(lang, 'about_member_ana_details'),
-    bio: t(lang, 'about_member_ana_bio'),
-    image: '/team-esther.png',
+    name: text('about_member_ana_name'),
+    role: text('about_member_ana_role'),
+    details: text('about_member_ana_details'),
+    bio: text('about_member_ana_bio'),
+    image: img(cms, 'about.esther', '/team-esther.png'),
     imageWidth: 450,
     imageHeight: 360,
-    imageAlt: t(lang, 'about_member_ana_image_alt'),
+    imageAlt: text('about_member_ana_image_alt'),
   },
   {
-    name: t(lang, 'about_member_javier_name'),
-    role: t(lang, 'about_member_javier_role'),
-    details: t(lang, 'about_member_javier_details'),
-    bio: t(lang, 'about_member_javier_bio'),
-    image: '/team-jordi.jpg',
+    name: text('about_member_javier_name'),
+    role: text('about_member_javier_role'),
+    details: text('about_member_javier_details'),
+    bio: text('about_member_javier_bio'),
+    image: img(cms, 'about.javier', '/team-jordi.jpg'),
     imageWidth: 740,
     imageHeight: 493,
-    imageAlt: t(lang, 'about_member_javier_image_alt'),
+    imageAlt: text('about_member_javier_image_alt'),
   },
 ];
+
+const contactHref = `/${lang}/contact`;
 ---
 <Base title={title} description={description} url={url} lang={lang}>
   <section class="mx-auto max-w-container px-4 py-10 md:py-16">
-    <h1 class="text-3xl font-bold text-white md:text-4xl">{t(lang, 'about_title')}</h1>
-    <p class="mt-4 max-w-3xl text-lg text-white/80 md:text-xl">{t(lang, 'about_intro')}</p>
+    <h1 class="text-3xl font-bold text-white md:text-4xl">{text('about_title')}</h1>
+    <p class="mt-4 max-w-3xl text-lg text-white/80 md:text-xl">{text('about_intro')}</p>
   </section>
 
   <section class="mx-auto max-w-container px-4 pb-16">
     <div class="space-y-12 md:space-y-16">
       <header class="space-y-3">
-        <h2 class="text-2xl font-semibold text-white md:text-3xl">{t(lang, 'about_team_title')}</h2>
-        <p class="max-w-3xl text-base text-white/70 md:text-lg">{t(lang, 'about_team_intro')}</p>
+        <h2 class="text-2xl font-semibold text-white md:text-3xl">{text('about_team_title')}</h2>
+        <p class="max-w-3xl text-base text-white/70 md:text-lg">{text('about_team_intro')}</p>
       </header>
 
       <div class="space-y-14">
@@ -89,6 +96,25 @@ const teamMembers = [
           </article>
         ))}
       </div>
+
+      <!-- ▼ Tarjeta CTA final ▼ -->
+      <div class="cta-card flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h3 class="text-[22px] md:text-[28px] font-extrabold leading-tight tracking-tight text-white">
+            {text('about_finalcta_title')}
+          </h3>
+          <p class="mt-2 text-white/70 text-sm md:text-base max-w-xl">
+            {text('about_finalcta_body')}
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 shrink-0">
+          <a href={contactHref} class="btn-primary">
+            {text('cta_primary')}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <!-- ▲ /Tarjeta CTA final ▲ -->
     </div>
   </section>
 </Base>

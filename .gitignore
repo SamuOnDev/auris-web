@@ -2,6 +2,13 @@
 dist/
 .vercel/
 
+# admin-kit reusable tooling (never committed — see admin-kit/CLAUDE.md)
+admin-kit/
+WEB Auris.zip
+
+# admin CMS local-file fallback store (dev only)
+.cache/
+
 # generated types
 .astro/
 

@@ -2,14 +2,18 @@
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { t, DEFAULT_LANG, type ActiveLang } from '../i18n';
 
-interface Props {
-    lang?: ActiveLang;
-}
-
 type TranslationKey = Parameters<typeof t>[1];
 
-const { lang: explicitLang } = Astro.props as Props;
+interface Props {
+    lang?: ActiveLang;
+    text?: (key: TranslationKey) => string;
+    logo?: string;
+}
+
+const { lang: explicitLang, text: textProp, logo: logoProp } = Astro.props as Props;
 const lang = explicitLang ?? ((Astro.params.lang as ActiveLang | undefined) ?? DEFAULT_LANG);
+const tr = textProp ?? ((key: TranslationKey) => t(lang, key));
+const logoSrc = logoProp ?? '/logo2.png';
 
 const LINKS: Array<{ key: TranslationKey; href: string; variant?: 'cta' }> = [
     { key: 'nav_home',      href: `/${lang}/` },
@@ -32,7 +36,7 @@ const MENU_LINKS = linkItems.filter((l) => l.variant !== 'cta');
         <a href={`/${lang}/`} class="flex items-center gap-4 shrink-0 mr-3 brand">
             <!-- Logo: tamaño contenido y escalable -->
             <img
-                src="/logo2.png"
+                src={logoSrc}
                 alt="Auris"
                 width="96" height="96"
                 class="object-contain aspect-square brand__logo
@@ -46,7 +50,7 @@ const MENU_LINKS = linkItems.filter((l) => l.variant !== 'cta');
                     <span class="brand__name-part brand__name-part--initial">A</span><span class="brand__name-part brand__name-part--rest brand__name-part--rest--auris">URIS</span><span class="brand__name-part brand__name-part--initial">I</span><span class="brand__name-part brand__name-part--rest brand__name-part--rest--internacional">NTERNACIONAL</span>
                 </span>
                 <span class="brand__tagline">
-                    {t(lang, 'badge')}
+                    {tr('badge')}
                 </span>
             </span>
         </a>
@@ -63,7 +67,7 @@ const MENU_LINKS = linkItems.filter((l) => l.variant !== 'cta');
                             link: true,
                             'link-cta': l.variant === 'cta'
                         }}>
-                    {t(lang, l.key)}
+                    {tr(l.key)}
                     </a>
                 </li>
                 ))}
@@ -229,7 +233,7 @@ const MENU_LINKS = linkItems.filter((l) => l.variant !== 'cta');
             <a
                 href={CTA_LINK.href}
                 class="mobile-cta inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-white/10">
-                {t(lang, CTA_LINK.key)}
+                {tr(CTA_LINK.key)}
             </a>
             )}
             <div class="mobile-actions-row flex items-center">
@@ -256,7 +260,7 @@ const MENU_LINKS = linkItems.filter((l) => l.variant !== 'cta');
                     class:list={{
                         'block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/5': l.variant !== 'cta',
                     }}>
-                    {t(lang, l.key)}
+                    {tr(l.key)}
                 </a>
             ))}
         </div>
