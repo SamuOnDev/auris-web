@@ -1,11 +1,12 @@
 import type { APIRoute } from "astro";
 import { isAuthed } from "../../lib/session";
+import { blobToken } from "../../lib/blob";
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, cookies }) => {
     if (!(await isAuthed(cookies))) return json({ ok: false, error: "No autorizado" }, 401);
-    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    const token = blobToken();
     if (!token) {
         return json(
             {
