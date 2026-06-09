@@ -81,10 +81,55 @@ async function persist(): Promise<void> {
     flashSaved();
 }
 
+/**
+ * Downscale + re-encode an image in the browser before uploading. Vercel serverless
+ * functions reject request bodies over ~4.5 MB (HTTP 413), and full-resolution photos
+ * are far too heavy for the web anyway. We cap the longest side and export WebP, which
+ * preserves transparency (logos) and keeps files tiny. Falls back to the original file
+ * for SVGs or if the canvas pipeline is unavailable.
+ */
+async function prepareUpload(file: File): Promise<File> {
+    if (file.type === "image/svg+xml" || !file.type.startsWith("image/")) return file;
+    const MAX_DIM = 2200;
+    const MAX_KEEP_BYTES = 3.5 * 1024 * 1024;
+    try {
+        const bitmap = await createImageBitmap(file);
+        const longest = Math.max(bitmap.width, bitmap.height);
+        const scale = Math.min(1, MAX_DIM / longest);
+        if (scale === 1 && file.size <= MAX_KEEP_BYTES) {
+            bitmap.close?.();
+            return file;
+        }
+        const w = Math.round(bitmap.width * scale);
+        const h = Math.round(bitmap.height * scale);
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+            bitmap.close?.();
+            return file;
+        }
+        ctx.drawImage(bitmap, 0, 0, w, h);
+        bitmap.close?.();
+        const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/webp", 0.85));
+        if (!blob) return file;
+        const base = file.name.replace(/\.[^.]+$/, "") || "image";
+        return new File([blob], `${base}.webp`, { type: "image/webp" });
+    } catch {
+        return file;
+    }
+}
+
 async function uploadFile(file: File): Promise<string | null> {
+    const prepared = await prepareUpload(file);
     const form = new FormData();
-    form.append("file", file);
+    form.append("file", prepared);
     const res = await fetch("/api/upload", { method: "POST", body: form });
+    if (res.status === 413) {
+        alert("La imagen es demasiado grande. Prueba con una más ligera.");
+        return null;
+    }
     const body = await res.json().catch(() => ({}));
     if (!res.ok || !body.ok) {
         alert(body.error || "Error al subir la imagen");
