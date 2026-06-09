@@ -3,11 +3,10 @@ import { isAuthed } from "../../lib/session";
 
 export const prerender = false;
 
-const HAS_BLOB = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
-
 export const POST: APIRoute = async ({ request, cookies }) => {
     if (!(await isAuthed(cookies))) return json({ ok: false, error: "No autorizado" }, 401);
-    if (!HAS_BLOB) {
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    if (!token) {
         return json(
             {
                 ok: false,
@@ -17,17 +16,28 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             501,
         );
     }
-    const form = await request.formData();
-    const file = form.get("file");
+    let file: FormDataEntryValue | null;
+    try {
+        const form = await request.formData();
+        file = form.get("file");
+    } catch (err) {
+        return json({ ok: false, error: "No se pudo leer el archivo: " + (err as Error).message }, 400);
+    }
     if (!(file instanceof File)) return json({ ok: false, error: "Archivo ausente" }, 400);
     const safeName = sanitize(file.name) || `upload-${Date.now()}`;
-    const { put } = await import("@vercel/blob");
-    const blob = await put(`cms/${Date.now()}-${safeName}`, file, {
-        access: "public",
-        contentType: file.type || undefined,
-        addRandomSuffix: false,
-    });
-    return json({ ok: true, url: blob.url });
+    try {
+        const { put } = await import("@vercel/blob");
+        const blob = await put(`cms/${Date.now()}-${safeName}`, file, {
+            access: "public",
+            contentType: file.type || undefined,
+            addRandomSuffix: false,
+            token,
+        });
+        return json({ ok: true, url: blob.url });
+    } catch (err) {
+        // Surface the real reason (auth/store/network) instead of an opaque 500.
+        return json({ ok: false, error: "Blob: " + ((err as Error).message || String(err)) }, 500);
+    }
 };
 
 function sanitize(name: string): string {

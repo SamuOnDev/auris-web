@@ -132,7 +132,7 @@ async function uploadFile(file: File): Promise<string | null> {
     }
     const body = await res.json().catch(() => ({}));
     if (!res.ok || !body.ok) {
-        alert(body.error || "Error al subir la imagen");
+        alert(body.error || `Error al subir la imagen (HTTP ${res.status})`);
         return null;
     }
     return body.url as string;
